@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default_layout}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+
+<!--==========================
+      Schedule Section
+    ============================-->
+<th:block layout:fragment="content">
+      <section id="schedule" class="section-with-bg">
+            <div class="container wow fadeInUp">
+              <div class="section-header">
+                <br><br>
+                <h2>trainer 마이페이지</h2>
+                <p>개인정보</p>
+              </div>
+
+              <div class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                  <ul class="nav flex-column">
+                    <li class="nav-item" style="background-color: #dcdcdc; margin: 2%;">
+                      <a class="nav-link active" href="#" style="color: black;">예약정보</a>
+                    </li>
+                    <li class="nav-item" style="background-color: #dcdcdc; margin: 2%;">
+                      <a class="nav-link active" href="#" style="color: black;">상품정보리스트</a>
+                    </li>
+                    <li class="nav-item" style="background-color: #dcdcdc; margin: 2%;">
+                      <a class="nav-link active" href="../trainer-mypage/new-product" style="color: black;">상품 등록</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+
+              <h3 class="sub-heading">님의 개인정보 내역입니다.</h3>
+
+              <div class="tab-content row justify-content-center">
+
+                <!-- Schdule Day 1 -->
+                <div role="tabpanel" class="col-lg-9 tab-pane fade show active" id="day-1">
+                  <a href="#">
+                  <div class="row schedule-item">
+                    <div class="col-md-2"><time></time></div>
+                    <div class="col-md-10">
+                    </div>
+                  </div></a>
+                </div>
+              </div>
+            </div>
+      </section>
+</th:block>
+
+</html>
