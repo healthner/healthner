@@ -38,6 +38,8 @@ public class Product extends BaseEntity {
 
     private Integer price;
 
+    private Boolean deleteStatus;
+
     private Integer count;
 
     private LocalDateTime period;
@@ -55,6 +57,7 @@ public class Product extends BaseEntity {
         this.count = count;
         this.period = period;
         this.type = type;
+        this.deleteStatus = true;
     }
 
     public static Product createProduct(Gym gym, Trainer trainer, String name, String content,
