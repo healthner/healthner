@@ -38,7 +38,7 @@ public class Reservation extends BaseEntity {
     private Trainer trainer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "perchase_id")
+    @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
     private Reservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
