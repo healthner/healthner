@@ -4,6 +4,14 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    check-template-location: true
+  web:
+    resources:
+      static-locations: classpath:/static/
 
   jpa:
     hibernate:
@@ -13,5 +21,14 @@ spring:
         show_sql: true
         format_sql: true
 
+  devtools:
+    livereload:
+      enabled: true
+
 logging.level:
   org.hibernate.SQL: debug
+
+
+
+
+
