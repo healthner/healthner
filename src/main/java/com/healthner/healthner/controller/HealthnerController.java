@@ -3,15 +3,15 @@ package com.healthner.healthner.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-//@Controller
-//public class HealthnerController {
-//
-//
-//    @GetMapping(value = "/home")
-//    public String home(){
-//        return "home";
-//    }
-//
+@Controller
+public class HealthnerController {
+
+
+    @GetMapping(value = "/")
+    public String home(){
+        return "home";
+    }
+
 //    @GetMapping(value = "/search")
 //    public String searchGym(){
 //        return "search";
@@ -82,4 +82,4 @@ import org.springframework.web.bind.annotation.GetMapping;
 //        return "new-product";
 //    }
 //
-//}
+}
