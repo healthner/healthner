@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HealthnerController {
 
-
-    @GetMapping(value = "/home")
+    @GetMapping(value = "/")
     public String home(){
         return "home";
     }
@@ -74,25 +73,11 @@ public class HealthnerController {
 
     @GetMapping(value = "/gym-mypage/new-product")
     public String newProductByGym(){
-        return "new-product";
+        return "new-products";
     }
 
     @GetMapping(value = "/trainer-mypage/new-product")
     public String newProductByTrainer(){
-        return "new-product";
+        return "new-products";
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

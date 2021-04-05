@@ -1,31 +1,26 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/default_layout}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout ">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+    <header th:replace="/fragments/body-header.html :: body-header"></header>
 
+    <section id="section">
+        <section id="contact" class="section-bg wow fadeInUp">
+            <div class="container">
+                <div class="section-header">
+                    <br>
+                    <h2>트레이너 등록 페이지</h2>
+                    <p>트레이너 등록 페이지</p>
+                </div>
 
-<!--==========================
-      Contact Section
-    ============================-->
-<th:block layout:fragment="content">
-    <section id="contact" class="section-bg wow fadeInUp">
-
-        <div class="container">
-    
-            <div class="section-header">
-                <br>
-                <h2>트레이너 등록 페이지</h2>
-                <p>트레이너 등록 페이지</p>
+                <div id = "createForms">
+                    <div class="createForm">
+                    </div>
+                </div>
             </div>
-    
-            <div id = "createForms">
-            <div class="createForm">
-            </div></div>
-        </div>
+        </section>
     </section>
-</th:block>
 
+    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
 </html>
