@@ -20,7 +20,7 @@ body {
 }
 
 a {
-    color: #f82249;
+    color: #000000;
     transition: 0.5s;
 }
 
@@ -146,7 +146,7 @@ h6 {
 }
 
 .section-with-bg {
-    background-color: #f6f7fd;
+    background-color: #FDF5E6;
 }
 
 /*--------------------------------------------------------------
@@ -166,7 +166,7 @@ h6 {
 
 #header.header-scrolled,
 #header.header-fixed {
-    background: rgba(6, 12, 34, 0.98);
+    background: #FFC846;
     height: 70px;
     padding: 15px 0;
     transition: all 0.5s;
@@ -274,7 +274,7 @@ h6 {
     padding: 8px;
     text-decoration: none;
     display: inline-block;
-    color: rgba(202, 206, 221, 0.8);
+    color: #282828;
     font-family: "Raleway", sans-serif;
     font-weight: 600;
     font-size: 14px;
@@ -283,7 +283,7 @@ h6 {
 
 .nav-menu .menu-active a,
 .nav-menu a:hover {
-    color: #fff;
+    color: #828282;
 }
 
 .nav-menu > li {
@@ -297,7 +297,7 @@ h6 {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #f82249;
+    background-color: #6c6c6c;
     visibility: hidden;
     transition: all 0.3s ease-in-out 0s;
 }
@@ -1385,15 +1385,14 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 #footer {
     margin-top: auto;
-    background: #101522;
+    background: #FFC846;
     padding: 0 0 25px 0;
-    color: #eee;
+    color: #000000;
     font-size: 14px;
 }
 
 #footer .footer-top {
-    background: #040919;
-    padding: 60px 0 30px 0;
+    background: #FFC846;
 }
 
 #footer .footer-top .footer-info {
@@ -1527,7 +1526,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 #footer .credits {
     text-align: center;
     font-size: 13px;
-    color: #ddd;
+    color: #000000;
 }
 
 /*--------------------------------------------------------------
