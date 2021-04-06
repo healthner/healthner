@@ -57,4 +57,5 @@ public class HealthnerController {
     public String getAdminpage() {
         return "adminpage";
     }
+
 }
