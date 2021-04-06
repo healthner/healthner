@@ -61,10 +61,10 @@ public class HealthnerController {
 
 
     //등록*생성 (시설,트레이너,상품)
-    @GetMapping(value = "/user-mypage/new-gym")
+/*    @GetMapping(value = "/user-mypage/new-gym")
     public String newGym(){
         return "new-gym";
-    }
+    }*/
 
     @GetMapping(value = "/user-mypage/new-trainer")
     public String newTrainer(){

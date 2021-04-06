@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: header"></head>
+<head th:replace="/fragments/header.html :: header">
+</head>
 <body>
     <header th:replace="/fragments/body-header.html :: body-header"></header>
 
@@ -12,7 +13,35 @@
                 <div class="section-header">
                     <br>
                     <h2>시설 등록 페이지</h2>
-                    <p>시설 등록 페이지</p>
+                    <form th:object="${gym}" method="post">
+                        <table>
+                            <tr>
+                                <td>시설명</td>
+                                <td>
+                                    <input type="text" th:field="*{name}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>주소</td>
+                                <td>
+                                    <input type="text" th:field="*{address}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>소개</td>
+                                <td>
+                                    <input type="text" th:field="*{content}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>전화 번호</td>
+                                <td>
+                                    <input type="text" th:field="*{businessNumber}">
+                                </td>
+                            </tr>
+                        </table>
+                        <button type="submit" class="btn">등록</button>
+                    </form>
                 </div>
 
                 <div id = "createForms">
