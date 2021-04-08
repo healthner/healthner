@@ -56,4 +56,13 @@ public class Reservation extends BaseEntity {
                                                 User user, Trainer trainer, Purchase purchase) {
         return new Reservation(date, startTime, endTime, user, trainer, purchase);
     }
+
+    public void updateReservation(Reservation reservation){
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.user = user;
+        this.trainer = trainer;
+        this.purchase = purchase;
+    }
 }
