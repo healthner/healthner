@@ -108,7 +108,7 @@ h6 {
 
 #section {
     margin-top: 70px;
-    min-height: calc(100vh - 221px - 70px);
+    min-height: calc(100vh - 113px - 70px);
 }
 
 .section-header {
@@ -297,7 +297,7 @@ h6 {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #6c6c6c;
+    background-color: #F82249;
     visibility: hidden;
     transition: all 0.3s ease-in-out 0s;
 }
