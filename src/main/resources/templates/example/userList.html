@@ -12,6 +12,7 @@
                     <th>이메일</th>
                     <th>이름</th>
                     <th>전화번호</th>
+                    <th>수정</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,6 +21,7 @@
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.name}"></td>
                     <td th:text="${user.phoneNumber}"></td>
+                    <td><a th:href="@{/users/{id}/edit(id=${user.id})}" class="btn btn-primary">수정</a></td>
                 </tr>
             </tbody>
         </table>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -52,5 +53,30 @@ public class UserController {
         model.addAttribute("users", collect);
 
         return "/example/userList";
+    }
+
+    @GetMapping("/users/{userId}/edit")
+    public String edit(@PathVariable(name = "userId") Long id, Model model) {
+        User findUser = userRepository.findById(id).get();
+        UserForm userForm = new UserForm();
+        userForm.setEmail(findUser.getEmail());
+        userForm.setPassword(findUser.getPassword());
+        userForm.setName(findUser.getName());
+        userForm.setPhoneNumber(findUser.getPhoneNumber());
+
+        model.addAttribute("userForm", userForm);
+
+        return "/example/updateUserForm";
+    }
+
+    @PostMapping("/users/{userId}/edit")
+    public String edit(@PathVariable(name = "userId") Long id, UserForm userForm) {
+        User findUser = userRepository.findById(id).get();
+        User updateUser = UserForm.toUser(userForm);
+        findUser.updateUser(updateUser);
+
+        userRepository.save(findUser);
+
+        return "redirect:/users";
     }
 }
