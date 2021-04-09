@@ -6,6 +6,10 @@ import com.healthner.healthner.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,4 +40,11 @@ public class ReservationSerivce {
             reservationRepository.delete(reservation);
         }
 
+    public void selectEventList(Model model) {
+            List<Reservation> findReservations = reservationRepository.findAll();
+            List<ReservationDto> collect = findReservations.stream()
+                    .map(reservation -> new ReservationDto(reservation))
+                    .collect(Collectors.toList());
+            model.addAttribute("reservations",collect);
+   }
 }

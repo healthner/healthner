@@ -3,6 +3,7 @@ package com.healthner.healthner.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,25 +25,27 @@ public class Reservation extends BaseEntity {
     @Column(name = "reservation_id")
     private Long id;
 
-    private LocalDate date;
+    private String date;
 
-    private LocalDateTime startTime;
+    private String startTime;
 
-    private LocalDateTime endTime;
-
+    private String endTime;
+    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
+    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
-    private Reservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
+    private Reservation(String date, String startTime, String endTime,
                         User user, Trainer trainer, Purchase purchase) {
         this.date = date;
         this.startTime = startTime;
@@ -52,7 +55,7 @@ public class Reservation extends BaseEntity {
         this.purchase = purchase;
     }
 
-    public static Reservation createReservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
+    public static Reservation createReservation(String date, String startTime, String endTime,
                                                 User user, Trainer trainer, Purchase purchase) {
         return new Reservation(date, startTime, endTime, user, trainer, purchase);
     }
@@ -61,8 +64,8 @@ public class Reservation extends BaseEntity {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.user = user;
-        this.trainer = trainer;
-        this.purchase = purchase;
+//        this.trainer = trainer;
+//        this.purchase = purchase;
+//        this.user = user;
     }
 }
