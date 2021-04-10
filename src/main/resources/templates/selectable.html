@@ -35,7 +35,7 @@
               dataType:'json',
               data : {
                 start : moment(info.startStr).format('YYYY-MM-DD'),
-                end : moment(info.endStr).format('YYYY-MM-DD'),
+                //end : moment(info.endStr).format('YYYY-MM-DD'),
               },
               success: function (data){
                 successCallback(data);
@@ -45,19 +45,11 @@
         }]
 
 
-
       });
 
       calendar.render();
     });
   </script>
-
-
-
-
-
-
-
 
 
   <style>

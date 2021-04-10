@@ -19,4 +19,24 @@ public class ReservationController {
     public String getReservation() {
         return "reservation";
     }
+
+
+
+//    @GetMapping(value = "/selectable/{reservation_id}/update")
+//    public String updateReservation(@PathVariable(name = "reservation_id") Long id,ReservationDto reservationDto) {
+//        reservationSerivce.modify(id,reservationDto);
+//        return "redirect:selectable";
+//    }
+
+
+
+
+//    @PutMapping("/{id}")
+  //  public void modifyReservation(@PathVariable Long id, @RequestBody Reservation reservation) {
+   //     reservationSerivce.modify(id, reservation);
+    //}
+    //@DeleteMapping("/{id}")
+    //public void deleteMapping(@PathVariable Long id) {
+      //  reservationSerivce.delete(id);
+    //}
 }

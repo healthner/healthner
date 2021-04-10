@@ -8,6 +8,10 @@
     <form role="form" action="/reservation/new" th:object="${reservationDto}" method="post">
         <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
             <div>
+                <label th:for="email" class="form-label">제목</label>
+                <input type="text" th:field="*{title}" class="form-control" place="date을 입력하세요.">
+            </div>
+            <div>
                 <label th:for="email" class="form-label">날짜</label>
                 <input type="text" th:field="*{date}" class="form-control" place="date을 입력하세요.">
             </div>

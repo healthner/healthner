@@ -23,15 +23,15 @@ public class ReservationSerivce {
             return reservationRepository.findById(id).get();   //get optional 껍질 벗기는용도
         }
 
-        public void put(ReservationDto reservationDto) {
-            Reservation reservation = reservationDto.getEntity(reservationDto);
+        public void put(ReservationDto.ReservRequest reservRequest) {
+            Reservation reservation = reservRequest.getEntity(reservRequest);
             reservationRepository.save(reservation);
         }
 
         @Transactional
-        public void modify(Long id, ReservationDto reservationDto) {
+        public void modify(Long id, ReservationDto.ReservRequest reservRequest) {
             Reservation findReserv = reservationRepository.findById(id).get();
-            Reservation updateReserv = reservationDto.getEntity(reservationDto);
+            Reservation updateReserv = reservRequest.getEntity(reservRequest);
 
             findReserv.updateReservation(updateReserv);
             reservationRepository.save(updateReserv);
@@ -44,21 +44,23 @@ public class ReservationSerivce {
             reservationRepository.delete(reservation);
         }
 
+        //user-mypage에 리스트로 뿌려지는 용도
         @Transactional
         public void selectEventList(Model model) {
                 List<Reservation> findReservations = reservationRepository.findAll();
-                List<ReservationDto> collect = findReservations.stream()
-                        .map(reservation -> new ReservationDto(reservation))
+                List<ReservationDto.ReservRequest> collect = findReservations.stream()
+                        .map(reservation -> new ReservationDto.ReservRequest(reservation))
                         .collect(Collectors.toList());
                 model.addAttribute("reservations",collect);
        }
 
+       //calendar에 뿌려지는 용도
         @Transactional
-        public List<ReservationDto> selectEventList2(ReservationDto reservationDto) {
+        public List<ReservationDto.ReservResponse> eventToCalenar(ReservationDto.ReservRequest reservRequest) {
             List<Reservation> findReservations = reservationRepository.findAll();
-            List<ReservationDto> collect = findReservations.stream()
-                    .map(reservation -> new ReservationDto(reservation))
+            List<ReservationDto.ReservResponse> result = findReservations.stream()
+                    .map(reservation -> new ReservationDto.ReservResponse(reservRequest))
                     .collect(Collectors.toList());
-           return collect;
+           return result;
         }
 }
