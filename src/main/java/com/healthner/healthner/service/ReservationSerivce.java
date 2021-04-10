@@ -18,6 +18,7 @@ public class ReservationSerivce {
 
         private  final ReservationRepository reservationRepository;
 
+
         public Reservation getReservation(Long id) {
             return reservationRepository.findById(id).get();   //get optional 껍질 벗기는용도
         }
@@ -28,9 +29,12 @@ public class ReservationSerivce {
         }
 
         @Transactional
-        public void modify(Long id, Reservation updateReservation) {
-            Reservation reservation = reservationRepository.findById(id).get();
-            reservation.updateReservation(updateReservation);
+        public void modify(Long id, ReservationDto reservationDto) {
+            Reservation findReserv = reservationRepository.findById(id).get();
+            Reservation updateReserv = reservationDto.getEntity(reservationDto);
+
+            findReserv.updateReservation(updateReserv);
+            reservationRepository.save(updateReserv);
 
         }
 
@@ -40,11 +44,21 @@ public class ReservationSerivce {
             reservationRepository.delete(reservation);
         }
 
-    public void selectEventList(Model model) {
+        @Transactional
+        public void selectEventList(Model model) {
+                List<Reservation> findReservations = reservationRepository.findAll();
+                List<ReservationDto> collect = findReservations.stream()
+                        .map(reservation -> new ReservationDto(reservation))
+                        .collect(Collectors.toList());
+                model.addAttribute("reservations",collect);
+       }
+
+        @Transactional
+        public List<ReservationDto> selectEventList2(ReservationDto reservationDto) {
             List<Reservation> findReservations = reservationRepository.findAll();
             List<ReservationDto> collect = findReservations.stream()
                     .map(reservation -> new ReservationDto(reservation))
                     .collect(Collectors.toList());
-            model.addAttribute("reservations",collect);
-   }
+           return collect;
+        }
 }

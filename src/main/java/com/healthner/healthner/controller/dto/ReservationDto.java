@@ -49,5 +49,9 @@ public class ReservationDto {
 
     }
 
+  //[ {title: 'All Day Event', start: '2015-02-01'},
+    //
+    //  {title: 'Long Event', start: '2015-02-07', end: '2015-02-10' } ]
+
 
 }
