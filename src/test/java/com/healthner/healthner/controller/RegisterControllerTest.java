@@ -1,31 +1,35 @@
 package com.healthner.healthner.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
 
+import com.healthner.healthner.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import javax.transaction.Transactional;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@ExtendWith(SpringExtension.class)
-@Transactional
+//@AutoConfigureWebTestClient
 @WebAppConfiguration
-@Rollback(value = false)
+@SpringBootTest
 class RegisterControllerTest {
 
-    private WebAppConfiguration webAppConfiguration;
+    @Autowired private WebApplicationContext webApplicationContext;
 
-    private GymRepository gymRepository;
+    @Autowired private GymRepository gymRepository;
+
+    @Autowired private UserRepository userRepository;
 
     private MockMvc mvc;
 
@@ -35,7 +39,31 @@ class RegisterControllerTest {
     private Gym testGym;
 
     @BeforeEach
-    public void initMvc(){
+    public void setUp(){
+        testUser = userRepository.findAll().get(0);
+        System.out.println(testUser.getName());
+        mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute("User",testUser);
 
+        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+    }
+
+    @Test
+    public void register() throws Exception{
+        GymDto.Request dto = new GymDto.Request();
+        dto.setName("테스트짐");
+        dto.setAddress("부천시");
+        dto.setContent("테스트");
+        dto.setBusinessNumber("031-123-123");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        mvc.perform(post("/user-mypage/new-gym")
+                    .session(mockHttpSession)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(dto)))
+            .andExpect(status().isOk());
+//        Gym gym = gymRepository.findAll().get(1);
+//        System.out.println(gym.getName());
     }
 }

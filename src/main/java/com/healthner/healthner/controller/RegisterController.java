@@ -1,15 +1,15 @@
 package com.healthner.healthner.controller;
 
-import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.service.GymService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 
 @Controller
@@ -26,7 +26,7 @@ public class RegisterController {
     }
 
     @PostMapping(value = "/user-mypage/new-gym")
-    public String register(@ModelAttribute GymDto.Request gymDto) {
-        return gymService.register(gymDto);
+    public String register(@ModelAttribute GymDto.Request gymDto, @SessionAttribute("User") User ceo) {
+        return gymService.register(gymDto, ceo);
     }
 }
