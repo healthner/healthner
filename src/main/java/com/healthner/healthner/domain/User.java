@@ -1,6 +1,7 @@
 package com.healthner.healthner.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,6 +35,7 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    @Builder
     public static User createUser(String email, String password, String name, String phoneNumber) {
         return new User(email, password, name, phoneNumber);
     }
