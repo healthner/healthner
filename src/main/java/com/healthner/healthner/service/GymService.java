@@ -8,21 +8,20 @@ import com.healthner.healthner.repository.GymRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 
 @Service
 @RequiredArgsConstructor
 public class GymService {
 
-    private final HttpSession httpSession;
     private final GymRepository gymRepository;
 
     //Gym 등록
-    public String register(GymDto.Request gym){
-        if(httpSession.getAttribute("User")== null){
+    public String register(GymDto.Request gym,User ceo){
+        if(ceo== null){
+            //추가적인 예외 처리 필요함.
             return "/home";
         }
-        Gym newGym = gym.toEntity(gym,(User) httpSession.getAttribute("User"));
+        Gym newGym = gym.toEntity(gym,ceo);
         gymRepository.save(newGym);
         return "/gym-mypage";
     }
