@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
-
 import com.healthner.healthner.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,10 +16,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@AutoConfigureWebTestClient
 @WebAppConfiguration
 @SpringBootTest
 class RegisterControllerTest {
@@ -36,12 +36,10 @@ class RegisterControllerTest {
     private MockHttpSession mockHttpSession;
 
     private User testUser;
-    private Gym testGym;
 
     @BeforeEach
     public void setUp(){
         testUser = userRepository.findAll().get(0);
-        System.out.println(testUser.getName());
         mockHttpSession = new MockHttpSession();
         mockHttpSession.setAttribute("User",testUser);
 
@@ -61,9 +59,17 @@ class RegisterControllerTest {
         mvc.perform(post("/user-mypage/new-gym")
                     .session(mockHttpSession)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(dto)))
-            .andExpect(status().isOk());
-//        Gym gym = gymRepository.findAll().get(1);
-//        System.out.println(gym.getName());
-    }
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(dto))
+                    .characterEncoding("utf-8"))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        Gym gym = gymRepository.findAll().get(1);
+
+        assertThat(gym.getName()).isEqualTo(dto.getName());
+        assertThat(gym.getAddress()).isEqualTo(dto.getAddress());
+        assertThat(gym.getContent()).isEqualTo(dto.getContent());
+        assertThat(gym.getBusinessNumber()).isEqualTo(dto.getBusinessNumber());
+        assertThat(gym.getCeo().getId()).isEqualTo(testUser.getId());    }
 }
