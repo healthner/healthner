@@ -62,12 +62,12 @@ public class ReservationDto {
     @NoArgsConstructor
     public static class ReservResponse {
         private String title;
-        private Date date; //  calendar 상에서 날짜를 의미 :start
+        private Date start; //  calendar 상에서 날짜를 의미 :start
 
         //예약을 가공해서 calendar에 뿌려줄 수 있게끔
         public ReservResponse(ReservRequest reservRequest){
             this.title = reservRequest.getTitle();
-            this.date = reservRequest.getDate();
+            this.start = reservRequest.getDate();
         }
 
 

@@ -59,7 +59,8 @@ public class ReservationSerivce {
         public List<ReservationDto.ReservResponse> eventToCalenar(ReservationDto.ReservRequest reservRequest) {
             List<Reservation> findReservations = reservationRepository.findAll();
             List<ReservationDto.ReservResponse> result = findReservations.stream()
-                    .map(reservation -> new ReservationDto.ReservResponse(reservRequest))
+                    .map(reservation -> new ReservationDto.ReservRequest(reservation))
+                    .map(reservRequest1 -> new ReservationDto.ReservResponse(reservRequest1))
                     .collect(Collectors.toList());
            return result;
         }
