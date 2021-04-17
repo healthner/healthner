@@ -16,12 +16,12 @@ public class GymService {
     private final GymRepository gymRepository;
 
     //Gym 등록
-    public String register(GymDto.Request gym,User ceo){
-        if(ceo== null){
+    public String register(GymDto.Request gym, User ceo) {
+        if(ceo == null) {
             //추가적인 예외 처리 필요함.
             return "/home";
         }
-        Gym newGym = gym.toEntity(gym,ceo);
+        Gym newGym = gym.toEntity(gym, ceo);
         gymRepository.save(newGym);
         return "/gym-mypage";
     }

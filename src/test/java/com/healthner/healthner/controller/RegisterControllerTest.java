@@ -9,23 +9,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebAppConfiguration
+
 @SpringBootTest
 class RegisterControllerTest {
 
-    @Autowired private WebApplicationContext webApplicationContext;
+    @Autowired private WebApplicationContext wac;
 
     @Autowired private GymRepository gymRepository;
 
@@ -38,16 +38,16 @@ class RegisterControllerTest {
     private User testUser;
 
     @BeforeEach
-    public void setUp(){
-        testUser = userRepository.findAll().get(0);
+    public void setUp() {
+        testUser = userRepository.findAll().get(0);         //추후 새롭게 User를 생성하는 것으로 변경
         mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("User",testUser);
+        mockHttpSession.setAttribute("User", testUser);
 
-        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
     @Test
-    public void register() throws Exception{
+    public void register() throws Exception {
         GymDto.Request dto = new GymDto.Request();
         dto.setName("테스트짐");
         dto.setAddress("부천시");
@@ -62,14 +62,18 @@ class RegisterControllerTest {
                     .accept(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(dto))
                     .characterEncoding("utf-8"))
-                .andDo(print())
                 .andExpect(status().isOk());
 
-        Gym gym = gymRepository.findAll().get(1);
+        Gym result = gymRepository.findAll(Sort.by(Sort.Direction.DESC, "id")).get(0);
 
-        assertThat(gym.getName()).isEqualTo(dto.getName());
-        assertThat(gym.getAddress()).isEqualTo(dto.getAddress());
-        assertThat(gym.getContent()).isEqualTo(dto.getContent());
-        assertThat(gym.getBusinessNumber()).isEqualTo(dto.getBusinessNumber());
-        assertThat(gym.getCeo().getId()).isEqualTo(testUser.getId());    }
+        assertAll(
+                () -> assertThat(result.getName()).isEqualTo("테스트짐"),
+                () -> assertThat(result.getAddress()).isEqualTo("부천시"),
+                () -> assertThat(result.getContent()).isEqualTo("테스트"),
+                () -> assertThat(result.getBusinessNumber()).isEqualTo("031-123-123"),
+                () -> assertThat(result.getCeo().getId()).isEqualTo(testUser.getId())
+        ) ;
+
+
+    }
 }
