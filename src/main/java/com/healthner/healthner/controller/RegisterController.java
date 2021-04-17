@@ -18,13 +18,13 @@ public class RegisterController {
     private final GymService gymService;
 
 
-    @GetMapping(value = "/user-mypage/new-gym")
-    public String register(Model model){
-        model.addAttribute("gym",new GymDto.Request());
+    @GetMapping("/user-mypage/new-gym")
+    public String register(Model model) {
+        model.addAttribute("gym", new GymDto.Request());
         return "/new-gym";
     }
 
-    @PostMapping(value = "/user-mypage/new-gym")
+    @PostMapping("/user-mypage/new-gym")
     public String register(@RequestBody GymDto.Request gymDto, @SessionAttribute("User") User ceo) {
         return gymService.register(gymDto, ceo);
     }

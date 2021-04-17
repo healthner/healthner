@@ -2,14 +2,17 @@ package com.healthner.healthner.controller;
 
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 public class GymDto {
 
    @Getter
    @AllArgsConstructor
-    public static class Info{
+    public static class Info {
         private int id;
         private String name;
         private String address;
@@ -28,8 +31,8 @@ public class GymDto {
        private String content;
        private String businessNumber;
 
-       public Gym toEntity(GymDto.Request dto,User ceo){
-           return Gym.createGym(dto.getName(),dto.getAddress(),dto.getContent(),dto.getBusinessNumber(),ceo);
+       public Gym toEntity(GymDto.Request dto, User ceo){
+           return Gym.createGym(dto.getName(), dto.getAddress(), dto.getContent(), dto.getBusinessNumber(), ceo);
        }
     }
 
