@@ -34,4 +34,5 @@ values
 
 insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
 values
-        (now(), now(),'2021-04-13',13,11,1,1,1);
+        (now(), now(),'2021-04-13',13,11,1,1,1),
+        (now(), now(),'2021-04-13',13,11,1,1,2);

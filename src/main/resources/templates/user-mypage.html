@@ -33,17 +33,24 @@
                     <table class="table table-striped" style="max-width: 50%; margin: 5rem auto;">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>이메일</th>
-                            <th>이름</th>
-                            <th>전화번호</th>
+                            <th>예약ID</th>
+                            <th>예약 날짜</th>
+                            <th>시작시간</th>
+                            <th>종료시간</th>
+                            <th>user_id</th>
+                            <th>trainer_id</th>
+                            <th>purchase_id</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="reservation : ${reservations}">
+                            <td th:text="${reservation.id}"></td>
                             <td th:text="${reservation.date}"></td>
-                            <td th:text="${reservation.endTime}"></td>
                             <td th:text="${reservation.startTime}"></td>
+                            <td th:text="${reservation.endTime}"></td>
+<!--                            <td th:text="${reservation.user.id}"></td>-->
+<!--                            <td th:text="${reservation.trainer.id}"></td>-->
+<!--                            <td th:text="${reservation.purchase.id}"></td>-->
 
                         </tr>
                         </tbody>

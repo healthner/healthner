@@ -48,11 +48,15 @@ public class ReservationSerivce {
         //user-mypage에 리스트로 뿌려지는 용도
         @Transactional
         public List<ReservationDto.ReservRequest> getMyEventList(Long id) {
-            Optional<Reservation> findReservations = reservationRepository.findById(id);
-                List<ReservationDto.ReservRequest> collect = findReservations.stream()
-                        .map(reservation -> new ReservationDto.ReservRequest(reservation))
-                        .collect(Collectors.toList());
-                return collect;
+//            Optional<Reservation> findReservations = reservationRepository.findById(id);
+//                List<ReservationDto.ReservRequest> collect = findReservations.stream()
+//                        .map(reservation -> new ReservationDto.ReservRequest(reservation))
+//                        .collect(Collectors.toList());
+//                return collect;
+            return reservationRepository.findById(id)
+                    .stream()
+                    .map(reservation -> new ReservationDto.ReservRequest(reservation))
+                    .collect(Collectors.toList());
 
        }
 
