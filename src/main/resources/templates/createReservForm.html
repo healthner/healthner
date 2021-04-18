@@ -8,6 +8,22 @@
     <form role="form" action="/reservation/new" th:object="${reservationDto}" method="post">
         <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
             <div>
+                <label th:for="email" class="form-label">사용자id</label>
+                <input type="text" th:field="*{user}" class="form-control" place="date을 입력하세요.">
+            </div>
+            <div>
+                <label th:for="email" class="form-label">트레이너id</label>
+                <input type="text" th:field="*{trainer}" class="form-control" place="date을 입력하세요.">
+            </div>
+            <div>
+                <label th:for="email" class="form-label">상품id</label>
+                <input type="text" th:field="*{purchase}" class="form-control" place="date을 입력하세요.">
+            </div>
+            <div>
+                <label th:for="email" class="form-label">제목</label>
+                <input type="text" th:field="*{title}" class="form-control" place="date을 입력하세요.">
+            </div>
+            <div>
                 <label th:for="email" class="form-label">제목</label>
                 <input type="text" th:field="*{title}" class="form-control" place="date을 입력하세요.">
             </div>

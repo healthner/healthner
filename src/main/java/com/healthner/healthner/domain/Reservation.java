@@ -31,17 +31,16 @@ public class Reservation extends BaseEntity {
     private String startTime;
 
     private String endTime;
-    @Nullable
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Nullable
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
-    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;

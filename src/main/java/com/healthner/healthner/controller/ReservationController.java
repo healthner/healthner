@@ -20,6 +20,15 @@ public class ReservationController {
         return "reservation";
     }
 
+    @GetMapping(value = "/test2")
+    public String test2(){
+        return "testcalendar";
+    }
+
+    @GetMapping(value = "/test1")
+    public String test1(){
+        return "selectable";}
+
 
 
 //    @GetMapping(value = "/selectable/{reservation_id}/update")
@@ -27,8 +36,6 @@ public class ReservationController {
 //        reservationSerivce.modify(id,reservationDto);
 //        return "redirect:selectable";
 //    }
-
-}
 
 
 
@@ -41,3 +48,4 @@ public class ReservationController {
     //public void deleteMapping(@PathVariable Long id) {
       //  reservationSerivce.delete(id);
     //}
+}

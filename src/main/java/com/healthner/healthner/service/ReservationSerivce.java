@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,12 +47,12 @@ public class ReservationSerivce {
 
         //user-mypage에 리스트로 뿌려지는 용도
         @Transactional
-        public void selectEventList(Model model) {
-                List<Reservation> findReservations = reservationRepository.findAll();
+        public void getMyEventList(Long id) {
+            Optional<Reservation> findReservations = reservationRepository.findById(id);
                 List<ReservationDto.ReservRequest> collect = findReservations.stream()
                         .map(reservation -> new ReservationDto.ReservRequest(reservation))
                         .collect(Collectors.toList());
-                model.addAttribute("reservations",collect);
+
        }
 
        //calendar에 뿌려지는 용도
