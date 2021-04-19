@@ -37,9 +37,8 @@
                             <th>예약 날짜</th>
                             <th>시작시간</th>
                             <th>종료시간</th>
-                            <th>user_id</th>
-                            <th>trainer_id</th>
-                            <th>purchase_id</th>
+                            <th>수정</th>
+                            <th>삭제</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -48,18 +47,21 @@
                             <td th:text="${reservation.date}"></td>
                             <td th:text="${reservation.startTime}"></td>
                             <td th:text="${reservation.endTime}"></td>
-<!--                            <td th:text="${reservation.user.id}"></td>-->
-<!--                            <td th:text="${reservation.trainer.id}"></td>-->
-<!--                            <td th:text="${reservation.purchase.id}"></td>-->
+                            <td>
+                                <a th:href="@{/reservation/{reservId}/modify(reservId=${reservation.id})}"
+                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                </a>
+                            <td>
+                                <a th:href="@{/reservation/{reservId}/delete(reservId=${reservation.id})}"
+                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">삭제</div>
+                                </a>
+                            </td>
 
                         </tr>
                         </tbody>
                     </table>
-                <a href="/reservation/update"
-                   class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">예약수정하기</div>
-                </a>
-
 
                 <h3 class="sub-heading">님의 개인정보 내역입니다.</h3>
 

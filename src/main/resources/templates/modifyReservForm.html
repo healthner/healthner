@@ -5,7 +5,7 @@
 <header th:replace="/fragments/body-header.html :: body-header"></header>
 
 <section id="section">
-    <form role="form" action="/reservation/{id}/modify" th:object="${initial}" method="post">
+    <form role="form" th:object="${initial}" method="post">
         <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
             <div>
                 <label th:for="email" class="form-label">제목</label>
@@ -24,7 +24,7 @@
                 <input type="text" th:field="*{endTime}" class="form-control" place="endTime을 입력하세요.">
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">에약</button>
+                <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">수정 완료</button>
             </div>
         </div>
     </form>

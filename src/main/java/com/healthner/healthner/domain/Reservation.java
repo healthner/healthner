@@ -65,8 +65,8 @@ public class Reservation extends BaseEntity {
         this.date = reservation.getDate();
         this.startTime = reservation.getStartTime();
         this.endTime = reservation.getEndTime();
-//        this.trainer = trainer;
-//        this.purchase = purchase;
-//        this.user = user;
+        this.trainer = trainer;
+        this.purchase = purchase;
+        this.user = user;
     }
 }

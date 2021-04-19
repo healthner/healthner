@@ -15,32 +15,29 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReservationSerivce {
-
-
         private  final ReservationRepository reservationRepository;
-
-
+        //예약 생성
         public void put(ReservationDto.ReservRequest reservRequest) {
             Reservation reservation = reservRequest.getEntity(reservRequest);
             reservationRepository.save(reservation);
         }
 
+        //예약 수정하기위해 해당예약 초기값 가져오기
         public ReservationDto.ReservRequest findModifyReservation(Long id){
             Reservation find = reservationRepository.findById(id).get();
             ReservationDto.ReservRequest initial =  new ReservationDto.ReservRequest(find);
             return initial;
         }
 
+        //예약 수정
         @Transactional
         public void modify(Long id, ReservationDto.ReservRequest request) {
-            Reservation find = reservationRepository.findById(id).get();
+            Reservation find = reservationRepository.findById(id).get(); //예약id로 조회됨
             Reservation updateReserv = request.getEntity(request);
-
             find.updateReservation(updateReserv);
-            reservationRepository.save(updateReserv);
-
         }
 
+        //예약 삭제
         @Transactional
         public void delete(Long id) {
             Reservation reservation = reservationRepository.findById(id).get();

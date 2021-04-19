@@ -20,14 +20,7 @@ public class ReservationController {
         return "reservation";
     }
 
-    @GetMapping(value = "/test2")
-    public String test2(){
-        return "testcalendar";
-    }
 
-    @GetMapping(value = "/test1")
-    public String test1(){
-        return "selectable";}
 
 
 
