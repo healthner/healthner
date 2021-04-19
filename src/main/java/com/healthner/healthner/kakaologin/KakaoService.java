@@ -106,7 +106,7 @@ public class KakaoService {
     }
 
     // 카카오에서 받은 정보 User에 채우고 디비에 저장
-    public UserDto.Response saveKakaoUser(KakaoProfile kakaoProfile) {
+    public UserDto.UserInfo saveKakaoUser(KakaoProfile kakaoProfile) {
         UUID password = UUID.randomUUID(); // 임시 비밀번호
 
         User user = User.builder()
@@ -118,7 +118,7 @@ public class KakaoService {
                 .build();
 
         userService.join(user);
-        return new UserDto.Response(user.getName(), user.getUserImageUrl());
+        return userService.findByEmail(user.getEmail());
     }
 
     public void kakaoLogout(String access_Token) {

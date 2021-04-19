@@ -26,10 +26,10 @@ public class HealthnerController {
         return "gymdetail";
     }
 
-    @GetMapping(value = "/reservation")
-    public String reservation(){
-        return "reservation";
-    }
+//    @GetMapping(value = "/reservation")
+//    public String reservation(){
+//        return "reservation";
+//    }
 
 
 
@@ -80,4 +80,5 @@ public class HealthnerController {
     public String newProductByTrainer(){
         return "new-products";
     }
+
 }

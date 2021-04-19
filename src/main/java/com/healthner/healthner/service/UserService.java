@@ -1,6 +1,7 @@
 package com.healthner.healthner.service;
 
 import com.healthner.healthner.domain.User;
+import com.healthner.healthner.kakaologin.dto.UserDto;
 import com.healthner.healthner.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class UserService {
     // 유저 조회
     public List<User> findAll(){
         return userRepository.findAll();
+    }
+
+    public UserDto.UserInfo findByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user != null ? new UserDto.UserInfo(user) : null;
     }
 }
