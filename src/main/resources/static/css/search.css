@@ -1,0 +1,59 @@
+#container {
+    min-height: calc(100vh - 70px); /* 최소 높이를 지정 */
+    display: flex;
+}
+
+#menu-wrap {
+    width: 30%;
+    max-height: calc(100vh - 70px);
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+#menu-wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+#form-wrap {
+    width: 30%;
+    padding: 1rem;
+    position: fixed;
+    background-color: #FDF5E6;
+}
+
+#map {
+    width: 70%;
+    min-height: calc(100vh - 70px);
+}
+
+#places-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 70px;
+}
+
+#places-list li {
+    padding: 1rem;
+    border-bottom: 1px solid #d3d3d3;
+}
+
+.list-item {
+    font-weight: bold;
+}
+
+#pagination {
+    margin:10px auto;
+    text-align: center;
+}
+
+#pagination a {
+    display:inline-block;
+    margin-right:10px;
+}
+
+#pagination .on {
+    font-weight: bold;
+    cursor: default;
+    color:#777;
+}
