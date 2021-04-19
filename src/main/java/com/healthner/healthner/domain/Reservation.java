@@ -1,5 +1,6 @@
 package com.healthner.healthner.domain;
 
+import com.healthner.healthner.controller.dto.ReservationDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,9 +62,9 @@ public class Reservation extends BaseEntity {
     }
 
     public void updateReservation(Reservation reservation){
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.date = reservation.getDate();
+        this.startTime = reservation.getStartTime();
+        this.endTime = reservation.getEndTime();
 //        this.trainer = trainer;
 //        this.purchase = purchase;
 //        this.user = user;

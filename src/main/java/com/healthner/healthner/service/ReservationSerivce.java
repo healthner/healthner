@@ -20,21 +20,23 @@ public class ReservationSerivce {
         private  final ReservationRepository reservationRepository;
 
 
-        public Reservation getReservation(Long id) {
-            return reservationRepository.findById(id).get();   //get optional 껍질 벗기는용도
-        }
-
         public void put(ReservationDto.ReservRequest reservRequest) {
             Reservation reservation = reservRequest.getEntity(reservRequest);
             reservationRepository.save(reservation);
         }
 
-        @Transactional
-        public void modify(Long id, ReservationDto.ReservRequest reservRequest) {
-            Reservation findReserv = reservationRepository.findById(id).get();
-            Reservation updateReserv = reservRequest.getEntity(reservRequest);
+        public ReservationDto.ReservRequest findModifyReservation(Long id){
+            Reservation find = reservationRepository.findById(id).get();
+            ReservationDto.ReservRequest initial =  new ReservationDto.ReservRequest(find);
+            return initial;
+        }
 
-            findReserv.updateReservation(updateReserv);
+        @Transactional
+        public void modify(Long id, ReservationDto.ReservRequest request) {
+            Reservation find = reservationRepository.findById(id).get();
+            Reservation updateReserv = request.getEntity(request);
+
+            find.updateReservation(updateReserv);
             reservationRepository.save(updateReserv);
 
         }
@@ -47,16 +49,8 @@ public class ReservationSerivce {
 
         //user-mypage에 리스트로 뿌려지는 용도
         @Transactional
-        public List<ReservationDto.ReservRequest> getMyEventList(Long id) {
-//            Optional<Reservation> findReservations = reservationRepository.findById(id);
-//                List<ReservationDto.ReservRequest> collect = findReservations.stream()
-//                        .map(reservation -> new ReservationDto.ReservRequest(reservation))
-//                        .collect(Collectors.toList());
-//                return collect;
-            return reservationRepository.findById(id)
-                    .stream()
-                    .map(reservation -> new ReservationDto.ReservRequest(reservation))
-                    .collect(Collectors.toList());
+        public List<ReservationDto.ReservRequest> getMyEventList(Long userId) {
+            return reservationRepository.findByUserId(userId);
 
        }
 
