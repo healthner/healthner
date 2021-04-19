@@ -1,6 +1,6 @@
 package com.healthner.healthner.kakaologin;
 
-import com.healthner.healthner.domain.User;
+import com.healthner.healthner.kakaologin.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ public class KakaoController {
     //카카오 로그인
     @GetMapping(value = "/login")
     public String login(String code, Model model) {
-        User user = kakaoService.saveKakaoUser(kakaoService.getProfile(
+        UserDto.Response user = kakaoService.saveKakaoUser(kakaoService.getProfile(
                 kakaoService.oAuthToken(code)));
         model.addAttribute("user", user);
         return "kakaoLogin";

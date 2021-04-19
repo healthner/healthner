@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.healthner.healthner.domain.Provider;
 import com.healthner.healthner.domain.User;
+import com.healthner.healthner.kakaologin.dto.UserDto;
 import com.healthner.healthner.service.UserService;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Builder
 public class KakaoService {
 
     private final UserService userService;
@@ -103,7 +106,7 @@ public class KakaoService {
     }
 
     // 카카오에서 받은 정보 User에 채우고 디비에 저장
-    public User saveKakaoUser(KakaoProfile kakaoProfile) {
+    public UserDto.Response saveKakaoUser(KakaoProfile kakaoProfile) {
         UUID password = UUID.randomUUID(); // 임시 비밀번호
 
         User user = User.builder()
@@ -113,10 +116,10 @@ public class KakaoService {
                 .userImageUrl(kakaoProfile.getProperties().getProfile_image())
                 .password(password.toString())
                 .build();
-        userService.join(user);
-        return user;
-    }
 
+        userService.join(user);
+        return new UserDto.Response(user.getName(), user.getUserImageUrl());
+    }
 
     public void kakaoLogout(String access_Token) {
         String reqURL = "https://kapi.kakao.com/v1/user/logout";
