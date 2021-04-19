@@ -1,14 +1,11 @@
 package com.healthner.healthner.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -27,14 +24,22 @@ public class User extends BaseEntity {
 
     private String phoneNumber;
 
-    private User(String email, String password, String name, String phoneNumber) {
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    private String userImageUrl;
+
+    @Builder
+    public User(String email, String password, String name, String phoneNumber, Provider provider, String userImageUrl) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
+        this.provider = provider;
+        this.userImageUrl = userImageUrl;
     }
 
-    public static User createUser(String email, String password, String name, String phoneNumber) {
-        return new User(email, password, name, phoneNumber);
-    }
+//    public static User createUser(String email, String password, String name, String phoneNumber, Provider provider) {
+//        return new User(email, password, name, phoneNumber);
+//    }
 }

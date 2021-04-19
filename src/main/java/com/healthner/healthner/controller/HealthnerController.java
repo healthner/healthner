@@ -1,13 +1,15 @@
 package com.healthner.healthner.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HealthnerController {
 
     @GetMapping(value = "/home")
-    public String home(){
+    public String home(Model model){
+        model.addAttribute("userId", "로그인 해주세요.");
         return "home";
     }
 
@@ -80,4 +82,5 @@ public class HealthnerController {
     public String newProductByTrainer(){
         return "new-products";
     }
+
 }
