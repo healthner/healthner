@@ -100,15 +100,7 @@ public class HealthnerController {
     }
 
     @GetMapping(value = "/loginerror")
-    public String kakaoError(Model model, HttpSession session) {
-        UserDto.Response response = (UserDto.Response) session.getAttribute("userInfo");
-
-        if (response == null) {
-            response = new UserDto.Response(null, "로그인을 해주세요", null, null);
-            model.addAttribute("user", response);
-        } else {
-            model.addAttribute("user", response);
-        }
+    public String kakaoError(){
         return "loginerror";
     }
 

@@ -23,17 +23,22 @@ public class Trainer extends BaseEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gym_id")
+    private Gym gym;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user; // 자기 자신
 
     private String career;
 
-    private Trainer(User user, String career) {
+    private Trainer(Gym gym, User user, String career) {
+        this.gym = gym;
         this.user = user;
         this.career = career;
     }
 
-    public static Trainer createTrainer(User user, String career) {
-        return new Trainer(user, career);
+    public static Trainer createTrainer(Gym gym, User user, String career) {
+        return new Trainer(gym, user, career);
     }
 }

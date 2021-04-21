@@ -5,22 +5,124 @@
     <header th:replace="/fragments/body-header.html :: body-header (userId, name, userImageUrl)"></header>
 
     <section id="section" class="section-with-bg wow fadeInUp">
-        <section id="contact">
-            <div class="container">
-                <div class="section-header">
-                    <br>
-                    <h2>트레이너 등록 페이지</h2>
-                    <p>트레이너 등록 페이지</p>
-                </div>
+        <div class="section-header">
+            <br>
+            <h2>트레이너 등록</h2>
+            <p>등록하고자 하는 기관을 검색하여 선택하고 경력을 기재해 주세요.</p>
+        </div>
 
-                <div id = "createForms">
-                    <div class="createForm">
-                    </div>
+        <div class="new-trainer-form-wrap">
+
+            <div class="input-group">
+                <label for="keyword"></label>
+                <input type="text" id="keyword" class="form-control" placeholder="지역을 입력해주세요.">
+                <div class="input-group-append">
+                    <button class="btn btn-warning" onclick="searchGyms()">검색</button>
                 </div>
             </div>
-        </section>
+
+            <ul id="new-trainer-gym-list" class="list-group">
+            </ul>
+            <br>
+
+            <form class="new-trainer-form" th:object="${trainerForm}" method="post">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">기관</span>
+                    </div>
+                    <div id="new-trainer-gym-name" class="form-control"></div>
+                </div>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">주소</span>
+                    </div>
+                    <div id="new-trainer-gym-address" class="form-control"></div>
+                </div>
+                <input id="new-trainer-gym-id" type="hidden" name="gymId" value="" th:filed="*{gymId}" />
+                <br>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">경력</span>
+                    </div>
+                    <textarea type="text" class="form-control"
+                              placeholder="경력을 적어주세요." name="career" th:filed="*{career}"></textarea>
+                </div>
+                <br>
+
+                <button type="submit" class="btn btn-warning btn-lg btn-block">트레이너 등록하기</button>
+            </form>
+        </div>
     </section>
 
     <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
 </body>
+<script>
+    function searchGyms() {
+        let keyword = document.getElementById('keyword').value;
+
+        if (!keyword.replace(/^\s+|\s+$/g, '')) {
+            alert('키워드를 입력해주세요!');
+            return false;
+        }
+
+        gymSearch(keyword);
+    }
+
+    // 등록된 gym 을 검색한다.
+    function gymSearch(keyword) {
+        let gyms = [];
+        fetch('http://localhost:8080/api/gyms/address/' + keyword)
+            .then(response => response.json())
+            .then(response => {
+                for (let key in response.data) {
+                    gyms.push(response.data[key]);
+                }
+
+                displayGyms(gyms);
+            });
+    }
+
+    function displayGyms(gyms) {
+        let listEl = document.getElementById('new-trainer-gym-list');
+        let fragment = document.createDocumentFragment();
+
+        removeAllChildNods(listEl);
+
+        for (let key in gyms) {
+            let itemEl = document.createElement('li');
+
+            itemEl.innerHTML =
+                '<div> ' + gyms[key].name + ' </div>' +
+                '<div> ' + gyms[key].address + ' </div>';
+
+            itemEl.className = 'list-group-item';
+            itemEl.onclick = function() {
+                let gymHiddenEl = document.getElementById("new-trainer-gym-id");
+                gymHiddenEl.value = gyms[key].id;
+
+                let gymNameEl = document.getElementById("new-trainer-gym-name");
+                gymNameEl.innerText = gyms[key].name;
+
+                let gymAddressEl = document.getElementById("new-trainer-gym-address");
+                gymAddressEl.innerText = gyms[key].address;
+
+                removeAllChildNods(listEl);
+            }
+
+            fragment.appendChild(itemEl);
+        }
+
+        // 검색결과 항목들을 검색결과 목록 Element 에 추가합니다
+        listEl.appendChild(fragment);
+    }
+
+    // 검색결과 목록의 자식 Element 를 제거하는 함수입니다
+    function removeAllChildNods(el) {
+        while (el.hasChildNodes()) {
+            el.removeChild(el.lastChild);
+        }
+    }
+</script>
 </html>

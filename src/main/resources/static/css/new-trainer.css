@@ -1,0 +1,24 @@
+.new-trainer-form-wrap {
+    width: 60%;
+    margin: auto;
+}
+
+#new-trainer-gym-list {
+    list-style: none;
+    padding: 0;
+    transition: 0.5s;
+}
+
+#new-trainer-gym-list li {
+    padding: 1rem;
+    border-bottom: 1px solid #d3d3d3;
+    color: #000000;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+#new-trainer-gym-list li:hover {
+    color: #f8234a;
+    outline: none;
+    text-decoration: none;
+}
