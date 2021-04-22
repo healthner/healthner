@@ -31,6 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // @Auth 받아오기
         Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
+        Auth adminRole = handlerMethod.getMethod().getDeclaringClass().getAnnotation(Auth.class);
 
         // method에 @Auth가 없는 경우, 즉 인증이 필요 없는 요청
         if (auth == null) {
@@ -52,6 +53,18 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
+        // admin일 경우
+        if( adminRole != null ) {
+            String role = adminRole.role().toString();
+            if ("ADMIN".equals(role)) {
+                if ("root".equals(session.getId()) == false) {
+                    response.sendRedirect(request.getContextPath());
+                    return false;
+                }
+            }
+        }
+
+        // 접근허가, 즉 메소드를 실행하도록 한다
         return true;
     }
 
