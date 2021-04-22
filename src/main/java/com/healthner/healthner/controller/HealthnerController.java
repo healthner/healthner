@@ -81,4 +81,9 @@ public class HealthnerController {
         return "new-products";
     }
 
+    @GetMapping(value = "/loginerror")
+    public String kakaoError(){
+        return "loginerror";
+    }
+
 }

@@ -41,14 +41,14 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 세션이 없으면 'home'으로
         HttpSession session = request.getSession();
         if (session == null) {
-            response.sendRedirect("home");
+            response.sendRedirect("loginerror");
             return false;
         }
 
         // 세션이 존재하면 유효한 유저인지 확인
         UserDto.UserInfo userInfo = (UserDto.UserInfo) session.getAttribute("userInfo");
         if (userInfo == null) {
-            response.sendRedirect("home");
+            response.sendRedirect("loginerror");
             return false;
         }
 
