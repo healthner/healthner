@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -27,11 +26,11 @@ public class Reservation extends BaseEntity {
     @Column(name = "reservation_id")
     private Long id;
 
-    private Date date;
+    private LocalDate date;
 
-    private String startTime;
+    private LocalDateTime startTime;
 
-    private String endTime;
+    private LocalDateTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -46,7 +45,7 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
-    private Reservation(Date date, String startTime, String endTime,
+    private Reservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
                         User user, Trainer trainer, Purchase purchase) {
         this.date = date;
         this.startTime = startTime;
@@ -56,7 +55,7 @@ public class Reservation extends BaseEntity {
         this.purchase = purchase;
     }
 
-    public static Reservation createReservation(Date date, String startTime, String endTime,
+    public static Reservation createReservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
                                                 User user, Trainer trainer, Purchase purchase) {
         return new Reservation(date, startTime, endTime, user, trainer, purchase);
     }

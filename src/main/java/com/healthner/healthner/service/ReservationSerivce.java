@@ -2,14 +2,13 @@ package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.dto.ReservationDto;
 import com.healthner.healthner.domain.Reservation;
+import com.healthner.healthner.exception.handler.ReservtionNotFoundException;
 import com.healthner.healthner.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,16 +22,16 @@ public class ReservationSerivce {
         }
 
         //예약 수정하기위해 해당예약 초기값 가져오기
-        public ReservationDto.ReservRequest findModifyReservation(Long id){
+        public ReservationDto.ReservResponse findModifyReservation(Long id){
             Reservation find = reservationRepository.findById(id).get();
-            ReservationDto.ReservRequest initial =  new ReservationDto.ReservRequest(find);
+            ReservationDto.ReservResponse initial =  new ReservationDto.ReservResponse(find);
             return initial;
         }
 
         //예약 수정
         @Transactional
         public void modify(Long id, ReservationDto.ReservRequest request) {
-            Reservation find = reservationRepository.findById(id).get(); //예약id로 조회됨
+            Reservation find = reservationRepository.findById(id).orElseThrow(()->new ReservtionNotFoundException()); //예약id로 조회됨
             Reservation updateReserv = request.getEntity(request);
             find.updateReservation(updateReserv);
         }
@@ -46,18 +45,21 @@ public class ReservationSerivce {
 
         //user-mypage에 리스트로 뿌려지는 용도
         @Transactional
-        public List<ReservationDto.ReservRequest> getMyEventList(Long userId) {
-            return reservationRepository.findByUserId(userId);
-
+        public List<ReservationDto.ReservResponse> getMyEventList(Long userId) {
+            List<Reservation> find = reservationRepository.findByUserId(userId);
+            List<ReservationDto.ReservResponse> result = find.stream()
+                    .map(reservation -> new ReservationDto.ReservResponse(reservation))
+                    .collect(Collectors.toList());
+            return result;
        }
 
        //calendar에 뿌려지는 용도
         @Transactional
-        public List<ReservationDto.ReservResponse> eventToCalenar(ReservationDto.ReservRequest reservRequest) {
+        public List<ReservationDto.ReservToCal> eventToCalenar(ReservationDto.ReservRequest reservRequest) {
             List<Reservation> findReservations = reservationRepository.findAll();
-            List<ReservationDto.ReservResponse> result = findReservations.stream()
-                    .map(reservation -> new ReservationDto.ReservRequest(reservation))
-                    .map(reservRequest1 -> new ReservationDto.ReservResponse(reservRequest1))
+            List<ReservationDto.ReservToCal> result = findReservations.stream()
+                    .map(reservation -> new ReservationDto.ReservResponse(reservation))
+                    .map(reservResponse -> new ReservationDto.ReservToCal(reservResponse))
                     .collect(Collectors.toList());
            return result;
         }

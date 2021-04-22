@@ -13,15 +13,15 @@
             </div>
             <div>
                 <label th:for="email" class="form-label">날짜</label>
-                <input type="text" th:field="*{date}" class="form-control" place="date을 입력하세요.">
+                <input type="date" th:field="*{date}" class="form-control" place="date을 입력하세요.">
             </div>
             <div>
                 <label th:for="password" class="form-label">시작시간</label>
-                <input type="text" th:field="*{startTime}" class="form-control" place="startTime를 입력하세요.">
+                <input type="datetime-local" th:field="*{startTime}" class="form-control" place="startTime를 입력하세요.">
             </div>
             <div>
                 <label th:for="name" class="form-label">종료시간</label>
-                <input type="text" th:field="*{endTime}" class="form-control" place="endTime을 입력하세요.">
+                <input type="datetime-local" th:field="*{endTime}" class="form-control" place="endTime을 입력하세요.">
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">수정 완료</button>
