@@ -39,8 +39,7 @@ public class ReservationSerivce {
         //예약 삭제
         @Transactional
         public void delete(Long id) {
-            Reservation reservation = reservationRepository.findById(id).get();
-            reservationRepository.delete(reservation);
+            reservationRepository.deleteById(id);
         }
 
         //user-mypage에 리스트로 뿌려지는 용도
