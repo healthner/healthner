@@ -1,6 +1,7 @@
 package com.healthner.healthner.kakaologin.dto;
 
 import com.healthner.healthner.domain.User;
+import com.healthner.healthner.interceptor.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -21,6 +22,7 @@ public class UserDto {
         private String email;
         private String name;
         private String userImageUrl;
+        private Role role;
 
         public UserInfo(User user) {
             this.id = user.getId();
