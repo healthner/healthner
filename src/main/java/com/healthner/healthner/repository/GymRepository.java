@@ -1,4 +1,4 @@
-package com.healthner.healthner.respository;
+package com.healthner.healthner.repository;
 
 import com.healthner.healthner.domain.Gym;
 import org.springframework.data.jpa.repository.JpaRepository;

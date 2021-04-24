@@ -1,4 +1,4 @@
-package com.healthner.healthner.dto;
+package com.healthner.healthner.controller.dto;
 
 import com.healthner.healthner.domain.Gym;
 import lombok.AllArgsConstructor;

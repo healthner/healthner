@@ -28,11 +28,6 @@ public class HealthnerController {
         return "gymdetail";
     }
 
-//    @GetMapping(value = "/reservation")
-//    public String reservation(){
-//        return "reservation";
-//    }
-
 
 
 

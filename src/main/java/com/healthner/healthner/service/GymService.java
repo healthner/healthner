@@ -1,7 +1,7 @@
 package com.healthner.healthner.service;
 
-import com.healthner.healthner.dto.GymDto;
-import com.healthner.healthner.respository.GymRepository;
+import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.repository.GymRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

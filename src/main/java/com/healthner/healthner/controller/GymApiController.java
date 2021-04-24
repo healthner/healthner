@@ -1,6 +1,6 @@
 package com.healthner.healthner.controller;
 
-import com.healthner.healthner.dto.GymDto;
+import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.service.GymService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
