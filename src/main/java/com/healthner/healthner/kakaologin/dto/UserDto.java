@@ -29,6 +29,7 @@ public class UserDto {
             this.email = user.getEmail();
             this.name = user.getName();
             this.userImageUrl = user.getUserImageUrl();
+            this.role = user.getRole();
         }
     }
 }
