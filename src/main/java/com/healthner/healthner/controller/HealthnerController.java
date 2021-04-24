@@ -1,5 +1,7 @@
 package com.healthner.healthner.controller;
 
+import com.healthner.healthner.interceptor.Auth;
+import com.healthner.healthner.interceptor.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -26,10 +28,10 @@ public class HealthnerController {
         return "gymdetail";
     }
 
-    @GetMapping(value = "/reservation")
-    public String reservation(){
-        return "reservation";
-    }
+//    @GetMapping(value = "/reservation")
+//    public String reservation(){
+//        return "reservation";
+//    }
 
 
 
@@ -80,4 +82,16 @@ public class HealthnerController {
     public String newProductByTrainer(){
         return "new-products";
     }
+
+    @GetMapping(value = "/loginerror")
+    public String kakaoError(){
+        return "loginerror";
+    }
+
+    @Auth(role = Role.ADMIN)
+    @GetMapping(value = "/adminpage")
+    public String getAdminpage() {
+        return "adminpage";
+    }
+
 }
