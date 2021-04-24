@@ -6,7 +6,6 @@ import com.healthner.healthner.domain.Reservation;
 import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.domain.User;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -85,9 +84,9 @@ public class ReservationDto {
         private LocalDate start; //  calendar 상에서 날짜를 의미 :start
 
         //예약을 가공해서 calendar에 뿌려줄 수 있게끔
-        public ReservToCal(ReservResponse reservResponse){
-            this.title = reservResponse.getTitle();
-            this.start = reservResponse.getDate();
+        public ReservToCal(Reservation reservation) {
+            this.title = reservation.getTrainer().getUser().getName();
+            this.start = reservation.getDate();
         }
     }
 
