@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.healthner.healthner.domain.Provider;
 import com.healthner.healthner.domain.User;
+import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.kakaologin.dto.UserDto;
 import com.healthner.healthner.service.UserService;
 import lombok.Builder;
@@ -115,6 +116,7 @@ public class KakaoService {
                 .provider(Provider.KAKAO)
                 .userImageUrl(kakaoProfile.getProperties().getProfile_image())
                 .password(password.toString())
+                .role(Role.USER)
                 .build();
 
         userService.join(user);
