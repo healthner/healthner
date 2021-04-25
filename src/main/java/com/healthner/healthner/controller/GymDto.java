@@ -30,9 +30,10 @@ public class GymDto {
        private String address;
        private String content;
        private String businessNumber;
+       private Long ceoId;
 
-       public Gym toEntity(GymDto.Request dto, User ceo){
-           return Gym.createGym(dto.getName(), dto.getAddress(), dto.getContent(), dto.getBusinessNumber(), ceo);
+       public Gym toEntity(User ceo) {
+           return Gym.createGym(this.getName(), this.getAddress(), this.getContent(), this.getBusinessNumber(), ceo);
        }
     }
 

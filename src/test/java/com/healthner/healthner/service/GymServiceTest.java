@@ -1,33 +1,23 @@
 package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.GymDto;
-import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class GymServiceTest {
 
-    @InjectMocks
+    @Autowired
     private GymService gymService;
 
-    @Mock
+    @Autowired
     private GymRepository gymRepository;
 
     @Autowired
@@ -40,7 +30,7 @@ class GymServiceTest {
         User user = userRepository.findAll().get(0);
 
         session = new MockHttpSession();
-        session.setAttribute("User", user);
+        session.setAttribute("userId", user.getId());
 
     }
     @AfterEach
@@ -56,11 +46,8 @@ class GymServiceTest {
         dto.setContent("헬스장");
         dto.setBusinessNumber("031-123-123");
 
-        User currentUser = (User)session.getAttribute("User");
+        Long ceoId = (Long)session.getAttribute("userId");
 
-        gymRepository.save(dto.toEntity(dto, currentUser));
-
-        verify(gymRepository, times(1)).save(any(Gym.class));
-
+        gymService.register(dto, ceoId);
     }
 }
