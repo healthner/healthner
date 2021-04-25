@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest
-class RegisterControllerTest {
+class GymControllerTest {
 
     @Autowired private WebApplicationContext wac;
 
@@ -41,7 +41,7 @@ class RegisterControllerTest {
     public void setUp() {
         testUser = userRepository.findAll().get(0);         //추후 새롭게 User를 생성하는 것으로 변경
         mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("User", testUser);
+        mockHttpSession.setAttribute("userId", testUser.getId());
 
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
@@ -58,8 +58,7 @@ class RegisterControllerTest {
 
         mvc.perform(post("/user-mypage/new-gym")
                     .session(mockHttpSession)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                     .content(objectMapper.writeValueAsString(dto))
                     .characterEncoding("utf-8"))
                 .andExpect(status().isOk());
