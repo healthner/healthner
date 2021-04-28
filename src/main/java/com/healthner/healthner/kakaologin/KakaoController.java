@@ -40,10 +40,8 @@ public class KakaoController {
 
 
     @RequestMapping(value="/logout")
-    public String logout(HttpSession session) {
-        kakaoService.kakaoLogout((String)session.getAttribute("access_Token"));
-        session.removeAttribute("access_Token");
-        session.removeAttribute("userId");
-        return "index";
+    public String logout(HttpSession httpSession) {
+        httpSession.invalidate();
+        return "home";
     }
 }
