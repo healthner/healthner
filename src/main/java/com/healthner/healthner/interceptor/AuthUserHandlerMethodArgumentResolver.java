@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+    // @AuthUser 어노테이션에 대하여 수행 할 클래스
 
     @Override
     public Object resolveArgument(
