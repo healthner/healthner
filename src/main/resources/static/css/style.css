@@ -108,7 +108,7 @@ h6 {
 
 #section {
     margin-top: 70px;
-    min-height: calc(100vh - 113px - 70px);
+    min-height: calc(100vh - 131px - 70px);
 }
 
 .section-header {

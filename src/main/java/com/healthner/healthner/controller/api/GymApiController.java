@@ -1,4 +1,4 @@
-package com.healthner.healthner.controller;
+package com.healthner.healthner.controller.api;
 
 import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.service.GymService;

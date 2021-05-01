@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-    <header id="header" class="header-fixed" th:fragment="body-header (name, userImageUrl)">
+    <header id="header" class="header-fixed" th:fragment="body-header (id, name, userImageUrl)">
         <div class="container">
 
             <div class="row">
                 <div class="col">
                     <div id="logo" class="pull-left">
-                        <a href="../home" class="scrollto"><img src="/static/img/logo.png" alt="" title=""></a>
+                        <a href="/home" class="scrollto"><img src="/static/img/logo.png" alt="" title=""></a>
                     </div>
                 </div>
 
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li><a href="../home">Home</a></li>
+                        <li><a href="/home">Home</a></li>
                         <li><a href="#about">About</a></li>
-                        <li><a href="../search">트레이닝 센터 찾기</a></li>
-                        <li><a href="../reservation">예약하기</a></li>
+                        <li><a href="/gym/search">트레이닝 센터 찾기</a></li>
+                        <li><a th:href="@{/user/{id}/purchase(id=${id != null ? id : 0})}">예약하기</a></li>
                     </ul>
                 </nav><!-- #nav-menu-container -->
 

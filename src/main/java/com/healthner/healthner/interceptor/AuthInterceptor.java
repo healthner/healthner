@@ -1,7 +1,7 @@
 package com.healthner.healthner.interceptor;
 
 
-import com.healthner.healthner.kakaologin.dto.UserDto;
+import com.healthner.healthner.controller.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 
 @Component
 @Slf4j
@@ -47,7 +46,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         // 세션이 존재하면 유효한 유저인지 확인
-        UserDto.UserInfo userInfo = (UserDto.UserInfo) session.getAttribute("userInfo");
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
         if (userInfo == null) {
             response.sendRedirect("loginerror");
             return false;
@@ -71,6 +70,18 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+
+        if (modelAndView != null) {
+            HttpSession session = request.getSession();
+            UserDto.Response responseDto = (UserDto.Response) session.getAttribute("userInfo");
+
+            if (responseDto == null) {
+                responseDto = new UserDto.Response(null, "로그인을 해주세요", null, null);
+                modelAndView.addObject("user", responseDto);
+            } else {
+                modelAndView.addObject("user", responseDto);
+            }
+        }
     }
 
     @Override

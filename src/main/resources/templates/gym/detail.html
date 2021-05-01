@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (userId, name, userImageUrl)"></header>
+<header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg wow fadeIn">
         <section id="speakers-details">
@@ -32,7 +32,7 @@
 
                 <div class="row">
                     <div class="col-md-6">
-                        <img src="../static/img/speakers/1.jpg" alt="Speaker 1" class="img-fluid">
+                        <img src="../../static/img/speakers/1.jpg" alt="Speaker 1" class="img-fluid">
                     </div>
 
                     <div class="col-md-6">
