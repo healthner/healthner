@@ -2,19 +2,40 @@ package com.healthner.healthner.controller;
 
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
+import com.healthner.healthner.kakaologin.dto.UserDto;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class HealthnerController {
 
-    @GetMapping(value = "/home")
-    public String home(){
+    @GetMapping("/home")
+    public String home(Model model, HttpSession session) {
+        UserDto.UserInfo userInfo = (UserDto.UserInfo) session.getAttribute("userInfo");
+
+        if (userInfo == null) {
+            userInfo = new UserDto.UserInfo(null, null, "로그인을 해주세요", null, null);
+            model.addAttribute("user", userInfo);
+        } else {
+            model.addAttribute("user", userInfo);
+        }
+
         return "home";
     }
 
     @GetMapping(value = "/search")
-    public String searchGym(){
+    public String searchGym(Model model, HttpSession session) {
+        UserDto.UserInfo userInfo = (UserDto.UserInfo) session.getAttribute("userInfo");
+
+        if (userInfo == null) {
+            userInfo = new UserDto.UserInfo(null, null, "로그인을 해주세요", null, null);
+            model.addAttribute("user", userInfo);
+        } else {
+            model.addAttribute("user", userInfo);
+        }
         return "search";
     }
 

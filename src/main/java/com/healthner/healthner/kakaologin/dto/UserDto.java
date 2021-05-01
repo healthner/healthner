@@ -4,6 +4,7 @@ import com.healthner.healthner.domain.User;
 import com.healthner.healthner.interceptor.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 public class UserDto {
 
@@ -17,6 +18,7 @@ public class UserDto {
 
     @Getter
     @AllArgsConstructor
+    @ToString
     public static class UserInfo {
         private Long id;
         private String email;

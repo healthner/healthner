@@ -1,5 +1,6 @@
 package com.healthner.healthner.kakaologin;
 
+import com.healthner.healthner.kakaologin.dto.KakaoUserInfoDto;
 import com.healthner.healthner.kakaologin.dto.UserDto;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,15 +20,15 @@ public class KakaoController {
     private final UserService userService;
 
     //카카오 로그인
-    @GetMapping(value = "/login")
+    @GetMapping("/login")
     public String login(String code, Model model, HttpSession httpSession) {
-        KakaoProfile profile = kakaoService.getProfile(kakaoService.oAuthToken(code));
+        KakaoUserInfoDto kakaoUserInfoDto = kakaoService.getProfile(kakaoService.oAuthToken(code));
 
-        String email = profile.getKakao_account().getEmail();
+        String email = kakaoUserInfoDto.getKakao_account().getEmail();
         UserDto.UserInfo userInfo;
 
         if (userService.findByEmail(email) == null) {
-            userInfo = kakaoService.saveKakaoUser(profile);
+            userInfo = kakaoService.saveKakaoUser(kakaoUserInfoDto);
         } else {
             userInfo = userService.findByEmail(email);
         }
@@ -35,13 +36,19 @@ public class KakaoController {
         httpSession.setAttribute("userInfo", userInfo);
 
         model.addAttribute("user", userInfo);
-        return "kakaoLogin";
+
+        return "redirect:home";
     }
 
 
     @RequestMapping("logout")
-    public String logout(HttpSession httpSession) {
+    public String logout(Model model, HttpSession httpSession) {
+
+        UserDto.UserInfo userInfo =  new UserDto.UserInfo(null, null, "로그인을 해주세요", null, null);
+        model.addAttribute("user", userInfo);
+
         httpSession.invalidate();
-        return "home";
+
+        return "redirect:home";
     }
 }
