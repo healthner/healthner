@@ -1,6 +1,6 @@
 package com.healthner.healthner.service;
 
-import com.healthner.healthner.controller.GymDto;
+import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.UserRepository;

@@ -18,35 +18,30 @@
                             <tr>
                                 <td>시설명</td>
                                 <td>
-                                    <input type="text" th:field="*{name}" placeholder="시설명을 입력하세요">
+                                    <input type="text" th:field="*{name}" th:value="*{getName()}" placeholder="시설명을 입력하세요">
                                 </td>
                             </tr>
                             <tr>
                                 <td>주소</td>
                                 <td>
-                                    <input type="text" th:field="*{address}">
+                                    <input type="text" th:field="*{address}" th:value="*{getAddress()}" placeholder="주소를 입력하세요">
                                 </td>
                             </tr>
                             <tr>
                                 <td>소개</td>
                                 <td>
-                                    <input type="text" th:field="*{content}">
+                                    <input type="text" th:field="*{content}" th:value="*{getContent()}" placeholder="시설명을 입력하세요">
                                 </td>
                             </tr>
                             <tr>
                                 <td>전화 번호</td>
                                 <td>
-                                    <input type="text" th:field="*{businessNumber}">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ceo</td>
-                                <td>
-                                    <input type="text" th:field="*{ceoId}">
+                                    <input type="text" th:field="*{businessNumber}" th:value="*{getBusinessNumber()}" placeholder="000-000-000">
                                 </td>
                             </tr>
                         </table>
-                        <button type="submit" class="btn">등록</button>
+                        <button th:if="${gym.getCeoId() == null}" type="submit" class="btn">등록</button>
+                        <button th:unless="${gym.getCeoId() != null}" type="submit" class="btn">수정</button>
                     </form>
                 </div>
 
