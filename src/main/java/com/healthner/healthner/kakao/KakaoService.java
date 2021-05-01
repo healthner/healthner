@@ -1,12 +1,10 @@
-package com.healthner.healthner.kakaologin;
+package com.healthner.healthner.kakao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.healthner.healthner.domain.Provider;
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.interceptor.Role;
-import com.healthner.healthner.kakaologin.dto.UserDto;
-import com.healthner.healthner.service.UserService;
+import com.healthner.healthner.kakao.dto.KakaoUserInfoDto;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -24,15 +22,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 @Builder
 public class KakaoService {
-
-    private final UserService userService;
 
     public RetKakaoAuth oAuthToken(String code) {
 
@@ -77,50 +72,39 @@ public class KakaoService {
      *
      * @param oauthToken
      */
-    public KakaoProfile getProfile(RetKakaoAuth oauthToken) {
+    public KakaoUserInfoDto getProfile(RetKakaoAuth oauthToken) {
         //HttpHeader 오브젝트 생성
-        RestTemplate rt2 = new RestTemplate();
-        HttpHeaders headers2 = new HttpHeaders();
-        headers2.add("Authorization", "Bearer " + oauthToken.getAccess_token());
-        headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        RestTemplate rt = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + oauthToken.getAccess_token());
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
         //HttpHeader와 HttpBody를 하나의 오브젝트에 담기
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 = new HttpEntity<>(headers2);
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers);
 
         // Http 요청 - post 방식으로 => 응답
-        ResponseEntity<String> response2 = rt2.exchange(
+        ResponseEntity<String> response = rt.exchange(
                 "https://kapi.kakao.com/v2/user/me",
                 HttpMethod.POST,
-                kakaoProfileRequest2,
+                kakaoProfileRequest,
                 String.class
         );
 
-        ObjectMapper objectMapper2 = new ObjectMapper();
-        KakaoProfile kakaoProfile = null;
+        ObjectMapper objectMapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        KakaoUserInfoDto kakaoUserInfoDto = null;
 
         try {
-            kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
+            kakaoUserInfoDto = objectMapper.readValue(response.getBody(), KakaoUserInfoDto.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return kakaoProfile;
+        return kakaoUserInfoDto;
     }
 
     // 카카오에서 받은 정보 User에 채우고 디비에 저장
-    public UserDto.UserInfo saveKakaoUser(KakaoProfile kakaoProfile) {
-        UUID password = UUID.randomUUID(); // 임시 비밀번호
-
-        User user = User.builder()
-                .email(kakaoProfile.getKakao_account().getEmail())
-                .name(kakaoProfile.getKakao_account().getProfile().getNickname())
-                .provider(Provider.KAKAO)
-                .userImageUrl(kakaoProfile.getProperties().getProfile_image())
-                .password(password.toString())
-                .role(Role.USER)
-                .build();
-
-        userService.join(user);
-        return userService.findByEmail(user.getEmail());
+    public User getUser(KakaoUserInfoDto kakaoUserInfoDto) {
+        return kakaoUserInfoDto.toEntity();
     }
 
     public void kakaoLogout(String access_Token) {

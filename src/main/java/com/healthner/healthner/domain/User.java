@@ -44,7 +44,13 @@ public class User extends BaseEntity {
         this.role = role;
     }
 
-//    public static User createUser(String email, String password, String name, String phoneNumber, Provider provider) {
-//        return new User(email, password, name, phoneNumber);
-//    }
+    public void updateUser(User updateUser) {
+        this.email = updateUser.getEmail();
+        this.password = updateUser.getPassword();
+        this.name = updateUser.getName();
+        this.userImageUrl = updateUser.getUserImageUrl();
+        this.phoneNumber = updateUser.getPhoneNumber();
+        this.provider = updateUser.getProvider();
+        this.role = updateUser.role;
+    }
 }

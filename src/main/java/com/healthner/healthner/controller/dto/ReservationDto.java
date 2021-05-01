@@ -43,7 +43,7 @@ public class ReservationDto {
         private Purchase purchase;
 
         //예약을 dto로 받고 이를  reservation 객체로 생성해줌
-        public Reservation getEntity(ReservationDto.ReservRequest reservRequest) {
+        public Reservation toEntity(ReservationDto.ReservRequest reservRequest) {
             return Reservation.createReservation(reservRequest.getDate(), reservRequest.getStartTime(),
                     reservRequest.getEndTime(), reservRequest.getUser(), reservRequest.getTrainer(),
                     reservRequest.getPurchase());

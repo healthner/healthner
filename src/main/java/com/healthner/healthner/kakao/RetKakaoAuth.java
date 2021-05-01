@@ -1,4 +1,4 @@
-package com.healthner.healthner.kakaologin;
+package com.healthner.healthner.kakao;
 
 import lombok.Data;
 
