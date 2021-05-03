@@ -34,9 +34,7 @@ public class ReservationController {
 
     @PostMapping("{purchaseId}/new")
     public String postReservation(@ModelAttribute ReservationDto.ReservRequest reservRequest, @PathVariable("purchaseId") Long purchaseId) {
-        ReservationDto.ReservResponse response = reservationService.put(reservRequest, purchaseId);
-        Long userId = response.getUser().getId();
-        System.out.println(userId);
+        Long userId = reservationService.put(reservRequest, purchaseId);
         return "redirect:/reservation/" + userId;
     }
 
@@ -58,9 +56,7 @@ public class ReservationController {
     //수정 진행, 저장
     @PostMapping  ("/{reservId}/update")
     public String modify(@PathVariable("reservId") Long reservId, ReservationDto.ReservRequest request) {
-        ReservationDto.ReservResponse response = reservationService.update(reservId, request);
-        Long userId = response.getUser().getId();
-        System.out.println(userId);
+        Long userId = reservationService.update(reservId, request);
         return "redirect:/reservation/" + userId;
     }
 

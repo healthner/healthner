@@ -24,14 +24,15 @@ public class ReservationService {
 
     //예약 생성
     @Transactional
-    public ReservationDto.ReservResponse put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
+    public Long put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
         User user = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 유저입니다")).getUser();
         Trainer trainer = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 트레이너입니다")).getTrainer();
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
         Reservation reservation = reservRequest.toEntity(user, trainer, purchase);
         reservationRepository.save(reservation);
+        Long userId = reservation.getUser().getId();
 
-        return new ReservationDto.ReservResponse(reservation);
+        return userId;
     }
 
     //예약 수정하기위해 해당예약 초기값 가져오기
@@ -44,15 +45,15 @@ public class ReservationService {
 
     //예약 수정
     @Transactional
-    public ReservationDto.ReservResponse update(Long id, ReservationDto.ReservRequest request) {
+    public Long update(Long id, ReservationDto.ReservRequest request) {
         Reservation find = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException()); //예약id로 조회됨
         User user = find.getUser();
         Trainer trainer = find.getTrainer();
         Purchase purchase = find.getPurchase();
         Reservation updateReserv = request.toEntity(user, trainer, purchase);
         find.updateReservation(updateReserv);
-
-        return new ReservationDto.ReservResponse(find);
+        Long userId = updateReserv.getUser().getId();
+        return userId;
     }
 
     //예약 삭제

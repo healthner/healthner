@@ -48,7 +48,7 @@
                             <td th:text="${reservation.startTime}"></td>
                             <td th:text="${reservation.endTime}"></td>
                             <td>
-                                <a th:href="@{/reservation/{reservId}/modify(reservId=${reservation.id})}"
+                                <a th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
                                     <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">수정</div>
                                 </a>
