@@ -1652,3 +1652,17 @@ body.mobile-nav-active #mobile-nav-toggle {
         margin-top: 10px;
     }
 }
+
+.btnGym {
+    color: #fff;
+    background: #f82249;
+    padding: 10px 40px;
+    border-radius: 50px;
+    border: 2px solid #f82249;
+    transition: all ease-in-out 0.3s;
+    font-weight: 500;
+    margin: auto;
+    line-height: 1;
+    font-size: 15px;
+    display: flex;
+}

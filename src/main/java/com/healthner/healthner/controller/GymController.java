@@ -1,10 +1,9 @@
 package com.healthner.healthner.controller;
 
 import com.healthner.healthner.controller.dto.GymDto;
-import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
-import com.healthner.healthner.kakaologin.dto.UserDto;
 import com.healthner.healthner.service.GymService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -27,34 +25,35 @@ public class GymController {
 
     private final GymService gymService;
 
-    @GetMapping("/user-mypage/new-gym")
+    @GetMapping("/new")
+    @Auth(role = Role.USER)
     public String register(Model model) {
         model.addAttribute("gym", new GymDto.Request());
-        return "/new-gym";
+        return "/gym/create-gym";
     }
 
-    @PostMapping("/user-mypage/new-gym")
+    @PostMapping("/new")
     @Auth(role = Role.USER)
     public String register(@ModelAttribute("gym") GymDto.Request gymDto, HttpSession httpSession) {
-        UserDto.UserInfo userInfo = (UserDto.UserInfo) httpSession.getAttribute("userInfo");
-        Long ceoId = userInfo.getId();
+        UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
+        Long ceoId = user.getId();
         Long saveId = gymService.register(gymDto, ceoId);
-        return "/gym-mypage";
+        return "redirect:/gym/" + saveId + "/mypage";
     }
 
-    @GetMapping("/new-gym/{gymId}")
+    @GetMapping("/{gymId}/update")
     @Auth(role = Role.USER)
     public String modify(@PathVariable Long gymId, Model model) {
         GymDto.Response gym = gymService.findById(gymId);
         model.addAttribute("gym", gym);
-        return "/new-gym"+gymId;
+        return "/gym/create-gym";
     }
 
-    @PostMapping("/new-gym/{gymId}")
+    @PostMapping("/{gymId}/update")
     @Auth(role = Role.USER)
     public String modify(@PathVariable Long gymId, @ModelAttribute("gym") GymDto.Request gymDto) {
         gymService.update(gymId, gymDto);
-        return "/new-gym"+gymId;
+        return "redirect:/gym/" + gymId + "/mypage";
     }
 
     @GetMapping("search")
@@ -65,16 +64,18 @@ public class GymController {
     @GetMapping("{gymId}/detail")
     public String detail(@PathVariable("gymId") Long id) {
         return "gym/detail";
-    @GetMapping("/gym-mypage")
-    @Auth(role = Role.USER)
-    public String getGym(Model model, Long gymId) {
-         GymDto.Response gym = gymService.findById(gymId);
-         model.addAttribute("content", gym.getContent());
-        return "/gym-mypage";
     }
 
-    @GetMapping("{gymId}/my-page")
-    public String myPage(@PathVariable("gymId") Long id) {
-        return "gym/mypage";
+    @GetMapping("/{gymId}/mypage")
+    @Auth(role = Role.USER)
+    public String getGym(@PathVariable Long gymId, Model model) {
+        GymDto.Response gym = gymService.findById(gymId);
+        model.addAttribute("gym", gym);
+        return "/gym/mypage";
     }
+
+//    @GetMapping("{gymId}/my-page")
+//    public String myPage(@PathVariable("gymId") Long id) {
+//        return "gym/mypage";
+//    }
 }

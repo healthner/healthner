@@ -49,6 +49,7 @@ public class GymService {
         User ceo = userRepository.findById(ceoId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 Id"));
         Gym newGym = gym.toEntity(ceo);
         Long saveId = gymRepository.save(newGym).getId();
+        System.out.println(saveId);
         return saveId;
     }
 
