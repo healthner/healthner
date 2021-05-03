@@ -1,8 +1,12 @@
 package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.dto.ReservationDto;
+import com.healthner.healthner.domain.Purchase;
 import com.healthner.healthner.domain.Reservation;
+import com.healthner.healthner.domain.Trainer;
+import com.healthner.healthner.domain.User;
 import com.healthner.healthner.exception.handler.ReservationNotFoundException;
+import com.healthner.healthner.repository.PurchaseRepository;
 import com.healthner.healthner.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +19,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReservationService {
-    private  final ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
+    private final PurchaseRepository purchaseRepository;
 
     //예약 생성
     @Transactional
-    public void put(ReservationDto.ReservRequest reservRequest) {
-        Reservation reservation = reservRequest.toEntity(reservRequest);
+    public ReservationDto.ReservResponse put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
+        User user = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 유저입니다")).getUser();
+        Trainer trainer = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 트레이너입니다")).getTrainer();
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
+        Reservation reservation = reservRequest.toEntity(user, trainer, purchase);
         reservationRepository.save(reservation);
+
+        return new ReservationDto.ReservResponse(reservation);
     }
 
     //예약 수정하기위해 해당예약 초기값 가져오기
@@ -34,16 +44,24 @@ public class ReservationService {
 
     //예약 수정
     @Transactional
-    public void update(Long id, ReservationDto.ReservRequest request) {
+    public ReservationDto.ReservResponse update(Long id, ReservationDto.ReservRequest request) {
         Reservation find = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException()); //예약id로 조회됨
-        Reservation updateReserv = request.toEntity(request);
+        User user = find.getUser();
+        Trainer trainer = find.getTrainer();
+        Purchase purchase = find.getPurchase();
+        Reservation updateReserv = request.toEntity(user, trainer, purchase);
         find.updateReservation(updateReserv);
+
+        return new ReservationDto.ReservResponse(find);
     }
 
     //예약 삭제
     @Transactional
-    public void delete(Long id) {
+    public Long delete(Long id) {
+        Long userId = reservationRepository.findById(id).get().getUser().getId();
         reservationRepository.deleteById(id);
+
+        return userId;
     }
 
     //user-mypage에 리스트로 뿌려지는 용도

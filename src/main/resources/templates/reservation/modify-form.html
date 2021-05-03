@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+        <section id="section">
+            <form role="form" th:object="${initial}" method="post">
+                <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
+                    <div>
+                        <label th:for="email" class="form-label">제목</label>
+                        <input type="text" th:field="*{title}" class="form-control" place="date을 입력하세요.">
+                    </div>
+                    <div>
+                        <label th:for="email" class="form-label">날짜</label>
+                        <input type="date" th:field="*{date}" class="form-control" place="date을 입력하세요.">
+                    </div>
+                    <div>
+                        <label th:for="password" class="form-label">시작시간</label>
+                        <input type="datetime-local" th:field="*{startTime}" class="form-control" place="startTime를 입력하세요.">
+                    </div>
+                    <div>
+                        <label th:for="name" class="form-label">종료시간</label>
+                        <input type="datetime-local" th:field="*{endTime}" class="form-control" place="endTime을 입력하세요.">
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">수정 완료</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+<footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>

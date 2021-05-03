@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,20 +29,19 @@ public class ReservationController {
     @GetMapping("{purchaseId}/new")
     public String getReservation(@PathVariable("purchaseId") Long purchaseId, Model model) {
         model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
-
         return "reservation/create-form";
     }
 
-//    @PostMapping("new")
-//    @ResponseStatus(HttpStatus.CREATED)  //성공일 경우 201번
-//    public String postReservation(@ModelAttribute ReservationDto.ReservRequest reservRequest) {
-//        reservationService.put(reservRequest);
-//
-//        return "redirect:user/" + response.getId() + "my-page";
-//    }
+    @PostMapping("{purchaseId}/new")
+    public String postReservation(@ModelAttribute ReservationDto.ReservRequest reservRequest, @PathVariable("purchaseId") Long purchaseId) {
+        ReservationDto.ReservResponse response = reservationService.put(reservRequest, purchaseId);
+        Long userId = response.getUser().getId();
+        System.out.println(userId);
+        return "redirect:/reservation/" + userId;
+    }
 
     //마이페이지에서 예약 확인
-    @GetMapping("/reservation/{userId}")
+    @GetMapping("/{userId}")
     public String getMyEventList(@PathVariable("userId")Long userId, Model model) {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userId);
         model.addAttribute("reservations", reservations);
@@ -49,28 +49,30 @@ public class ReservationController {
     }
 
     //마이페이지에서 예약 수정누르면 원래 예약값 세팅된 화면
-    @GetMapping("/reservation/{reservId}/modify")
+    @GetMapping("{reservId}/update")
     public String findModifyReservation(@PathVariable("reservId") Long reservId, Model model) {
         model.addAttribute("initial", reservationService.findById(reservId));
-        return "modify-reserv-form";
+        return "reservation/modify-form";
     }
 
     //수정 진행, 저장
-    @PostMapping  ("/reservation/{reservId}/modify")
+    @PostMapping  ("/{reservId}/update")
     public String modify(@PathVariable("reservId") Long reservId, ReservationDto.ReservRequest request) {
-        reservationService.update(reservId, request);
-        return "redirect:/user-mypage";
+        ReservationDto.ReservResponse response = reservationService.update(reservId, request);
+        Long userId = response.getUser().getId();
+        System.out.println(userId);
+        return "redirect:/reservation/" + userId;
     }
 
     //예약 삭제
-    @GetMapping("/reservation/{reservId}/delete")
+    @GetMapping("/{reservId}/delete")
     public String delete(@PathVariable("reservId") Long reservId) {
-        reservationService.delete(reservId);
-        return "redirect:/user-mypage";
+        Long userId = reservationService.delete(reservId);
+        return "redirect:/reservation/" + userId;
     }
 
     //calendar에 나타낼 모든 예약
-    @GetMapping("/reservation/all")
+    @GetMapping("/all")
     @ResponseBody
     public List<ReservationDto.ReservToCal>findAll() {
         return reservationService.findAll();

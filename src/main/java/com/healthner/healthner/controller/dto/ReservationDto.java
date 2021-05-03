@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class ReservationDto {
         private String title;
         private Long id;
 
-        @DateTimeFormat(pattern ="yyyy-MM-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -35,19 +34,16 @@ public class ReservationDto {
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         private LocalDateTime endTime;
 
-        @Nullable
-        private User user;
-        @Nullable
-        private Trainer trainer;
-        @Nullable
-        private Purchase purchase;
+        private Long userId;
+        private Long trainerId;
+        private Long purchaseId;
 
         //예약을 dto로 받고 이를  reservation 객체로 생성해줌
-        public Reservation toEntity(ReservationDto.ReservRequest reservRequest) {
-            return Reservation.createReservation(reservRequest.getDate(), reservRequest.getStartTime(),
-                    reservRequest.getEndTime(), reservRequest.getUser(), reservRequest.getTrainer(),
-                    reservRequest.getPurchase());
+        public Reservation toEntity(User user, Trainer trainer, Purchase purchase) {
+            return Reservation.createReservation(this.getDate(), this.getStartTime(), this.getEndTime(),
+                    user, trainer, purchase);
         }
+
     }
 
     @Data
@@ -59,11 +55,8 @@ public class ReservationDto {
         private LocalDate date;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
-        @Nullable
         private User user;
-        @Nullable
         private Trainer trainer;
-        @Nullable
         private Purchase purchase;
 
 
@@ -73,6 +66,7 @@ public class ReservationDto {
             this.date = reservation.getDate();
             this.startTime = reservation.getStartTime();
             this.endTime = reservation.getEndTime();
+            this.user = reservation.getUser();
         }
     }
 
