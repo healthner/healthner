@@ -1,6 +1,5 @@
 package com.healthner.healthner.domain;
 
-import com.healthner.healthner.controller.dto.GymDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +46,7 @@ public class Gym extends BaseEntity {
         return new Gym(name, address, content, businessNumber, ceo);
     }
 
-    public void updateGym(GymDto.Request gym) {
+    public void updateGym(Gym gym) {
         this.name = gym.getName();
         this.address = gym.getAddress();
         this.content = gym.getContent();

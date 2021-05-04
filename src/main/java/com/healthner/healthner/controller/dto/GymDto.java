@@ -61,4 +61,24 @@ public class GymDto {
             this.businessNumber = gym.getBusinessNumber();
         }
     }
+
+    @Getter
+    public static class Form {
+
+        private Long id;
+        private String name;
+        private String address;
+        private String content;
+        private String businessNumber;
+        private Long ceoId;
+
+        public Form(Gym gym) {
+            this.id = gym.getId();
+            this.name = gym.getName();
+            this.address = gym.getAddress();
+            this.content = gym.getContent();
+            this.businessNumber = gym.getBusinessNumber();
+            this.ceoId = gym.getCeo().getId();
+        }
+    }
 }

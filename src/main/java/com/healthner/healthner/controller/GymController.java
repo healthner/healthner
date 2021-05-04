@@ -34,17 +34,17 @@ public class GymController {
 
     @PostMapping("/new")
     @Auth(role = Role.USER)
-    public String register(@ModelAttribute("gym") GymDto.Request gymDto, HttpSession httpSession) {
-        UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
+    public String register(@ModelAttribute("gym") GymDto.Request gymDto, HttpSession session) {
+        UserDto.Response user = (UserDto.Response) session.getAttribute("userInfo");
         Long ceoId = user.getId();
-        Long saveId = gymService.register(gymDto, ceoId);
-        return "redirect:/gym/" + saveId + "/mypage";
+        Long gymId = gymService.register(gymDto, ceoId);
+        return "redirect:/gym/" + gymId + "/mypage";
     }
 
     @GetMapping("/{gymId}/update")
     @Auth(role = Role.USER)
     public String modify(@PathVariable Long gymId, Model model) {
-        GymDto.Response gym = gymService.findById(gymId);
+        GymDto.Form gym = gymService.findById(gymId);
         model.addAttribute("gym", gym);
         return "/gym/create-gym";
     }
@@ -69,13 +69,9 @@ public class GymController {
     @GetMapping("/{gymId}/mypage")
     @Auth(role = Role.USER)
     public String getGym(@PathVariable Long gymId, Model model) {
-        GymDto.Response gym = gymService.findById(gymId);
+        GymDto.Form gym = gymService.findById(gymId);
         model.addAttribute("gym", gym);
         return "/gym/mypage";
     }
 
-//    @GetMapping("{gymId}/my-page")
-//    public String myPage(@PathVariable("gymId") Long id) {
-//        return "gym/mypage";
-//    }
 }
