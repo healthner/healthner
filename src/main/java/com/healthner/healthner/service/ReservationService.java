@@ -59,7 +59,9 @@ public class ReservationService {
     //예약 삭제
     @Transactional
     public Long delete(Long id) {
-        Long userId = reservationRepository.findById(id).get().getUser().getId();
+        Long userId = reservationRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 예약입니다."))
+                .getUser()
+                .getId();
         reservationRepository.deleteById(id);
 
         return userId;
