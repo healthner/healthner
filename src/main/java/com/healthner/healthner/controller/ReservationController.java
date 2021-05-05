@@ -28,7 +28,11 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("{purchaseId}/new")
     public String getReservation(@PathVariable("purchaseId") Long purchaseId, Model model) {
-        model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
+        Boolean check = reservationService.isEmpty(purchaseId);
+        if(check){
+            model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
+            return "내역이 이미 존재함니다";
+        }
         return "reservation/create-form";
     }
 
@@ -55,7 +59,7 @@ public class ReservationController {
 
     //수정 진행, 저장
     @PostMapping  ("/{reservId}/update")
-    public String modify(@PathVariable("reservId") Long reservId, ReservationDto.ReservRequest request) {
+    public String modify(@PathVariable("reservId") Long reservId, @ModelAttribute ReservationDto.ReservRequest request) {
         Long userId = reservationService.update(reservId, request);
         return "redirect:/reservation/" + userId;
     }

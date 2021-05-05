@@ -22,6 +22,13 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final PurchaseRepository purchaseRepository;
 
+    //예약 생성 전 검증
+    public Boolean isEmpty(Long purchaseId){
+         Boolean isExist = reservationRepository.findByPurchaseId(purchaseId)
+                 .isEmpty();
+         return isExist;
+    }
+
     //예약 생성
     @Transactional
     public Long put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
