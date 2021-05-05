@@ -8,20 +8,20 @@
             <form role="form" th:object="${initial}" method="post">
                 <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
                     <div>
-                        <label th:for="email" class="form-label">제목</label>
-                        <input type="text" th:value="*{title}" class="form-control" place="date을 입력하세요.">
+                        <label th:for="title" class="form-label">제목</label>
+                        <input type="text" th:field="*{title}" class="form-control" placeholder="제목을 입력하세요.">
                     </div>
                     <div>
-                        <label th:for="email" class="form-label">날짜</label>
-                        <input type="date" th:value="*{date}" class="form-control" place="date을 입력하세요.">
+                        <label th:for="date" class="form-label">날짜</label>
+                        <input type="date" th:field="*{date}" class="form-control" placeholder="date을 입력하세요.">
                     </div>
                     <div>
-                        <label th:for="password" class="form-label">시작시간</label>
-                        <input type="datetime-local" th:value="*{startTime}" class="form-control" place="startTime를 입력하세요.">
+                        <label th:for="startTime" class="form-label">시작시간</label>
+                        <input type="datetime-local" th:field="*{startTime}" th:value="*{getStartTime()}" class="form-control" placeholder="startTime를 입력하세요.">
                     </div>
                     <div>
-                        <label th:for="name" class="form-label">종료시간</label>
-                        <input type="datetime-local" th:value="*{endTime}" class="form-control" place="endTime을 입력하세요.">
+                        <label th:for="endTime" class="form-label">종료시간</label>
+                        <input type="datetime-local" th:field="*{endTime}" class="form-control" placeholder="endTime을 입력하세요.">
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">수정 완료</button>

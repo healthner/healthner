@@ -25,9 +25,9 @@ public class ReservationService {
     //예약 생성
     @Transactional
     public Long put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
-        User user = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 유저입니다")).getUser();
-        Trainer trainer = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("등록되지 않은 트레이너입니다")).getTrainer();
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
+        User user = purchase.getUser();
+        Trainer trainer = purchase.getTrainer();
         Reservation reservation = reservRequest.toEntity(user, trainer, purchase);
         reservationRepository.save(reservation);
         Long userId = reservation.getUser().getId();
