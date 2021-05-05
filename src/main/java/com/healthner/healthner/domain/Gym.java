@@ -45,4 +45,11 @@ public class Gym extends BaseEntity {
     public static Gym createGym(String name, String address, String content, String businessNumber, User ceo) {
         return new Gym(name, address, content, businessNumber, ceo);
     }
+
+    public void updateGym(Gym gym) {
+        this.name = gym.getName();
+        this.address = gym.getAddress();
+        this.content = gym.getContent();
+        this.businessNumber = gym.getBusinessNumber();
+    }
 }
