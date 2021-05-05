@@ -27,7 +27,15 @@ public class TrainerController {
 
     @Auth(role = Role.USER)
     @GetMapping("new")
-    public String getTrainer(Model model) {
+    public String getTrainer(Model model, HttpSession session) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+
+        TrainerDto.Form findForm = trainerService.findByUserId(userInfo.getId());
+        if (findForm != null) {
+            model.addAttribute("data", new Message("이미 트레이너를 등록하였습니다.", "/home"));
+            return "common/message";
+        }
+
         model.addAttribute("trainerForm", new TrainerDto.Form());
         return "trainer/trainer-form";
     }
