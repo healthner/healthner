@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor)
                 .addPathPatterns("/**")     // 모든 페이지에 적용
-                .excludePathPatterns("/home/**", "/login/**");  // home,login페이지에는 추가안함
+                .excludePathPatterns("/static/css/**", "/static/js/**", "/static/img/**"); // 정적 파일 제외
     }
 }

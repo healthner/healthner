@@ -1,5 +1,6 @@
 package com.healthner.healthner.domain;
 
+import com.healthner.healthner.dto.TrainerDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,5 +41,11 @@ public class Trainer extends BaseEntity {
 
     public static Trainer createTrainer(Gym gym, User user, String career) {
         return new Trainer(gym, user, career);
+    }
+
+    public void updateTrainer(Trainer trainer) {
+        this.gym = trainer.getGym();
+        this.user = trainer.getUser();
+        this.career = trainer.getCareer();
     }
 }
