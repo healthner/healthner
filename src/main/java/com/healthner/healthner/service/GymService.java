@@ -40,12 +40,12 @@ public class GymService {
     public Long register(GymDto.Request gym, Long ceoId) {
         User ceo = userRepository.findById(ceoId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저 Id"));
 
-        Gym haveGym = gymRepository.findByCeoId(ceoId);
-        if (haveGym != null){
-            System.out.println(haveGym.getId());
-            return haveGym.getId();
+        Gym haveGym = gymRepository.findByCeoId(ceoId).orElse(null);
+        // 기존의 보유하고 있는 기관이 있는지 검증
+        if (haveGym != null) {
+            return haveGym.getId(); // 보유하고 있다면 보유 기관 id 리턴
         }
-
+        // 없다면 새롭게 생성하고 새로운 기관 id 리턴
         Gym newGym = gym.toEntity(ceo);
         Long saveId = gymRepository.save(newGym).getId();
         System.out.println(saveId);
