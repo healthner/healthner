@@ -7,6 +7,12 @@ values
        (now(), now(), 'user4@email.com', '1234', '이선하', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000');
 
+
+insert into trainer (created_date, last_modified_date, user_id, career)
+values
+       (now(), now(), 2, '자격증 보유'),
+       (now(), now(), 3, '자격증 보유');
+
 insert into gym (created_date, last_modified_date, name, address, content, business_number, ceo_id)
 values
 (now(), now(), '홍길동짐', '부천시 중동로 165번길 22', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
@@ -24,17 +30,18 @@ values
 
 insert into product (created_date, last_modified_date, content , count , delete_status, name,period,price,type,gym_id,trainer_id)
 values
-        (now(), now(),'pt상품1 입니다',6,false,'pt상품1',now(),60000,null,1,1);
+        (now(), now(),'pt상품1 입니다',6,false,'pt상품1',now(),60000,'PT',1,1),
+        (now(), now(),'pt상품2 입니다',10,false,'pt상품2',now(),100000,'NORMAL',2,2);
 
 
-insert into purchase (created_date, last_modified_date, count , period,price , gym_id, product_id,trainer_id,user_id)
+insert into purchase (created_date, last_modified_date, count , period, price , gym_id, product_id, trainer_id, user_id)
 values
-        (now(), now(),1,now(),60000,1,1,1,1),
-        (now(), now(),1,now(),60000,2,1,1,2),
-        (now(), now(),2,now(),60000,3,1,1,3),
-        (now(), now(),3,now(),60000,4,1,1,4);
+        (now(), now(),6,now(),60000,1,1,1,1),
+        (now(), now(),6,now(),60000,1,1,1,2),
+        (now(), now(),6,now(),60000,1,1,1,3),
+        (now(), now(),6,now(),60000,1,1,1,4);
 
-insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
+insert into reservation (created_date, last_modified_date, Date , end_time, start_time , purchase_id, trainer_id, user_id)
 values
         (now(), now(),'2021-04-13','2021-04-13T10:15:30','2021-04-13T11:15:30',1,1,1),
         (now(), now(),'2021-04-22','2021-04-22T16:25:30','2021-04-22T16:25:30',2,1,6);
