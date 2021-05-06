@@ -43,7 +43,6 @@ public class ReservationDto {
             return Reservation.createReservation(this.getDate(), this.getStartTime(), this.getEndTime(),
                     user, trainer, purchase);
         }
-
     }
 
     @Data
@@ -63,7 +62,6 @@ public class ReservationDto {
         private Long userId;
         private Long trainerId;
         private Long purchaseId;
-
 
         //예약목록에서 dto와 비교하여 client에게 제공
         public ReservResponse(Reservation reservation) {
