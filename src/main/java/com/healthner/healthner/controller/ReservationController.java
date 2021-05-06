@@ -5,7 +5,6 @@ import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/reservation")
 public class ReservationController {
@@ -29,13 +27,14 @@ public class ReservationController {
     @GetMapping("{purchaseId}/new")
     public String getReservation(@PathVariable("purchaseId") Long purchaseId, Model model) {
         Boolean check = reservationService.isEmpty(purchaseId);
-        if(check){
-            model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
-            return "내역이 이미 존재함니다";
+        if(!check){
+            return "이미 예약된 상품입니다.";
         }
+        else model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
         return "reservation/create-form";
     }
 
+    @Auth(role = Role.USER)
     @PostMapping("{purchaseId}/new")
     public String postReservation(@ModelAttribute ReservationDto.ReservRequest reservRequest, @PathVariable("purchaseId") Long purchaseId) {
         Long userId = reservationService.put(reservRequest, purchaseId);
@@ -43,6 +42,7 @@ public class ReservationController {
     }
 
     //마이페이지에서 예약 확인
+    @Auth(role = Role.USER)
     @GetMapping("/{userId}")
     public String getMyEventList(@PathVariable("userId")Long userId, Model model) {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userId);
@@ -51,6 +51,7 @@ public class ReservationController {
     }
 
     //마이페이지에서 예약 수정누르면 원래 예약값 세팅된 화면
+    @Auth(role = Role.USER)
     @GetMapping("{reservId}/update")
     public String findModifyReservation(@PathVariable("reservId") Long reservId, Model model) {
         model.addAttribute("initial", reservationService.findById(reservId));
@@ -58,6 +59,7 @@ public class ReservationController {
     }
 
     //수정 진행, 저장
+    @Auth(role = Role.USER)
     @PostMapping  ("/{reservId}/update")
     public String modify(@PathVariable("reservId") Long reservId, @ModelAttribute ReservationDto.ReservRequest request) {
         Long userId = reservationService.update(reservId, request);
@@ -65,6 +67,7 @@ public class ReservationController {
     }
 
     //예약 삭제
+    @Auth(role = Role.USER)
     @GetMapping("/{reservId}/delete")
     public String delete(@PathVariable("reservId") Long reservId) {
         Long userId = reservationService.delete(reservId);
@@ -72,6 +75,7 @@ public class ReservationController {
     }
 
     //calendar에 나타낼 모든 예약
+    @Auth(role = Role.USER)
     @GetMapping("/all")
     @ResponseBody
     public List<ReservationDto.ReservToCal>findAll() {
