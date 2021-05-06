@@ -30,9 +30,12 @@ values
 
 insert into purchase (created_date, last_modified_date, count , period,price , gym_id, product_id,trainer_id,user_id)
 values
-        (now(), now(),1,now(),60000,1,1,1,1);
+        (now(), now(),1,now(),60000,1,1,1,1),
+        (now(), now(),1,now(),60000,2,1,1,2),
+        (now(), now(),2,now(),60000,3,1,1,3),
+        (now(), now(),3,now(),60000,4,1,1,4);
 
 insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
 values
         (now(), now(),'2021-04-13','2021-04-13T10:15:30','2021-04-13T11:15:30',1,1,1),
-        (now(), now(),'2021-04-22','2021-04-22T16:25:30','2021-04-22T16:25:30',1,1,6);
+        (now(), now(),'2021-04-22','2021-04-22T16:25:30','2021-04-22T16:25:30',2,1,6);

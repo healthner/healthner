@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +25,7 @@ public class ReservationDto {
         private String title;
         private Long id;
 
-        @DateTimeFormat(pattern ="yyyy-MM-dd")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -35,18 +34,14 @@ public class ReservationDto {
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
         private LocalDateTime endTime;
 
-        @Nullable
-        private User user;
-        @Nullable
-        private Trainer trainer;
-        @Nullable
-        private Purchase purchase;
+        private Long userId;
+        private Long trainerId;
+        private Long purchaseId;
 
         //예약을 dto로 받고 이를  reservation 객체로 생성해줌
-        public Reservation toEntity(ReservationDto.ReservRequest reservRequest) {
-            return Reservation.createReservation(reservRequest.getDate(), reservRequest.getStartTime(),
-                    reservRequest.getEndTime(), reservRequest.getUser(), reservRequest.getTrainer(),
-                    reservRequest.getPurchase());
+        public Reservation toEntity(User user, Trainer trainer, Purchase purchase) {
+            return Reservation.createReservation(this.getDate(), this.getStartTime(), this.getEndTime(),
+                    user, trainer, purchase);
         }
     }
 
@@ -56,23 +51,28 @@ public class ReservationDto {
     public static class ReservResponse {
         private String title;
         private Long id;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
-        @Nullable
-        private User user;
-        @Nullable
-        private Trainer trainer;
-        @Nullable
-        private Purchase purchase;
 
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        private LocalDateTime startTime;
+
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        private LocalDateTime endTime;
+        private Long userId;
+        private Long trainerId;
+        private Long purchaseId;
 
         //예약목록에서 dto와 비교하여 client에게 제공
         public ReservResponse(Reservation reservation) {
+            this.title = reservation.getStartTime().toString();
             this.id = reservation.getId();
             this.date = reservation.getDate();
             this.startTime = reservation.getStartTime();
             this.endTime = reservation.getEndTime();
+            this.userId = reservation.getUser().getId();
+            this.trainerId = reservation.getTrainer().getId();
+            this.purchaseId = reservation.getPurchase().getId();
         }
     }
 

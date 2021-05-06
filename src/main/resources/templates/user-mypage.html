@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (userId, name, userImageUrl)"></header>
+<header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg">
         <section id="schedule">
@@ -48,7 +48,7 @@
                             <td th:text="${reservation.startTime}"></td>
                             <td th:text="${reservation.endTime}"></td>
                             <td>
-                                <a th:href="@{/reservation/{reservId}/modify(reservId=${reservation.id})}"
+                                <a th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
                                     <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">수정</div>
                                 </a>
