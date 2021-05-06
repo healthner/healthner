@@ -27,7 +27,7 @@ public class PurchaseDto {
         private Long productId;
 
         public Purchase toEntity(User user, Gym gym, Trainer trainer, Product product) {
-            return Purchase.creatPurchase(this.getPrice(), this.getCount(), this.getPeriod(),
+            return Purchase.createPurchase(this.getPrice(), this.getCount(), this.getPeriod(),
                     user, gym, trainer, product);
         }
     }
