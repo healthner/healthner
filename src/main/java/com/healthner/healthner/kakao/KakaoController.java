@@ -1,7 +1,7 @@
 package com.healthner.healthner.kakao;
 
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.kakao.dto.KakaoUserInfoDto;
+import com.healthner.healthner.kakao.dto.KakaoProfile;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +23,18 @@ public class KakaoController {
     //카카오 로그인
     @GetMapping("/login")
     public String login(String code, Model model, HttpSession httpSession) {
-        KakaoUserInfoDto kakaoUserInfoDto = kakaoService.getProfile(kakaoService.oAuthToken(code));
+        KakaoProfile kakaoProfile = kakaoService.getProfile(kakaoService.oAuthToken(code));
 
-        String email = kakaoUserInfoDto.getKakao_account().getEmail();
+        String email = kakaoProfile.getKakao_account().getEmail();
         UserDto.Response response = null;
 
         if (userService.findByEmail(email) == null) { // 존재하지 않는 user 일 때
-            User user = kakaoService.getUser(kakaoUserInfoDto);
+            User user = kakaoService.getUser(kakaoProfile);
             userService.join(user);
+            response = userService.findByEmail(email); // 다시 조회
         } else { // 존재하는 user 일 때
             response = userService.findByEmail(email); // 기존에 우리가 가지고 있는 user
-            User user = kakaoService.getUser(kakaoUserInfoDto); // update된 User 정보
+            User user = kakaoService.getUser(kakaoProfile); // update된 User 정보
             userService.update(response.getId(), user);
             response = userService.findByEmail(email); // 다시 조회
         }

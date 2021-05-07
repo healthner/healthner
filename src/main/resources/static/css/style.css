@@ -34,7 +34,7 @@ a:focus {
 
 p {
     padding: 0;
-    margin: 0 0 30px 0;
+    margin: 0 0 0 0;
 }
 
 h1,
@@ -181,15 +181,6 @@ h6 {
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-}
-
-#header #logo h1 span {
-    color: #f82249;
-}
-
-#header #logo h1 a,
-#header #logo h1 a:hover {
-    color: #fff;
 }
 
 #header #logo img {
