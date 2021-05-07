@@ -1,10 +1,14 @@
 package com.healthner.healthner.controller;
 
+import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.controller.dto.UserDto;
+import com.healthner.healthner.domain.User;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
+import com.healthner.healthner.repository.CheckListRepository;
 import com.healthner.healthner.service.GymService;
+import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,6 +28,8 @@ import javax.servlet.http.HttpSession;
 public class GymController {
 
     private final GymService gymService;
+    private final UserService userService;
+    private final CheckListRepository checkListRepository;
 
     @GetMapping("/new")
     @Auth(role = Role.USER)
@@ -72,6 +78,39 @@ public class GymController {
         GymDto.Form gym = gymService.findById(gymId);
         model.addAttribute("gym", gym);
         return "/gym/mypage";
+    }
+
+    //출석체크
+    @GetMapping(value = "/check")
+    @Auth(role = Role.USER)
+    public String getCheck(HttpSession httpSession, Model model){
+        UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
+        GymDto.Form gym = gymService.findByCeoId(user.getId());
+        if(gym == null){
+            return "등록되지 않은 기관입니다.";
+        }else {
+            model.addAttribute("checkListDto", new CheckListDto.Request());
+        }
+        return "check";
+    }
+
+    @Auth(role = Role.USER)
+    @PostMapping("{check")
+    public String postCheck(HttpSession httpSession, CheckListDto.Request request, Model model) {
+        User user = (User) httpSession.getAttribute("userInfo");
+        Long userId = userService.findByEmail(request.getEmail()).getId();
+
+//        Gym gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+//        Long userGymId = purchaseService.findByUserId(userId).getGym.getId;
+        Long thisGymId = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId()).getId();
+
+//        if(userGymId == thisGymId){
+//            CheckList checkList = new CheckListDto.Request().checkList(user, gym);
+//            model.addAttribute("total", gymService.checkTotal(checkList));
+//        }
+        Long total = checkListRepository.findByGymId(thisGymId);
+        model.addAttribute("total", total);
+        return "redirect:/gym/check";
     }
 
 }

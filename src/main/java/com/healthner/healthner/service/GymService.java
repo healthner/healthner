@@ -1,6 +1,8 @@
 package com.healthner.healthner.service;
 
+import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.domain.CheckList;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
@@ -61,6 +63,16 @@ public class GymService {
     @Transactional
     public void delete(Long gymId) {
         gymRepository.deleteById(gymId);
+    }
+
+    public GymDto.Form findByCeoId(Long ceoId){
+        Gym gym = gymRepository.findByCeoId(ceoId).orElseThrow(() -> new IllegalArgumentException("등록되지 않은 기관입니다."));
+        return new GymDto.Form(gym);
+    }
+
+    //총 인원 리턴
+    public Long checkTotal(CheckList checkList){
+        return new CheckListDto.Response(checkList).getTotal();
     }
 
 }

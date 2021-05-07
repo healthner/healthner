@@ -18,9 +18,9 @@
                 <div class="form">
                     <div id="sendmessage">Your message has been sent. Thank you!</div>
                     <div id="errormessage"></div>
-                    <form action="" method="post" role="form" class="contactForm">
+                    <form role="form" class="contactForm" th:object="${checkListDto}" method="post">
                         <div class="form-group col-md-6" style="margin-left:25%">
-                            <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="아이디를 입력해주세요"></textarea>
+                            <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" th:field="*{email}" placeholder="이메일을 입력해주세요"></textarea>
                             <div class="validation"></div>
                         </div>
                         <div class="text-center"><button type="submit">출석체크 하기</button></div>
@@ -47,7 +47,7 @@
                         <div class="contact-email">
                             <i class="ion-ios-email-outline"></i>
                             <h3>현재 인원 현황</h3>
-                            <p><a href=""> 명</a></p>
+                            <p><span th:object="${total}"></span> 명</a></p>
                         </div>
                     </div>
                 </div>
