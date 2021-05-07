@@ -31,6 +31,7 @@ public class KakaoController {
         if (userService.findByEmail(email) == null) { // 존재하지 않는 user 일 때
             User user = kakaoService.getUser(kakaoUserInfoDto);
             userService.join(user);
+            response = userService.findByEmail(email); // 다시 조회
         } else { // 존재하는 user 일 때
             response = userService.findByEmail(email); // 기존에 우리가 가지고 있는 user
             User user = kakaoService.getUser(kakaoUserInfoDto); // update된 User 정보
