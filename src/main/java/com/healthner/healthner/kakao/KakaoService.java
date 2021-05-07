@@ -3,8 +3,10 @@ package com.healthner.healthner.kakao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.healthner.healthner.domain.Provider;
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.kakao.dto.KakaoUserInfoDto;
+import com.healthner.healthner.interceptor.Role;
+import com.healthner.healthner.kakao.dto.KakaoProfile;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -72,7 +74,7 @@ public class KakaoService {
      *
      * @param oauthToken
      */
-    public KakaoUserInfoDto getProfile(RetKakaoAuth oauthToken) {
+    public KakaoProfile getProfile(RetKakaoAuth oauthToken) {
         //HttpHeader 오브젝트 생성
         RestTemplate rt = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -92,19 +94,26 @@ public class KakaoService {
 
         ObjectMapper objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        KakaoUserInfoDto kakaoUserInfoDto = null;
+        KakaoProfile kakaoProfile = null;
 
         try {
-            kakaoUserInfoDto = objectMapper.readValue(response.getBody(), KakaoUserInfoDto.class);
+            kakaoProfile = objectMapper.readValue(response.getBody(), KakaoProfile.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return kakaoUserInfoDto;
+        return kakaoProfile;
     }
 
     // 카카오에서 받은 정보 User에 채우고 디비에 저장
-    public User getUser(KakaoUserInfoDto kakaoUserInfoDto) {
-        return kakaoUserInfoDto.toEntity();
+    public User getUser(KakaoProfile kakaoProfile) {
+        return User.builder()
+                .email(kakaoProfile.getKakao_account().getEmail())
+                .name(kakaoProfile.getProperties().getNickname())
+                .provider(Provider.KAKAO)
+                .userImageUrl(kakaoProfile.getProperties().getProfile_image() == null ?
+                        "/static/img/default.png" : kakaoProfile.getProperties().getProfile_image())
+                .role(Role.USER)
+                .build();
     }
 
     public void kakaoLogout(String access_Token) {
