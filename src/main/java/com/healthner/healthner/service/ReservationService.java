@@ -90,4 +90,11 @@ public class ReservationService {
                 .map(reservation -> new ReservationDto.ReservToCal(reservation))
                 .collect(Collectors.toList());
     }
+
+    public List<ReservationDto.ReservResponse> findByTrainerId(Long trainerId) {
+        return reservationRepository.findByTrainerId(trainerId)
+                .stream()
+                .map(reservation -> new ReservationDto.ReservResponse(reservation))
+                .collect(Collectors.toList());
+    }
 }

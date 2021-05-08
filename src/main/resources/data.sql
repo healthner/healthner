@@ -7,12 +7,6 @@ values
        (now(), now(), 'user4@email.com', '1234', '이선하', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000');
 
-
-insert into trainer (created_date, last_modified_date, user_id, career)
-values
-       (now(), now(), 2, '자격증 보유'),
-       (now(), now(), 3, '자격증 보유');
-
 insert into gym (created_date, last_modified_date, name, address, content, business_number, ceo_id)
 values
 (now(), now(), '홍길동짐', '부천시 중동로 165번길 22', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
@@ -22,6 +16,11 @@ values
 (now(), now(), '스포애니 상동점', '경기도 부천시 부일로 293', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
 (now(), now(), '크로스핏거츠', '경기도 부천시 부일로 226', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
 (now(), now(), '멋짐', '서울특별시 구로구 연동로 320', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1);
+
+insert into trainer (created_date, last_modified_date, user_id, gym_id, career)
+values
+       (now(), now(), 2, 1, '자격증 보유'),
+       (now(), now(), 3, 1, '자격증 보유');
 
 insert into product (created_date, last_modified_date, content , count , delete_status, name,period,price,type,gym_id,trainer_id)
 values
