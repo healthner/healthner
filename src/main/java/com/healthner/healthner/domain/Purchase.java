@@ -56,7 +56,7 @@ public class Purchase extends BaseEntity {
         this.product = product;
     }
 
-    public static Purchase creatPurchase(Integer price, Integer count, LocalDateTime period,
+    public static Purchase createPurchase(Integer price, Integer count, LocalDateTime period,
                                          User user, Gym gym, Trainer trainer, Product product) {
         return new Purchase(price, count, period, user, gym, trainer, product);
     }
