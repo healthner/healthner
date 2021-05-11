@@ -1,6 +1,5 @@
 package com.healthner.healthner.domain;
 
-import com.healthner.healthner.dto.TrainerDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

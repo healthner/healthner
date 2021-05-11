@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: header"></head>
+<body>
+    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+    <section id="section" class="section-with-bg">
+        <div class="section-header">
+            <br>
+            <h2>PT 상품 등록</h2>
+            <p>상품 등록을 위한 정보를 입력해주세요.</p>
+        </div>
+
+        <div class="new-trainer-form-wrap">
+            <form class="new-trainer-form" th:object="${product}" method="post">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">상품 이름</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="상품의 이름을 입력하세요." name="name" th:filed="*{name}">
+                </div>
+                <br>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">상품 내용</span>
+                    </div>
+                    <textarea type="text" class="form-control" placeholder="상품의 내용을 입력하세요." name="content" th:filed="*{content}"></textarea>
+                </div>
+                <br>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">상품 가격</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="상품의 가격을 입력하세요." name="price" th:filed="*{price}">
+                </div>
+                <br>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">상품 횟수</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="상품의 횟수를 입력하세요." name="count" th:filed="*{count}">
+                </div>
+                <br>
+
+                <button type="submit" class="btn btn-warning btn-lg btn-block">PT 상품 등록하기</button>
+            </form>
+        </div>
+    </section>
+
+    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>
