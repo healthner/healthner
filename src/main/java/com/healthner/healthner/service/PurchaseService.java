@@ -23,4 +23,7 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
+    public Boolean existsByGymIdAndUserId(Long userId, Long thisGymId) {
+        return purchaseRepository.existsByGymIdAndUserId(userId, thisGymId);
+    }
 }

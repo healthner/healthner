@@ -41,8 +41,6 @@ public class CheckListDto {
         public Response(CheckList checkList) {
             this.userId = checkList.getUser().getId();
             this.gymId = checkList.getGym().getId();
-            this.total += 1;
-
         }
     }
 }
