@@ -1,10 +1,14 @@
 package com.healthner.healthner.controller;
 
+import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.controller.dto.ReservationDto;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.controller.model.Message;
 import com.healthner.healthner.dto.TrainerDto;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
+import com.healthner.healthner.service.GymService;
+import com.healthner.healthner.service.ReservationService;
 import com.healthner.healthner.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -24,6 +29,8 @@ import javax.servlet.http.HttpSession;
 public class TrainerController {
 
     private final TrainerService trainerService;
+    private final GymService gymService;
+    private final ReservationService reservationService;
 
     @Auth(role = Role.USER)
     @GetMapping("new")
@@ -58,7 +65,7 @@ public class TrainerController {
             return "common/message";
         }
 
-        model.addAttribute("data", new Message("트레이너에 등록되었습니다.", "/home"));
+        model.addAttribute("data", new Message("트레이너에 등록되었습니다.", "/trainer/my-page"));
         return "common/message";
     }
 
@@ -86,7 +93,29 @@ public class TrainerController {
             return "common/message";
         }
 
-        model.addAttribute("data", new Message("수정이 완료되었습니다.", "/home"));
+        model.addAttribute("data", new Message("수정이 완료되었습니다.", "/trainer/my-page"));
         return "common/message";
+    }
+
+    @Auth(role = Role.USER)
+    @GetMapping("my-page")
+    public String myPage(HttpSession session, Model model) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+        TrainerDto.Form findForm = trainerService.findByUserId(userInfo.getId());
+//        TrainerDto.Form findForm = trainerService.findByUserId(2L); 테스트를 위한 코드
+
+        if (findForm == null) {
+            model.addAttribute("data", new Message("트레이너를 등록하지 않았습니다.", "/home"));
+            return "common/message";
+        }
+        model.addAttribute("trainer", findForm);
+
+        GymDto.Form gymForm = gymService.findById(findForm.getGymId());
+        model.addAttribute("gym", gymForm);
+
+        List<ReservationDto.ReservResponse> reservations = reservationService.findByTrainerId(findForm.getId());
+        model.addAttribute("reservations", reservations);
+
+        return "trainer/my-page";
     }
 }

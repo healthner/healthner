@@ -1,6 +1,7 @@
 package com.healthner.healthner.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;

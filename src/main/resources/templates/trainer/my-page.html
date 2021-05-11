@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+    <section id="section" class="section-with-bg">
+        <div class="trainer-my-page-wrap">
+            <div class="trainer-my-page-section">
+                <div class="trainer-my-page-sidebar">
+                    <div class="trainer-my-page-sidebar-content">
+                        <a href="#" class="btn btn-warning side-button">위로</a>
+                        <a href="/trainer/update" class="btn btn-warning side-button">정보 수정</a>
+                        <a href="#reservation-info" class="btn btn-warning side-button">예약 정보</a>
+                        <a href="#product-info" class="btn btn-warning side-button">상품 정보</a>
+                        <a class="btn btn-warning side-button">상품 등록</a>
+                    </div>
+                </div>
+                <div class="trainer-my-page-content">
+                    <div class="trainer-user-info">
+                        <h4>트레이너 유저 정보</h4>
+                        <div th:text="|이름: ${user.name}|"></div>
+                        <div th:text="|경력: ${trainer.career}|"></div>
+                    </div>
+                    <div class="trainer-gym-info" th:object="${gym}">
+                        <h4>소속된 기관 정보</h4>
+                        <div th:text="|기관 이름: *{name}|"></div>
+                        <div th:text="|기관 주소: *{address}|"></div>
+                        <div th:text="|기관 소개: *{content}|"></div>
+                        <div th:text="|기관 번호: *{businessNumber}|"></div>
+                    </div>
+                    <div class="trainer-reservation-info">
+                        <h4><a name="reservation-info">예약 정보</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>예약</th>
+                                <th>날짜</th>
+                                <th>시작 시간</th>
+                                <th>끝나는 시간</th>
+                                <th>수강생</th>
+                                <th>트레이너</th>
+                                <th>구매 상품</th>
+                            </tr>
+                            <tr th:each="reservation : ${reservations}">
+                                <td th:text="${reservation.title}"></td>
+                                <td th:text="${reservation.date}"></td>
+                                <td th:text="${reservation.startTime}"></td>
+                                <td th:text="${reservation.endTime}"></td>
+                                <td th:text="${reservation.userId}"></td>
+                                <td th:text="${reservation.trainerId}"></td>
+                                <td th:text="${reservation.purchaseId}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="trainer-product-info">
+                        <h4><a name="product-info">등록된 상품 정보</a></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>
