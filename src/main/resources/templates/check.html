@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (userId, name, userImageUrl)"></header>
+    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg wow fadeInUp">
         <section id="contact" >
@@ -18,7 +18,7 @@
                 <div class="form">
                     <div id="sendmessage">Your message has been sent. Thank you!</div>
                     <div id="errormessage"></div>
-                    <form role="form" class="contactForm" th:object="${checkListDto}" method="post">
+                    <form role="form" th:object="${checkListDto}" method="post">
                         <div class="form-group col-md-6" style="margin-left:25%">
                             <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" th:field="*{email}" placeholder="이메일을 입력해주세요"></textarea>
                             <div class="validation"></div>

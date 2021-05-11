@@ -10,20 +10,21 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
+import static com.healthner.healthner.domain.CheckListStatus.ATTENDANCE;
+
 public class CheckListDto {
     @Data
     @AllArgsConstructor(staticName = "of")
     @NoArgsConstructor
     @ToString
     public static class Request {
-        @ColumnDefault("ATTENDANCE")
         private CheckListStatus status;
         private Long userId;
         private Long gymId;
         private String email;
 
-        public CheckList checkList(User user, Gym gym) {
-            return CheckList.createCheckList(this.getStatus(), user, gym);
+        public CheckList toEntity(User user, Gym gym) {
+            return CheckList.createCheckList(ATTENDANCE, user, gym);
         }
     }
 

@@ -23,7 +23,7 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
-    public Boolean existsByGymIdAndUserId(Long userId, Long thisGymId) {
-        return purchaseRepository.existsByGymIdAndUserId(userId, thisGymId);
+    public Long findByGymIdAndUserId(Long userId, Long thisGymId){
+        return purchaseRepository.findByGymIdAndUserId(userId, thisGymId);
     }
 }

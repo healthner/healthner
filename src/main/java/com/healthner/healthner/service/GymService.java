@@ -37,6 +37,14 @@ public class GymService {
         return new GymDto.Form(gym);
     }
 
+    public Gym findById2(Long gymId) {
+        Gym gym = gymRepository.findById(gymId).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 gym id 입니다. id=" + gymId)
+        );
+
+        return gym;
+    }
+
     //Gym 등록
     @Transactional
     public Long register(GymDto.Request gym, Long ceoId) {

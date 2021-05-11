@@ -11,10 +11,8 @@ public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
 
     List<Purchase> findByUserId(Long id);
 
-    Boolean existsByGymIdAndUserId(@Param("userId")Long userId, @Param("thisGymId") Long thisGymId);
-
     @Query(value = "select user.id from Purchase where gym.id = :thisGymId and user.id = :userId")
-    List<Long> findByGymIdAndUserId(@Param("userId")Long userId, @Param("thisGymId") Long id);
+    Long findByGymIdAndUserId(@Param("userId")Long userId, @Param("thisGymId") Long id);
 
     List<Purchase> findByGymId(Long id);
 
