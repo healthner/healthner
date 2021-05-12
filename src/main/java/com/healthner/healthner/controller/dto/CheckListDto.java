@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 import static com.healthner.healthner.domain.CheckListStatus.ATTENDANCE;
 
@@ -35,9 +34,6 @@ public class CheckListDto {
         private CheckListStatus status;
         private Long userId;
         private Long gymId;
-
-        @ColumnDefault("0")
-        private Long total;
 
         public Response(CheckList checkList) {
             this.userId = checkList.getUser().getId();
