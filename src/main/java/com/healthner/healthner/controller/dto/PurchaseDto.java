@@ -41,6 +41,7 @@ public class PurchaseDto {
         private Integer count;
         private LocalDateTime period;
         private Long userId;
+        private Long gymId;
         private String gymName;
         private String trainerName;
         private String productName;
@@ -52,6 +53,7 @@ public class PurchaseDto {
             this.count = purchase.getCount();
             this.period = purchase.getPeriod();
             this.userId = purchase.getUser().getId();
+            this.gymId = purchase.getGym().getId();
             this.gymName = purchase.getGym().getName();
             this.trainerName = purchase.getTrainer().getUser().getName();
             this.productName = purchase.getProduct().getName();
@@ -59,3 +61,4 @@ public class PurchaseDto {
         }
     }
 }
+

@@ -10,4 +10,5 @@ public interface GymRepository extends JpaRepository<Gym, Long> {
 
     List<Gym> findByAddressContaining(String address);
     Optional<Gym> findByCeoId(Long ceoId);
+
 }

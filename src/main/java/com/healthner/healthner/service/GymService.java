@@ -27,12 +27,12 @@ public class GymService {
                 .collect(Collectors.toList());
     }
 
-    public GymDto.Form findById(Long gymId) {
+    public Gym findById(Long gymId) {
         Gym gym = gymRepository.findById(gymId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 gym id 입니다. id=" + gymId)
         );
 
-        return new GymDto.Form(gym);
+        return gym;
     }
 
     //Gym 등록
@@ -61,6 +61,11 @@ public class GymService {
     @Transactional
     public void delete(Long gymId) {
         gymRepository.deleteById(gymId);
+    }
+
+    public GymDto.Form findByCeoId(Long ceoId){
+        Gym gym = gymRepository.findByCeoId(ceoId).orElseThrow(() -> new IllegalArgumentException("등록되지 않은 기관입니다."));
+        return new GymDto.Form(gym);
     }
 
 }

@@ -23,4 +23,7 @@ public class PurchaseService {
                 .collect(Collectors.toList());
     }
 
+    public Long findByGymIdAndUserId(Long userId, Long thisGymId){
+        return purchaseRepository.findByGymIdAndUserId(userId, thisGymId);
+    }
 }
