@@ -1,13 +1,16 @@
 package com.healthner.healthner.controller;
 
 import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.controller.dto.ReservationDto;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.controller.model.Message;
-import com.healthner.healthner.dto.TrainerDto;
+import com.healthner.healthner.controller.dto.TrainerDto;
+import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.GymService;
+import com.healthner.healthner.service.ProductService;
 import com.healthner.healthner.service.ReservationService;
 import com.healthner.healthner.service.TrainerService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class TrainerController {
     private final TrainerService trainerService;
     private final GymService gymService;
     private final ReservationService reservationService;
+    private final ProductService productService;
 
     @Auth(role = Role.USER)
     @GetMapping("new")
@@ -102,7 +106,6 @@ public class TrainerController {
     public String myPage(HttpSession session, Model model) {
         UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
         TrainerDto.Form findForm = trainerService.findByUserId(userInfo.getId());
-//        TrainerDto.Form findForm = trainerService.findByUserId(2L); 테스트를 위한 코드
 
         if (findForm == null) {
             model.addAttribute("data", new Message("트레이너를 등록하지 않았습니다.", "/home"));
@@ -116,6 +119,36 @@ public class TrainerController {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByTrainerId(findForm.getId());
         model.addAttribute("reservations", reservations);
 
+        List<ProductDto.Response> products = productService.findByTrainerId(findForm.getId());
+        model.addAttribute("products", products);
+
         return "trainer/my-page";
+    }
+
+    @Auth(role = Role.USER)
+    @GetMapping("product/new")
+    public String getProduct(Model model) {
+        model.addAttribute("product", new ProductDto.Request());
+
+        return "trainer/product-form";
+    }
+
+    @Auth(role = Role.USER)
+    @PostMapping("product/new")
+    public String postProduct(@ModelAttribute("product") ProductDto.Request request,
+                              HttpSession session, Model model) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+
+        TrainerDto.Form trainer = trainerService.findByUserId(userInfo.getId());
+        GymDto.Form gym = gymService.findById(trainer.getGymId());
+
+        request.setTrainerId(trainer.getId());
+        request.setGymId(gym.getId());
+        request.setProductType(ProductType.PT);
+
+        productService.save(request);
+
+        model.addAttribute("data", new Message("상품이 등록되었습니다.", "/trainer/my-page"));
+        return "common/message";
     }
 }

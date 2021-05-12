@@ -39,7 +39,7 @@ public class Product extends BaseEntity {
 
     private Integer price;
 
-    private Boolean deleteStatus;
+//    private Boolean deleteStatus;
 
     private Integer count;
 
@@ -58,11 +58,22 @@ public class Product extends BaseEntity {
         this.count = count;
         this.period = period;
         this.type = type;
-        this.deleteStatus = true;
+//        this.deleteStatus = true;
     }
 
     public static Product createProduct(Gym gym, Trainer trainer, String name, String content,
                                         Integer price, Integer count, LocalDateTime period, ProductType type) {
         return new Product(gym, trainer, name, content, price, count, period, type);
+    }
+
+    public void updateProduct(Product product) {
+        this.gym = product.getGym();
+        this.trainer = product.getTrainer();
+        this.name = product.getName();
+        this.content = product.getContent();
+        this.price = product.getPrice();
+        this.count = product.getCount();
+        this.period = product.getPeriod();
+        this.type = product.getType();
     }
 }

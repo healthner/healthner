@@ -3,7 +3,7 @@ package com.healthner.healthner.service;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.dto.TrainerDto;
+import com.healthner.healthner.controller.dto.TrainerDto;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.TrainerRepository;
 import com.healthner.healthner.repository.UserRepository;

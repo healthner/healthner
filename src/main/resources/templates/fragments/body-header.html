@@ -25,10 +25,10 @@
                         <img th:src="@{${userImageUrl}}" class="rounded-circle" width="40px" height="40px"/>
                         <a th:text="${name} + '님이 로그인 중'" class="dropdown-toggle" href="#"
                            role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown link
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a class="dropdown-item" href="../user-mypage"><p>마이페이지</p></a>
+                            <a class="dropdown-item" href="/trainer/my-page"><p>트레이너 정보</p></a>
                             <a class="dropdown-item" href="/logout"><p>로그아웃</p></a>
                         </div>
                     </div>
