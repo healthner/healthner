@@ -54,7 +54,8 @@ public class GymController {
     @GetMapping("/{gymId}/update")
     @Auth(role = Role.USER)
     public String modify(@PathVariable Long gymId, Model model) {
-        GymDto.Form gym = gymService.findById(gymId);
+        Gym gymEntity = gymService.findById(gymId);
+        GymDto.Form gym = new GymDto.Form(gymEntity);
         model.addAttribute("gym", gym);
         return "/gym/create-gym";
     }
@@ -79,7 +80,8 @@ public class GymController {
     @GetMapping("/{gymId}/mypage")
     @Auth(role = Role.USER)
     public String getGym(@PathVariable Long gymId, Model model) {
-        GymDto.Form gym = gymService.findById(gymId);
+        Gym gymEntity = gymService.findById(gymId);
+        GymDto.Form gym = new GymDto.Form(gymEntity);
         model.addAttribute("gym", gym);
         return "/gym/mypage";
     }
@@ -97,7 +99,7 @@ public class GymController {
         }
         Long gymId = gym.getId();
         //인원 현황
-        Long total = checkListService.findByGymId(gymId);
+        Long total = checkListService.countByGymId(gymId);
         model.addAttribute("total", total);
 
         return "check";
@@ -110,7 +112,7 @@ public class GymController {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         Long thisGymId = thisgym.getId();
         //해당 기관의 gym객체
-        Gym gym = gymService.findById2(thisGymId);
+        Gym gym = gymService.findById(thisGymId);
         if(thisgym != null){
             // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
             Long userId = userService.findByEmail(request.getEmail()).getId();
@@ -118,9 +120,6 @@ public class GymController {
             if(checkUser == userId){ // 유저의 구매내역에 해당 gym이 있으면
                 User user = userService.findById(userId);//출석 체크할 유저
                 Long checkid = checkListService.put(user,gym);
-                System.out.println("********************************");
-                System.out.println(checkid);
-               // model.addAttribute("total", gymService.checkTotal(checkList));
             }else{
                 return "해당 기관의 회원이 아닙니다";
 
@@ -129,7 +128,7 @@ public class GymController {
             return "등록되지 않은 기관입니다.";
         }
         //인원 현황
-        Long total = checkListService.findByGymId(thisGymId);
+        Long total = checkListService.countByGymId(thisGymId);
         model.addAttribute("total", total);
 
         return "redirect:/gym/" + thisGymId + "/mypage";

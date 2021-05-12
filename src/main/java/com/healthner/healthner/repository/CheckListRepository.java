@@ -8,5 +8,5 @@ import org.springframework.data.repository.query.Param;
 public interface CheckListRepository extends JpaRepository<CheckList,Long> {
 
     @Query(value = "select count(gym.id) from CheckList where gym.id = :gymId")
-    Long findByGymId(@Param("gymId") Long id);
+    Long countByGymId(@Param("gymId") Long id);
 }

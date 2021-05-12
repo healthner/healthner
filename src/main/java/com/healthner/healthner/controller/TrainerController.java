@@ -110,7 +110,7 @@ public class TrainerController {
         }
         model.addAttribute("trainer", findForm);
 
-        GymDto.Form gymForm = gymService.findById(findForm.getGymId());
+        GymDto.Form gymForm = new GymDto.Form(gymService.findById(findForm.getGymId()));
         model.addAttribute("gym", gymForm);
 
         List<ReservationDto.ReservResponse> reservations = reservationService.findByTrainerId(findForm.getId());
