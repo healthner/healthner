@@ -17,7 +17,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">상품 이름</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="상품의 이름을 입력하세요." name="name" th:filed="*{name}">
+                    <input type="text" class="form-control" placeholder="상품의 이름을 입력하세요." name="name" th:value="*{name}" th:filed="*{name}">
                 </div>
                 <br>
 
@@ -25,7 +25,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">상품 내용</span>
                     </div>
-                    <textarea type="text" class="form-control" placeholder="상품의 내용을 입력하세요." name="content" th:filed="*{content}"></textarea>
+                    <textarea type="text" class="form-control" placeholder="상품의 내용을 입력하세요." name="content" th:text="*{content}" th:filed="*{content}"></textarea>
                 </div>
                 <br>
 
@@ -33,7 +33,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">상품 가격</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="상품의 가격을 입력하세요." name="price" th:filed="*{price}">
+                    <input type="text" class="form-control" placeholder="상품의 가격을 입력하세요." name="price" th:value="*{price}" th:filed="*{price}">
                 </div>
                 <br>
 
@@ -41,7 +41,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">상품 횟수</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="상품의 횟수를 입력하세요." name="count" th:filed="*{count}">
+                    <input type="text" class="form-control" placeholder="상품의 횟수를 입력하세요." name="count" th:value="*{count}" th:filed="*{count}">
                 </div>
                 <br>
 

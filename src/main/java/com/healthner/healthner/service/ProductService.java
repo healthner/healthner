@@ -4,7 +4,6 @@ import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.Product;
 import com.healthner.healthner.domain.Trainer;
-import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.ProductRepository;
 import com.healthner.healthner.repository.TrainerRepository;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
     private final GymRepository gymRepository;
     private final TrainerRepository trainerRepository;
 
@@ -56,6 +54,10 @@ public class ProductService {
                 .stream()
                 .map(product -> new ProductDto.Response(product))
                 .collect(Collectors.toList());
+    }
+
+    public boolean existsByTrainerId(Long trainerId) {
+        return productRepository.existsByTrainerId(trainerId);
     }
 
     private Product getProduct(Long productId) {

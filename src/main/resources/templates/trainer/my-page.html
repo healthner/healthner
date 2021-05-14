@@ -62,6 +62,7 @@
                                 <th>횟수</th>
                                 <th>기간</th>
                                 <th>type</th>
+                                <th></th>
                             </tr>
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.name}"></td>
@@ -70,6 +71,9 @@
                                 <td th:text="${product.count}"></td>
                                 <td th:text="${product.period}"></td>
                                 <td th:text="${product.productType}"></td>
+                                <td>
+                                    <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}" class="btn btn-warning">수정</a>
+                                </td>
                             </tr>
                         </table>
                     </div>
