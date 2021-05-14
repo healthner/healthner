@@ -7,7 +7,6 @@ import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.ProductRepository;
 import com.healthner.healthner.repository.TrainerRepository;
-import com.healthner.healthner.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +53,20 @@ public class ProductService {
                 .stream()
                 .map(product -> new ProductDto.Response(product))
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductDto.Response> findByTrainerIdAndDeleteStatus(Long id, Boolean deleteStatus) {
+        List<Product> products = productRepository.findByTrainerIdAndDeleteStatus(id, deleteStatus);
+        return products
+                .stream()
+                .map(product -> new ProductDto.Response(product))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void changeDeleteStatus(Long id) {
+        Product product = getProduct(id);
+        product.changeDeleteStatus();
     }
 
     public boolean existsByTrainerId(Long trainerId) {

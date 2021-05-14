@@ -58,7 +58,7 @@ public class Product extends BaseEntity {
         this.count = count;
         this.period = period;
         this.type = type;
-        this.deleteStatus = true;
+        this.deleteStatus = false;
     }
 
     public static Product createProduct(Gym gym, Trainer trainer, String name, String content,
@@ -75,5 +75,10 @@ public class Product extends BaseEntity {
         this.count = product.getCount();
         this.period = product.getPeriod();
         this.type = product.getType();
+        this.deleteStatus = product.deleteStatus;
+    }
+
+    public void changeDeleteStatus() {
+        deleteStatus = !this.deleteStatus;
     }
 }
