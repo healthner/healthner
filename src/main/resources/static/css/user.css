@@ -91,7 +91,6 @@
     text-decoration: none;
 }
 
-/* user-my-page */
 .user-my-page-wrap {
     width: 70%;
     display: flex;
@@ -142,5 +141,3 @@
     border-bottom: 1px solid #444444;
     padding: 10px;
 }
-
-/* product-form */
