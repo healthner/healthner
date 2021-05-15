@@ -47,7 +47,7 @@ public class ReservationController {
     public String getMyEventList(@PathVariable("userId")Long userId, Model model) {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userId);
         model.addAttribute("reservations", reservations);
-        return "user-mypage";
+        return "user/my-page";
     }
 
     //마이페이지에서 예약 수정누르면 원래 예약값 세팅된 화면

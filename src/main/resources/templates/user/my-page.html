@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+    <section id="section" class="section-with-bg">
+        <div class="user-my-page-wrap">
+            <div class="user-my-page-section">
+                <div class="user-my-page-sidebar">
+                    <div class="user-my-page-sidebar-content">
+                        <a href="#" class="btn btn-warning side-button">위로</a>
+                        <a href="/user/update" class="btn btn-warning side-button">정보 수정</a>
+                        <a href="../gym/new" class="btn btn-warning side-button">시설 등록</a>
+                        <a href="../trainer/new" class="btn btn-warning side-button">트레이너 등록</a>
+                        <a href="../user/purchase" class="btn btn-warning side-button">예약하기</a>
+                    </div>
+                </div>
+
+
+                <div class="user-my-page-content">
+                    <div class="trainer-user-info">
+                        <h4>유저 정보</h4>
+                        <div th:text="|이름: ${user.name}|"></div>
+                    </div>
+                    <div class="trainer-reservation-info">
+                        <h4><a name="reservation-info">예약 정보</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>예약ID</th>
+                                <th>예약 날짜</th>
+                                <th>시작시간</th>
+                                <th>종료시간</th>
+                                <th>수정</th>
+                                <th>삭제</th>
+                            </tr>
+                            <tr th:each="reservation : ${reservations}">
+                                <td th:text="${reservation.id}"></td>
+                                <td th:text="${reservation.date}"></td>
+                                <td th:text="${reservation.startTime}"></td>
+                                <td th:text="${reservation.endTime}"></td>
+                                <td>
+                                    <a th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
+                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                    </a>
+                                <td>
+                                    <a th:href="@{/reservation/{reservId}/delete(reservId=${reservation.id})}"
+                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">삭제</div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>
