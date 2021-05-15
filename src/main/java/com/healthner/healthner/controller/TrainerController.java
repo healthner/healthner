@@ -6,6 +6,7 @@ import com.healthner.healthner.controller.dto.ReservationDto;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.controller.model.Message;
 import com.healthner.healthner.controller.dto.TrainerDto;
+import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
@@ -16,6 +17,7 @@ import com.healthner.healthner.service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -119,8 +121,13 @@ public class TrainerController {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByTrainerId(findForm.getId());
         model.addAttribute("reservations", reservations);
 
-        List<ProductDto.Response> products = productService.findByTrainerId(findForm.getId());
+        List<ProductDto.Response> products = productService
+                .findByTrainerIdAndDeleteStatus(findForm.getId(), false);
         model.addAttribute("products", products);
+
+        List<ProductDto.Response> deleteProducts = productService
+                .findByTrainerIdAndDeleteStatus(findForm.getId(), true);
+        model.addAttribute("deleteProducts", deleteProducts);
 
         return "trainer/my-page";
     }
@@ -140,7 +147,7 @@ public class TrainerController {
         UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
 
         TrainerDto.Form trainer = trainerService.findByUserId(userInfo.getId());
-        GymDto.Form gym = gymService.findById(trainer.getGymId());
+        Gym gym = gymService.findById(trainer.getGymId());
 
         request.setTrainerId(trainer.getId());
         request.setGymId(gym.getId());
@@ -149,6 +156,68 @@ public class TrainerController {
         productService.save(request);
 
         model.addAttribute("data", new Message("상품이 등록되었습니다.", "/trainer/my-page"));
+        return "common/message";
+    }
+
+    @Auth(role = Role.USER)
+    @GetMapping("product/{productId}/update")
+    public String getUpdateProduct(@PathVariable("productId") Long productId, HttpSession session, Model model) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+
+        TrainerDto.Form trainer = trainerService.findByUserId(userInfo.getId());
+
+        if (!productService.existsByTrainerId(trainer.getId())) {
+            model.addAttribute("data", new Message("수정할 수 없습니다.", "/home"));
+            return "common/message";
+        }
+
+        ProductDto.Response product = productService.findById(productId);
+        model.addAttribute("product", product.toRequest());
+
+        return "trainer/product-form";
+    }
+
+    @Auth(role = Role.USER)
+    @PostMapping("product/{productId}/update")
+    public String postUpdateProduct(@PathVariable("productId") Long productId,
+                                    @ModelAttribute("product") ProductDto.Request update,
+                                    HttpSession session, Model model) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+
+        TrainerDto.Form trainer = trainerService.findByUserId(userInfo.getId());
+
+        if (!productService.existsByTrainerId(trainer.getId())) {
+            model.addAttribute("data", new Message("수정할 수 없습니다.", "/home"));
+            return "common/message";
+        }
+
+        Gym gym = gymService.findById(trainer.getGymId());
+
+        update.setTrainerId(trainer.getId());
+        update.setGymId(gym.getId());
+        update.setProductType(ProductType.PT);
+
+        productService.update(productId, update);
+
+        model.addAttribute("data", new Message("상품이 수정되었습니다.", "/trainer/my-page"));
+        return "common/message";
+    }
+
+    @Auth(role = Role.USER)
+    @GetMapping("product/{productId}/delete")
+    public String deleteProduct(@PathVariable("productId") Long productId, HttpSession session, Model model) {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+
+        TrainerDto.Form trainer = trainerService.findByUserId(userInfo.getId());
+
+        if (!productService.existsByTrainerId(trainer.getId())) {
+            model.addAttribute("data", new Message("수정할 수 없습니다.", "/home"));
+            return "common/message";
+        }
+
+        productService.changeDeleteStatus(productId);
+
+        model.addAttribute("data", new Message("상품의 상태가 변경 되었습니다.", "/trainer/my-page"));
         return "common/message";
     }
 }

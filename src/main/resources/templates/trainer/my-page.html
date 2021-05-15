@@ -62,6 +62,8 @@
                                 <th>횟수</th>
                                 <th>기간</th>
                                 <th>type</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.name}"></td>
@@ -70,6 +72,41 @@
                                 <td th:text="${product.count}"></td>
                                 <td th:text="${product.period}"></td>
                                 <td th:text="${product.productType}"></td>
+                                <td>
+                                    <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}" class="btn btn-warning">수정</a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}" class="btn btn-warning">상태 변경</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="trainer-product-info">
+                        <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>상품명</th>
+                                <th>설명</th>
+                                <th>가격</th>
+                                <th>횟수</th>
+                                <th>기간</th>
+                                <th>type</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr th:each="product : ${deleteProducts}">
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.content}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.count}"></td>
+                                <td th:text="${product.period}"></td>
+                                <td th:text="${product.productType}"></td>
+                                <td>
+                                    <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}" class="btn btn-warning">수정</a>
+                                </td>
+                                <td>
+                                    <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}" class="btn btn-warning">상태 변경</a>
+                                </td>
                             </tr>
                         </table>
                     </div>

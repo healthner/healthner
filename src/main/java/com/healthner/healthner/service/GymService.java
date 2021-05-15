@@ -28,11 +28,9 @@ public class GymService {
     }
 
     public Gym findById(Long gymId) {
-        Gym gym = gymRepository.findById(gymId).orElseThrow(() ->
+        return gymRepository.findById(gymId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 gym id 입니다. id=" + gymId)
         );
-
-        return gym;
     }
 
     //Gym 등록
