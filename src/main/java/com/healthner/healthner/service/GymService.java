@@ -1,9 +1,13 @@
 package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.domain.Gym;
+import com.healthner.healthner.domain.Product;
+import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
+import com.healthner.healthner.repository.ProductRepository;
 import com.healthner.healthner.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ public class GymService {
 
     private final UserRepository userRepository;
     private final GymRepository gymRepository;
+    private final ProductRepository productRepository;
 
     public List<GymDto.Response> findByAddress(String searchKeyword) {
         return gymRepository.findByAddressContaining(searchKeyword)
@@ -65,5 +70,14 @@ public class GymService {
         Gym gym = gymRepository.findByCeoId(ceoId).orElseThrow(() -> new IllegalArgumentException("등록되지 않은 기관입니다."));
         return new GymDto.Form(gym);
     }
+
+    @Transactional
+    public void putProduct(ProductDto.Request request, Gym gym){
+        request.setProductType(ProductType.NORMAL);
+        Product normal = request.toEntity(gym,null);
+        productRepository.save(normal);
+    }
+
+
 
 }

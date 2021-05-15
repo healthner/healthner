@@ -26,7 +26,7 @@ public class ProductDto {
         private String content;
         private Integer price;
         private Integer count;
-        private LocalDateTime period;
+        private Integer period;
         private ProductType productType;
 
         public Product toEntity(Gym gym, Trainer trainer) {
@@ -38,7 +38,6 @@ public class ProductDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class Response {
         private Long id;
         private Long gymId;
@@ -47,7 +46,7 @@ public class ProductDto {
         private String content;
         private Integer price;
         private Integer count;
-        private LocalDateTime period;
+        private Integer period;
         private ProductType productType;
 
         public Response(Product product) {
@@ -73,6 +72,33 @@ public class ProductDto {
                     this.period,
                     this.productType
             );
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class NormalResponse {
+        private Long id;
+        private Long gymId;
+        private String name;
+        private String content;
+        private Integer price;
+        private Integer count;
+        private Integer period;
+        private ProductType productType;
+        private Boolean deleteStatus;
+
+        public NormalResponse(Product product) {
+            this.id = product.getId();
+            this.gymId = product.getGym().getId();
+            this.name = product.getName();
+            this.content = product.getContent();
+            this.price = product.getPrice();
+            this.count = product.getCount();
+            this.period = product.getPeriod();
+            this.productType = product.getType();
+            this.deleteStatus = product.getDeleteStatus();
         }
     }
 }
