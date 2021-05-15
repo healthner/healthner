@@ -41,10 +41,25 @@ public class ProductService {
         return product.getId();
     }
 
+    @Transactional
+    public Long updateNormal(Long id, ProductDto.Request updateDto) {
+        Product product = getProduct(id);
+        Gym gym = product.getGym();
+        product.updateProduct(updateDto.toEntity(gym, null));
+
+        return product.getId();
+    }
+
     public ProductDto.Response findById(Long id) {
         Product product = getProduct(id);
 
         return new ProductDto.Response(product);
+    }
+
+    public ProductDto.NormalResponse findByIdToNormal(Long id) {
+        Product product = getProduct(id);
+
+        return new ProductDto.NormalResponse(product);
     }
 
     public List<ProductDto.Response> findByTrainerId(Long id) {
@@ -86,5 +101,18 @@ public class ProductService {
     private Trainer getTrainer(Long id) {
         return trainerRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
+    }
+
+    public List<ProductDto.NormalResponse> findByGymId(Long id){
+        return productRepository.findByGymId(id)
+                .stream()
+                .map(product -> new ProductDto.NormalResponse(product))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long productId) {
+        Product product = getProduct(productId);
+        product.changeDeleteStatus();
     }
 }
