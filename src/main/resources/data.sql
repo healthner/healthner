@@ -32,8 +32,8 @@ values
     (now(), now(), 'hyeonic의 pt상품 3 입니다', 6, false, 'hyeonic의 pt상품 3', null, 60000, 'PT', 1, 3),
     (now(), now(), 'hyeonic의 pt상품 4 입니다', 6, true, 'hyeonic의 pt상품 4', null, 60000, 'PT', 1, 3),
     (now(), now(), 'hyeonic의 pt상품 5 입니다', 6, true, 'hyeonic의 pt상품 5', null, 60000, 'PT', 1, 3),
-    (now(), now(), 'pt상품1 입니다', 6, false, 'pt상품1', now(), 60000, 'PT', 1, 1),
-    (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', now(), 100000, 'NORMAL', 2, 2);
+    (now(), now(), 'pt상품1 입니다', 6, false, 'pt상품1', null, 60000, 'PT', 1, 1),
+    (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', 3, 100000, 'NORMAL', 2, null);
 
 
 insert into purchase (created_date, last_modified_date, count , period, price , gym_id, product_id,trainer_id,user_id)
