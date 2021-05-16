@@ -1,5 +1,6 @@
 package com.healthner.healthner.controller.dto;
 
+import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.interceptor.Role;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,10 @@ public class UserDto {
             this.name = user.getName();
             this.userImageUrl = user.getUserImageUrl();
             this.role = user.getRole();
+        }
+
+        public static String UserName(Trainer trainer){
+            return trainer.getUser().getName();
         }
     }
 

@@ -13,6 +13,7 @@ import com.healthner.healthner.service.CheckListService;
 import com.healthner.healthner.service.GymService;
 import com.healthner.healthner.service.ProductService;
 import com.healthner.healthner.service.PurchaseService;
+import com.healthner.healthner.service.TrainerService;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class GymController {
     private final PurchaseService purchaseService;
     private final CheckListService checkListService;
     private final ProductService productService;
+    private final TrainerService trainerService;
 
 
     @GetMapping("/new")
@@ -82,10 +84,23 @@ public class GymController {
         return "gym/search";
     }
 
-    @GetMapping("{/detail")
-    public String detail(HttpSession httpSession, Model model) {
-        GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+    @GetMapping("/detail/{gymId}")
+    @Auth(role = Role.USER)
+    public String detail(@PathVariable("gymId") Long gymId, Model model) {
+        Gym gym = gymService.findById(gymId);
+        if (gym == null) return "옳바른 기관이 아닙니다.";
+        else {
+            GymDto.Response response = new GymDto.Response(gym);
+            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
+                    .stream().filter((product)->product.getDeleteStatus() == false)
+                    .collect(Collectors.toList());
+            List<ProductDto.Response> PtProducts = productService.findByGymIdAndType(gymId,ProductType.PT);
 
+            model.addAttribute("gym", response);
+            model.addAttribute("normalProducts", normalProducts);
+            model.addAttribute("PtProducts", PtProducts);
+            model.addAttribute("trainers", trainerService.findByGymId(gymId));
+        }
         return "gym/detail";
     }
 

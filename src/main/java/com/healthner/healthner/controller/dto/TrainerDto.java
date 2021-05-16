@@ -27,4 +27,21 @@ public class TrainerDto {
             return Trainer.createTrainer(gym, user, career);
         }
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class Response {
+        private Long id;
+        private Long gymId;
+        private String career;
+        private String name;
+
+        public Response(Trainer trainer) {
+            this.id = trainer.getId();
+            this.gymId = trainer.getGym().getId();
+            this.career = trainer.getCareer();
+            this.name = UserDto.Response.UserName(trainer);
+        }
+    }
 }
