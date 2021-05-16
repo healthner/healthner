@@ -45,4 +45,8 @@ public class Remain extends BaseEntity {
     public static Remain createRemain(Integer remainCount, LocalDateTime remainPeriod, Product product, User user) {
         return new Remain(remainCount, remainPeriod, product, user);
     }
+
+    public void minusRemainCount() {
+        this.remainCount--;
+    }
 }

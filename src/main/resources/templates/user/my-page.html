@@ -54,16 +54,16 @@
                     </div>
 
                     <div class="user-purchase-info">
-                        <h4><a name="purchase-info">구매 내역</a></h4>
+                        <h4><a name="purchase-info">이용중인 상품</a></h4>
                         <table class="user-my-page-table">
                             <tr>
-                                <th>pt이용권인지 어떤 상품인지</th>
-                                <th>상품이름</th>
+                                <th>pt이용권/회원권</th>
+                                <th>상품 이름</th>
                                 <th>gym 이름</th>
                                 <th>트레이너 이름</th>
                                 <th>가격</th>
                                 <th>사용 가능 기간</th>
-                                <th>총 몇회차 상품인지</th>
+                                <th>총 회차</th>
                             </tr>
                             <tr th:each="purchase : ${purchaseList}">
                                 <td th:text="${purchase.productType}"></td>
@@ -73,6 +73,22 @@
                                 <td th:text="${purchase.price}"></td>
                                 <td th:text="${purchase.period}"></td>
                                 <td th:text="${purchase.count}"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="user-purchase-info">
+                        <h4><a name="purchase-info">잔여 횟수</a></h4>
+                        <table class="user-my-page-table">
+                            <tr>
+                                <th>상품 이름</th>
+                                <th>남은 기간</th>
+                                <th>남은 횟수</th>
+                            </tr>
+                            <tr th:each="remain : ${remainList}">
+                                <td th:text="${remain.productName}"></td>
+                                <td th:text="${remain.remainPeriod}"></td>
+                                <td th:text="${remain.remainCount}"></td>
                             </tr>
                         </table>
                     </div>
