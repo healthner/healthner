@@ -7,7 +7,8 @@ values
        (now(), now(), 'user4@email.com', '1234', '이선하', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
-       (now(), now(), 'dev.hyeonic@gmail.com', '1234', 'hyeonic', '010-0000-0000');
+       (now(), now(), 'dev.hyeonic@gmail.com', '1234', 'hyeonic', '010-0000-0000'),
+       (now(), now(), 'jmtkdsh@nate.com', '1234', '이선하', '010-0000-0000');
 
 insert into gym (created_date, last_modified_date, name, address, content, business_number, ceo_id)
 values
@@ -38,10 +39,17 @@ values
 
 insert into purchase (created_date, last_modified_date, count , period, price , gym_id, product_id,trainer_id,user_id)
 values
-        (now(), now(),1,null,60000,1,1,1,1),
-        (now(), now(),1,null,60000,2,1,1,2),
-        (now(), now(),null,now(),60000,3,1,1,3),
-        (now(), now(),null,now(),60000,4,1,1,4);
+    (now(), now(),1,now(),60000,1,1,1,1),
+    (now(), now(),1,now(),60000,2,1,1,2),
+    (now(), now(),2,now(),60000,3,1,1,3),
+    (now(), now(),3,now(),60000,4,1,1,4),
+    (now(), now(),6,now(),60000,1,1,1,9),
+    (now(), now(),10,now(),100000,2,2,2,9),
+    (now(), now(),1,null,60000,1,1,1,1),
+    (now(), now(),1,null,60000,2,1,1,2),
+    (now(), now(),null,now(),60000,3,1,1,3),
+    (now(), now(),null,now(),60000,4,1,1,4);
+
 
 insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
 values
