@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/fragments/header.html :: header"></head>
 <body>
-    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
         <section id="section" class="section-with-bg">
             <form role="form" th:object="${initial}" method="post">

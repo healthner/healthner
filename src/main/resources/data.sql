@@ -32,16 +32,16 @@ values
     (now(), now(), 'hyeonic의 pt상품 3 입니다', 6, false, 'hyeonic의 pt상품 3', null, 60000, 'PT', 1, 3),
     (now(), now(), 'hyeonic의 pt상품 4 입니다', 6, true, 'hyeonic의 pt상품 4', null, 60000, 'PT', 1, 3),
     (now(), now(), 'hyeonic의 pt상품 5 입니다', 6, true, 'hyeonic의 pt상품 5', null, 60000, 'PT', 1, 3),
-    (now(), now(), 'pt상품1 입니다', 6, false, 'pt상품1', null, 60000, 'PT', 1, 1),
-    (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', 3, 100000, 'NORMAL', 2, null);
+    (now(), now(), 'pt상품1 입니다', 6, false, 'pt상품1', now(), 60000, 'PT', 1, 1),
+    (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', now(), 100000, 'NORMAL', 2, 2);
 
 
-insert into purchase (created_date, last_modified_date, count , period, price , gym_id, product_id,trainer_id,user_id)
+insert into purchase (created_date, last_modified_date, count , period,price , gym_id, product_id,trainer_id,user_id)
 values
-        (now(), now(),1,null,60000,1,1,1,1),
-        (now(), now(),1,null,60000,2,1,1,2),
-        (now(), now(),null,now(),60000,3,1,1,3),
-        (now(), now(),null,now(),60000,4,1,1,4);
+        (now(), now(),1,now(),60000,1,1,1,1),
+        (now(), now(),1,now(),60000,2,1,1,2),
+        (now(), now(),2,now(),60000,3,1,1,3),
+        (now(), now(),3,now(),60000,4,1,1,4);
 
 insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
 values
