@@ -50,6 +50,9 @@ values
     (now(), now(),null,now(),60000,3,1,1,3),
     (now(), now(),null,now(),60000,4,1,1,4);
 
+insert into remain(created_date, last_modified_date, remain_count, remain_period, product_id, user_id)
+values (now(), now(), 6, null, 1, 9);
+
 
 insert into reservation (created_date, last_modified_date, Date , end_time,start_time , purchase_id, trainer_id,user_id)
 values

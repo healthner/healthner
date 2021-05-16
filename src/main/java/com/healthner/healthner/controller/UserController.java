@@ -5,6 +5,7 @@ import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.PurchaseService;
+import com.healthner.healthner.service.RemainService;
 import com.healthner.healthner.service.ReservationService;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class UserController {
     private final UserService userService;
     private final PurchaseService purchaseService;
     private final ReservationService reservationService;
+    private final RemainService remainService;
 
     //유저의 구매 내역 리스트
     @Auth(role = Role.USER)
@@ -49,6 +51,7 @@ public class UserController {
 
         Long userId = userInfo.getId();
         model.addAttribute("purchaseList", purchaseService.findByUserId(userId));
+        model.addAttribute("remainList", remainService.findByUserId(userId));
 
         return "user/my-page";
     }
