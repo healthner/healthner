@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SearchController {
 
     @GetMapping("/search")
-    public String search(){
+    public String search() {
         return "search";
     }
 }

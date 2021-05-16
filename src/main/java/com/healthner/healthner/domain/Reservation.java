@@ -22,7 +22,8 @@ import java.time.LocalDateTime;
 @ToString
 public class Reservation extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "reservation_id")
     private Long id;
 
@@ -59,7 +60,7 @@ public class Reservation extends BaseEntity {
         return new Reservation(date, startTime, endTime, user, trainer, purchase);
     }
 
-    public void updateReservation(Reservation reservation){
+    public void updateReservation(Reservation reservation) {
         this.date = reservation.getDate();
         this.startTime = reservation.getStartTime();
         this.endTime = reservation.getEndTime();

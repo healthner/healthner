@@ -16,14 +16,14 @@ public class PurchaseService {
     private final PurchaseRepository purchaseRepository;
 
     //구매내역 리스트
-    public List<PurchaseDto.Response>findByUserId(Long userId){
+    public List<PurchaseDto.Response> findByUserId(Long userId) {
         return purchaseRepository.findByUserId(userId)
                 .stream()
                 .map(purchase -> new PurchaseDto.Response(purchase))
                 .collect(Collectors.toList());
     }
 
-    public Long findByGymIdAndUserId(Long userId, Long thisGymId){
+    public Long findByGymIdAndUserId(Long userId, Long thisGymId) {
         return purchaseRepository.findByGymIdAndUserId(userId, thisGymId);
     }
 }

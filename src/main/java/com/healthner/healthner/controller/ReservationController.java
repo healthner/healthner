@@ -27,10 +27,9 @@ public class ReservationController {
     @GetMapping("{purchaseId}/new")
     public String getReservation(@PathVariable("purchaseId") Long purchaseId, Model model) {
         Boolean check = reservationService.isEmpty(purchaseId);
-        if(!check){
+        if (!check) {
             return "이미 예약된 상품입니다.";
-        }
-        else model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
+        } else model.addAttribute("reservationDto", new ReservationDto.ReservRequest());
         return "reservation/create-form";
     }
 
@@ -44,7 +43,7 @@ public class ReservationController {
     //마이페이지에서 예약 확인
     @Auth(role = Role.USER)
     @GetMapping("/{userId}")
-    public String getMyEventList(@PathVariable("userId")Long userId, Model model) {
+    public String getMyEventList(@PathVariable("userId") Long userId, Model model) {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userId);
         model.addAttribute("reservations", reservations);
         return "user/my-page";
@@ -60,7 +59,7 @@ public class ReservationController {
 
     //수정 진행, 저장
     @Auth(role = Role.USER)
-    @PostMapping  ("/{reservId}/update")
+    @PostMapping("/{reservId}/update")
     public String modify(@PathVariable("reservId") Long reservId, @ModelAttribute ReservationDto.ReservRequest request) {
         Long userId = reservationService.update(reservId, request);
         return "redirect:/reservation/" + userId;
@@ -78,7 +77,7 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("/all")
     @ResponseBody
-    public List<ReservationDto.ReservToCal>findAll() {
+    public List<ReservationDto.ReservToCal> findAll() {
         return reservationService.findAll();
     }
 }

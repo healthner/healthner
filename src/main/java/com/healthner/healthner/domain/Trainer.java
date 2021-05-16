@@ -20,7 +20,8 @@ import javax.persistence.OneToOne;
 @ToString
 public class Trainer extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "trainer_id")
     private Long id;
 

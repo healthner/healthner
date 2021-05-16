@@ -25,7 +25,7 @@ public class UserDto {
             this.role = user.getRole();
         }
 
-        public static String UserName(Trainer trainer){
+        public static String UserName(Trainer trainer) {
             return trainer.getUser().getName();
         }
     }
