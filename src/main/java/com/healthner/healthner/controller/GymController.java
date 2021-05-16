@@ -4,6 +4,7 @@ import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.controller.dto.UserDto;
+import com.healthner.healthner.controller.model.Message;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.domain.User;
@@ -41,7 +42,6 @@ public class GymController {
     private final CheckListService checkListService;
     private final ProductService productService;
     private final TrainerService trainerService;
-
 
     @GetMapping("/new")
     @Auth(role = Role.USER)
@@ -85,22 +85,33 @@ public class GymController {
     }
 
     @GetMapping("/detail/{gymId}")
-    @Auth(role = Role.USER)
     public String detail(@PathVariable("gymId") Long gymId, Model model) {
-        Gym gym = gymService.findById(gymId);
-        if (gym == null) return "옳바른 기관이 아닙니다.";
-        else {
+        Gym gym;
+        try {
+            gym = gymService.findById(gymId);
             GymDto.Response response = new GymDto.Response(gym);
-            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
-                    .stream().filter((product) -> product.getDeleteStatus() == false)
-                    .collect(Collectors.toList());
-            List<ProductDto.Response> PtProducts = productService.findByGymIdAndType(gymId, ProductType.PT);
-
             model.addAttribute("gym", response);
+
+            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
+                    .stream()
+                    .filter((product) -> product.getDeleteStatus() == false)
+                    .filter((product) -> product.getProductType() == ProductType.NORMAL)
+                    .collect(Collectors.toList());
             model.addAttribute("normalProducts", normalProducts);
-            model.addAttribute("PtProducts", PtProducts);
+
+            List<ProductDto.Response> ptProducts = productService.findByGymIdAndType(gymId, ProductType.PT)
+                    .stream()
+                    .filter((product) -> product.getDeleteStatus() == false)
+                    .collect(Collectors.toList());
+            model.addAttribute("ptProducts", ptProducts);
+
             model.addAttribute("trainers", trainerService.findByGymId(gymId));
+
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("data", new Message("존재하지 않는 기관입니다.", "/gym/search"));
+            return "common/message";
         }
+
         return "gym/detail";
     }
 
