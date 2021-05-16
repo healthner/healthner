@@ -3,6 +3,7 @@ package com.healthner.healthner.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,17 +40,18 @@ public class Product extends BaseEntity {
 
     private Integer price;
 
+    @ColumnDefault("false")
     private Boolean deleteStatus;
 
     private Integer count;
 
-    private LocalDateTime period;
+    private Integer period;
 
     @Enumerated(EnumType.STRING)
     private ProductType type;
 
     private Product(Gym gym, Trainer trainer, String name, String content,
-                    Integer price, Integer count, LocalDateTime period, ProductType type) {
+                    Integer price, Integer count, Integer period, ProductType type) {
         this.gym = gym;
         this.trainer = trainer;
         this.name = name;
@@ -62,7 +64,7 @@ public class Product extends BaseEntity {
     }
 
     public static Product createProduct(Gym gym, Trainer trainer, String name, String content,
-                                        Integer price, Integer count, LocalDateTime period, ProductType type) {
+                                        Integer price, Integer count, Integer period, ProductType type) {
         return new Product(gym, trainer, name, content, price, count, period, type);
     }
 
