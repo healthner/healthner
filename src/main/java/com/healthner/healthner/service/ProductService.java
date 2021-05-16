@@ -3,6 +3,7 @@ package com.healthner.healthner.service;
 import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.Product;
+import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.ProductRepository;
@@ -108,6 +109,14 @@ public class ProductService {
                 .stream()
                 .map(product -> new ProductDto.ResponseNormal(product))
                 .collect(Collectors.toList());
+    }
+
+    public List<ProductDto.Response>findByGymIdAndType(Long gymId, ProductType type){
+        List<Product> ptProducts = productRepository.findByGymIdAndType(gymId, type);
+        List<ProductDto.Response> list = ptProducts.stream()
+                .map(product -> new ProductDto.Response(product))
+                .collect(Collectors.toList());
+        return list;
     }
 
     @Transactional

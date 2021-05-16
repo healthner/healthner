@@ -1,15 +1,18 @@
 package com.healthner.healthner.service;
 
+import com.healthner.healthner.controller.dto.TrainerDto;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.domain.User;
-import com.healthner.healthner.controller.dto.TrainerDto;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.TrainerRepository;
 import com.healthner.healthner.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -62,5 +65,13 @@ public class TrainerService {
     private Trainer getTrainer(Long id) {
         return trainerRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
+    }
+
+    public List<TrainerDto.Response> findByGymId(Long gymId) {
+        List<Trainer> trainers = trainerRepository.findByGymId(gymId);
+        List<TrainerDto.Response> list = trainers.stream()
+                .map(trainer -> new TrainerDto.Response(trainer))
+                .collect(Collectors.toList());
+        return list;
     }
 }

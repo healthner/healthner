@@ -12,51 +12,121 @@
                     <p>시설상세페이지</p>
                 </div>
 
-                <div>
-                    <div style="padding-bottom: 72px;">
-                        <div style="z-index: 500; transform: translateZ(0px);">
-                            <div class="sc-1s2fvbv-2 bDEjCg" style="width: 100%; border: 1px solid rgb(220, 220, 220);">
-                                <div class="bar" style="text-align: center; background: rgb(255, 255, 255); line-height: 70px; height: 70px; display: flex;">
-                                    <a class="menuComp">이름</a>
-                                    <a class="menuComp">주소</a>
-                                    <a class="menuComp">businessnumber</a>
-                                    <a class="menuComp">센터소개</a>
-                                    <a class="menuComp">상품리스트</a>
-                                    <a class="menuComp">트레이너리스트</a>
+            <div>
+                <div style="padding-bottom: 72px;">
+                    <div style="z-index: 500; transform: translateZ(0px);">
+                        <div class="sc-1s2fvbv-2 bDEjCg" style="width: 100%; border: 1px solid rgb(220, 220, 220);">
+                            <div class="bar" style="text-align: center; background: rgb(255, 255, 255); line-height: 70px; height: 70px; display: flex;">
+                                <a class="menuComp">이름</a>
+                                <a class="menuComp">주소</a>
+                                <a class="menuComp">businessnumber</a>
+                                <a class="menuComp">센터소개</a>
+                                <a class="menuComp">상품리스트</a>
+                                <a class="menuComp">트레이너리스트</a>
 
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <img src="../../static/img/speakers/1.jpg" alt="Speaker 1" class="img-fluid">
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="details">
-                            <h2>Brenden Legros</h2>
-                            <div class="social">
-                                <a href=""><i class="fa fa-twitter"></i></a>
-                                <a href=""><i class="fa fa-facebook"></i></a>
-                                <a href=""><i class="fa fa-google-plus"></i></a>
-                                <a href=""><i class="fa fa-linkedin"></i></a>
-                            </div>
-                            <p>Voluptatem perferendis sed assumenda voluptatibus. Laudantium molestiae sint. Doloremque odio dolore dolore sit. Quae labore alias ea omnis ex expedita sapiente molestias atque. Optio voluptas et.</p>
-
-                            <p>Aboriosam inventore dolorem inventore nam est esse. Aperiam voluptatem nisi molestias laborum ut. Porro dignissimos eum. Tempore dolores minus unde est voluptatum incidunt ut aperiam.</p>
-
-                            <p>Et dolore blanditiis officiis non quod id possimus. Optio non commodi alias sint culpa sapiente nihil ipsa magnam. Qui eum alias provident omnis incidunt aut. Eius et officia corrupti omnis error vel quia omnis velit. In qui debitis autem aperiam voluptates unde sunt et facilis.</p>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 
-        </section>
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="../../static/img/speakers/1.jpg" alt="Speaker 1" class="img-fluid">
+                </div>
+
+                <div class="col-md-6">
+                    <div class="details">
+                        <h2 th:text="${gym.name}"></h2>
+                        <div class="social">
+                            <a href=""><i class="fa fa-twitter"></i></a>
+                            <a href=""><i class="fa fa-facebook"></i></a>
+                            <a href=""><i class="fa fa-google-plus"></i></a>
+                            <a href=""><i class="fa fa-linkedin"></i></a>
+                        </div>
+                        <p>주소 : <span th:text="${gym.address}"></span></p>
+                        <p>사업자 등록 번호 : <span th:text="${gym.businessNumber}"></span></p>
+                        <p>소개 : <span th:text="${gym.content}"></span></p>
+                    </div>
+
+                    <div class="trainer-product-info">
+                        <h4><a name="product-info">회원권</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>상품명</th>
+                                <th>설명</th>
+                                <th>가격</th>
+                                <th>기간</th>
+                                <th>type</th>
+                            </tr>
+                            <tr th:each="normalProduct : ${normalProducts}">
+                                <td th:text="${normalProduct.name}"></td>
+                                <td th:text="${normalProduct.content}"></td>
+                                <td th:text="${normalProduct.price}"></td>
+                                <td th:text="${normalProduct.period}"></td>
+                                <td th:text="${normalProduct.productType}"></td>
+                                <td>
+                                    <!--                                        <a th:href="@{/gym/product/update/{productId}(productId=${product.id})}"-->
+                                    <!--                                           class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">구매하기</div>
+                                    <!--                                        </a>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="trainer-product-info">
+                        <h4><a name="product-info">PT</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>상품명</th>
+                                <th>설명</th>
+                                <th>가격</th>
+                                <th>기간</th>
+                                <th>type</th>
+                            </tr>
+                            <tr th:each="PtProduct : ${PtProducts}">
+                                <td th:text="${PtProduct.name}"></td>
+                                <td th:text="${PtProduct.content}"></td>
+                                <td th:text="${PtProduct.price}"></td>
+                                <td th:text="${PtProduct.period}"></td>
+                                <td th:text="${PtProduct.productType}"></td>
+                                <td>
+                                    <!--                                        <a th:href="@{/gym/product/update/{productId}(productId=${product.id})}"-->
+                                    <!--                                           class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">구매하기</div>
+                                    <!--                                        </a>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="trainer-product-info">
+                        <h4><a name="product-info">트레이너</a></h4>
+                        <table class="trainer-my-page-table">
+                            <tr>
+                                <th>이름</th>
+                                <th>경력</th>
+                            </tr>
+                            <tr th:each="trainer : ${trainers}">
+                                <td th:text="${trainer.name}"></td>
+                                <td th:text="${trainer.career}"></td>
+                                <td>
+                                    <!--                                        <a th:href="@{/gym/product/update/{productId}(productId=${product.id})}"-->
+                                    <!--                                           class="d-grid gap-2 d-md-flex justify-content-md-end">-->
+                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">구매하기</div>
+                                    <!--                                        </a>-->
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </section>
+</section>
 
     <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
