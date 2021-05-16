@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: header"></head>
+<head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg wow fadeInUp">
         <div class="section-header">
@@ -56,7 +56,7 @@
         </div>
     </section>
 
-    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 <script>
     function searchGyms() {

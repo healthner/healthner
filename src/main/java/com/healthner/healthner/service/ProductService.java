@@ -56,10 +56,10 @@ public class ProductService {
         return new ProductDto.Response(product);
     }
 
-    public ProductDto.NormalResponse findByIdToNormal(Long id) {
+    public ProductDto.ResponseNormal findByIdToNormal(Long id) {
         Product product = getProduct(id);
 
-        return new ProductDto.NormalResponse(product);
+        return new ProductDto.ResponseNormal(product);
     }
 
     public List<ProductDto.Response> findByTrainerId(Long id) {
@@ -103,10 +103,10 @@ public class ProductService {
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
     }
 
-    public List<ProductDto.NormalResponse> findByGymId(Long id){
+    public List<ProductDto.ResponseNormal> findByGymId(Long id){
         return productRepository.findByGymId(id)
                 .stream()
-                .map(product -> new ProductDto.NormalResponse(product))
+                .map(product -> new ProductDto.ResponseNormal(product))
                 .collect(Collectors.toList());
     }
 

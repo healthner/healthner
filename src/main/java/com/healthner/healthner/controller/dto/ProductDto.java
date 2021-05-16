@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
-
 public class ProductDto {
 
     @Getter
@@ -78,7 +76,7 @@ public class ProductDto {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class NormalResponse {
+    public static class ResponseNormal {
         private Long id;
         private Long gymId;
         private String name;
@@ -89,7 +87,7 @@ public class ProductDto {
         private ProductType productType;
         private Boolean deleteStatus;
 
-        public NormalResponse(Product product) {
+        public ResponseNormal(Product product) {
             this.id = product.getId();
             this.gymId = product.getGym().getId();
             this.name = product.getName();

@@ -93,10 +93,10 @@ public class GymController {
     @Auth(role = Role.USER)
     public String getGym(HttpSession httpSession, Model model) {
         GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
-        List<ProductDto.NormalResponse> products = productService.findByGymId(gym.getId())
+        List<ProductDto.ResponseNormal> products = productService.findByGymId(gym.getId())
                 .stream().filter((product)->product.getDeleteStatus() == false)
                 .collect(Collectors.toList());
-        List<ProductDto.NormalResponse> deletedProducts = productService.findByGymId(gym.getId())
+        List<ProductDto.ResponseNormal> deletedProducts = productService.findByGymId(gym.getId())
                 .stream().filter((product)->product.getDeleteStatus() == true)
                 .collect(Collectors.toList());
         model.addAttribute("gym", gym);
