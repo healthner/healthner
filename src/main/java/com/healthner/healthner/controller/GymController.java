@@ -91,7 +91,7 @@ public class GymController {
         if (gym == null) return "옳바른 기관이 아닙니다.";
         else {
             GymDto.Response response = new GymDto.Response(gym);
-            List<ProductDto.NormalResponse> normalProducts = productService.findByGymId(gym.getId())
+            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
                     .stream().filter((product)->product.getDeleteStatus() == false)
                     .collect(Collectors.toList());
             List<ProductDto.Response> PtProducts = productService.findByGymIdAndType(gymId,ProductType.PT);
