@@ -5,9 +5,46 @@
     <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg">
-            home
+        <div>
+            <img class="home-main-img" src="/static/img/health.jpeg">
+        </div>
+
+        <div class="home-search">
+            <form onsubmit="searchGyms(); return false">
+                <div class="input-group input-group-lg">
+                    <label for="keyword"></label>
+                    <input type="text" id="keyword" class="form-control" placeholder="지역을 입력해주세요.">
+                    <div class="input-group-append">
+                        <button class="btn btn-warning" type="submit">찾기</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="home-info">
+            <div class="home-info-container">
+                <div class="home-info-item">
+                    <img class="home-icon" src="/static/img/home/employees.png">
+                    <div>
+                        <p th:text="${userCount} + '명의 회원이 healthner를 사용 중입니다.'"></p>
+                    </div>
+                </div>
+                <div class="home-info-item">
+                    <img class="home-icon" src="/static/img/home/trainer.png">
+                    <div>
+                        <p th:text="${trainerCount} + '명의 트레이너가 등록되어 있습니다.'"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
+<script>
+    function searchGyms() {
+        let keyword = document.getElementById('keyword').value;
+        location.href = 'http://localhost:8080/gym/search?keyword=' + keyword;
+    }
+</script>
 </html>

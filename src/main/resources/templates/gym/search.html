@@ -44,12 +44,32 @@
 
     let gyms = [];
 
-    function searchGyms() {
-        let keyword = document.getElementById('keyword').value;
+    function getUrlParams() {
+        let params = {};
+        location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+        return params;
+    }
 
-        if (!keyword.replace(/^\s+|\s+$/g, '')) {
-            alert('키워드를 입력해주세요!');
-            return false;
+    let params = getUrlParams();
+    if (params.keyword != undefined) {
+        let keyword = decodeURI(params.keyword);
+        console.log(keyword);
+        searchGyms(keyword);
+    }
+
+    function searchGyms(initKeyword) {
+        let keyword;
+
+        if (initKeyword === undefined) {
+            keyword = document.getElementById('keyword').value;
+
+            if (!keyword.replace(/^\s+|\s+$/g, '')) {
+                alert('키워드를 입력해주세요!');
+                return false;
+            }
+        } else {
+            keyword = initKeyword;
+            document.getElementById('keyword').value = keyword;
         }
 
         gymSearch(keyword);

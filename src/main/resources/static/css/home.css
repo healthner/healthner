@@ -1,0 +1,45 @@
+.home-main-img {
+    width: 100%;
+    max-height: 100vh;
+    opacity: 0.5;
+}
+
+.home-search {
+    width: 60%;
+    margin: 3rem auto;
+}
+
+#home-map {
+    width: 100%;
+    min-height: 50vh;
+}
+
+.home-info {
+    margin: 5rem auto;
+}
+
+.home-info-container {
+    width: 100%;
+    display: flex;
+}
+
+.home-info-item {
+    width: 50%;
+    border-right: 1px solid #FFC846;
+    border-left: 1px solid #FFC846;
+    text-align: center;
+}
+
+.home-info-item > div {
+}
+
+.home-info-item > div > p:first-child {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.home-icon {
+    width: 5rem;
+    height: 5rem;
+    margin: 1rem 0;
+}
