@@ -47,6 +47,9 @@ public class UserController {
         List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userInfo.getId());
         model.addAttribute("reservations", reservations);
 
+        Long userId = userInfo.getId();
+        model.addAttribute("purchaseList", purchaseService.findByUserId(userId));
+
         return "user/my-page";
     }
 }

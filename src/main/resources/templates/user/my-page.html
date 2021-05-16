@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: header"></head>
+<head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg">
         <div class="user-my-page-wrap">
@@ -18,13 +18,13 @@
                 </div>
 
                 <div class="user-my-page-content">
-                    <div class="trainer-user-info">
+                    <div class="user-user-info">
                         <h4>유저 정보</h4>
                         <div th:text="|이름: ${user.name}|"></div>
                     </div>
-                    <div class="trainer-reservation-info">
+                    <div class="user-reservation-info">
                         <h4><a name="reservation-info">예약 정보</a></h4>
-                        <table class="trainer-my-page-table">
+                        <table class="user-my-page-table">
                             <tr>
                                 <th>예약ID</th>
                                 <th>예약 날짜</th>
@@ -52,11 +52,48 @@
                             </tr>
                         </table>
                     </div>
+
+                    <div class="user-purchase-info">
+                        <h4><a name="purchase-info">구매 내역</a></h4>
+                        <table class="user-my-page-table">
+                            <tr>
+                                <th>pt이용권인지 어떤 상품인지</th>
+                                <th>상품이름</th>
+                                <th>gym 이름</th>
+                                <th>트레이너 이름</th>
+                                <th>가격</th>
+                                <th>사용 가능 기간</th>
+                                <th>총 몇회차 상품인지</th>
+                                <th>수정</th>
+                                <th>삭제</th>
+                            </tr>
+                            <tr th:each="purchase : ${purchaseList}">
+                                <td th:text="${purchase.productType}"></td>
+                                <td th:text="${purchase.productName}"></td>
+                                <td th:text="${purchase.gymName}"></td>
+                                <td th:text="${purchase.trainerName}"></td>
+                                <td th:text="${purchase.price}"></td>
+                                <td th:text="${purchase.period}"></td>
+                                <td th:text="${purchase.count}"></td>
+                                <td>
+                                    <a th:href="@{/purchase/{purchaseId}/update(purchaseId=${purchase.id})}"
+                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                    </a>
+                                <td>
+                                    <a th:href="@{/purchase/{purchaseId}/delete(purchaseId=${purchase.id})}"
+                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">삭제</div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
