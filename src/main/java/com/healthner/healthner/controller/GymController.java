@@ -2,13 +2,16 @@ package com.healthner.healthner.controller;
 
 import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.controller.dto.GymDto;
+import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.domain.Gym;
+import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.CheckListService;
 import com.healthner.healthner.service.GymService;
+import com.healthner.healthner.service.ProductService;
 import com.healthner.healthner.service.PurchaseService;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -33,6 +38,7 @@ public class GymController {
     private final UserService userService;
     private final PurchaseService purchaseService;
     private final CheckListService checkListService;
+    private final ProductService productService;
 
 
     @GetMapping("/new")
@@ -47,24 +53,28 @@ public class GymController {
     public String register(@ModelAttribute("gym") GymDto.Request gymDto, HttpSession session) {
         UserDto.Response user = (UserDto.Response) session.getAttribute("userInfo");
         Long ceoId = user.getId();
-        Long gymId = gymService.register(gymDto, ceoId);
-        return "redirect:/gym/" + gymId + "/mypage";
+        gymService.register(gymDto, ceoId);
+        return "redirect:/gym/mypage";
     }
 
-    @GetMapping("/{gymId}/update")
+    @GetMapping("/update")
     @Auth(role = Role.USER)
-    public String modify(@PathVariable Long gymId, Model model) {
-        Gym gymEntity = gymService.findById(gymId);
+    public String modify(HttpSession httpSession, Model model) {
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long thisGymId = thisgym.getId();
+        Gym gymEntity = gymService.findById(thisGymId);
         GymDto.Form gym = new GymDto.Form(gymEntity);
         model.addAttribute("gym", gym);
         return "/gym/create-gym";
     }
 
-    @PostMapping("/{gymId}/update")
+    @PostMapping("/update")
     @Auth(role = Role.USER)
-    public String modify(@PathVariable Long gymId, @ModelAttribute("gym") GymDto.Request gymDto) {
+    public String modify(HttpSession httpSession, @ModelAttribute("gym") GymDto.Request gymDto) {
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long gymId = thisgym.getId();
         gymService.update(gymId, gymDto);
-        return "redirect:/gym/" + gymId + "/mypage";
+        return "redirect:/gym/mypage";
     }
 
     @GetMapping("search")
@@ -72,18 +82,28 @@ public class GymController {
         return "gym/search";
     }
 
-    @GetMapping("{gymId}/detail")
-    public String detail(@PathVariable("gymId") Long id) {
+    @GetMapping("{/detail")
+    public String detail(HttpSession httpSession, Model model) {
+        GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+
         return "gym/detail";
     }
 
-    @GetMapping("/{gymId}/mypage")
+    @GetMapping("/mypage")
     @Auth(role = Role.USER)
-    public String getGym(@PathVariable Long gymId, Model model) {
-        Gym gymEntity = gymService.findById(gymId);
-        GymDto.Form gym = new GymDto.Form(gymEntity);
+    public String getGym(HttpSession httpSession, Model model) {
+        GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        List<ProductDto.ResponseNormal> products = productService.findByGymId(gym.getId())
+                .stream().filter((product)->product.getDeleteStatus() == false)
+                .collect(Collectors.toList());
+        List<ProductDto.ResponseNormal> deletedProducts = productService.findByGymId(gym.getId())
+                .stream().filter((product)->product.getDeleteStatus() == true)
+                .collect(Collectors.toList());
         model.addAttribute("gym", gym);
-        return "/gym/mypage";
+        model.addAttribute("products", products);
+        model.addAttribute("deletedProducts", deletedProducts);
+
+        return "gym/my-page";
     }
 
     //출석체크
@@ -131,7 +151,71 @@ public class GymController {
         Long total = checkListService.countByGymId(thisGymId);
         model.addAttribute("total", total);
 
-        return "redirect:/gym/" + thisGymId + "/mypage";
+        return "redirect:/gym/mypage";
+    }
+
+    @GetMapping("/product/new")
+    @Auth(role = Role.USER)
+    public String getProduct(HttpSession httpSession, Model model) {
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long thisGymId = thisgym.getId();
+        Gym gym = gymService.findById(thisGymId);
+
+        if(gym == null){
+            return "등록되지 않은 기관입니다.";
+        }else {
+            model.addAttribute("product", new ProductDto.Request());
+        }
+        return "/gym/product-form";
+    }
+
+    @PostMapping("/product/new")
+    @Auth(role = Role.USER)
+    public String PostProduct(@ModelAttribute("product") ProductDto.Request request,
+                              HttpSession httpSession, Model model) {
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long thisGymId = thisgym.getId();
+        Gym gym = gymService.findById(thisGymId);
+        gymService.putProduct(request,gym);
+        return "redirect:/gym/mypage";
+    }
+
+    @GetMapping("/product/update/{productId}")
+    @Auth(role = Role.USER)
+    public String FindUpdateProduct(HttpSession httpSession, @PathVariable Long productId, Model model){
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long thisGymId = thisgym.getId();
+        Gym gym = gymService.findById(thisGymId);
+
+        if(gym == null){
+            return "등록되지 않은 기관입니다.";
+        }else {
+            model.addAttribute("product", productService.findByIdToNormal(productId));
+        }
+        return "/gym/product-form";
+    }
+
+    @PostMapping("/product/update/{productId}")
+    @Auth(role = Role.USER)
+    public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model){
+        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        Long thisGymId = thisgym.getId();
+        Gym gym = gymService.findById(thisGymId);
+
+        if(gym == null){
+            return "등록되지 않은 기관입니다.";
+        }else {
+            request.setProductType(ProductType.NORMAL);
+            model.addAttribute("product", productService.updateNormal(productId, request));
+        }
+        return "redirect:/gym/mypage";
+    }
+
+    @GetMapping("/product/delete/{productId}")
+    @Auth(role = Role.USER)
+    public String delete(@PathVariable("productId") Long productId) {
+        productService.delete(productId);
+        return "redirect:/gym/mypage";
     }
 
 }

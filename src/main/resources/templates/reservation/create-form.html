@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: header"></head>
+<head th:replace="fragments/header.html :: header"></head>
 <body>
-<header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
     <section id="section">
         <form role="form" th:object="${reservationDto}" method="post">
             <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
@@ -29,6 +29,6 @@
         </form>
     </section>
 
-    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
