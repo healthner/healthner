@@ -20,10 +20,12 @@ public class CheckListService {
         return checkListRepository.countByGymId(thisGymId);
     }
 
-    //출석 인정
+    //출석 객체 생성
     @Transactional
     public Long put(User user, Gym gym) {
-        CheckList checkList = new CheckListDto.Request().toEntity(user, gym);
+        CheckListDto.Request request = new CheckListDto.Request();
+        request.setStatus(CheckListStatus.ABSENT);
+        CheckList checkList = request.toEntity(user, gym);
         checkListRepository.save(checkList);
         return checkList.getId();
     }

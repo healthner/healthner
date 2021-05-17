@@ -89,17 +89,17 @@ public class ProductService {
         return productRepository.existsByTrainerId(trainerId);
     }
 
-    private Product getProduct(Long productId) {
+    public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 product id 입니다."));
     }
 
-    private Gym getGym(Long gymId) {
+    public Gym getGym(Long gymId) {
         return gymRepository.findById(gymId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 gym id 입니다."));
     }
 
-    private Trainer getTrainer(Long id) {
+    public Trainer getTrainer(Long id) {
         return trainerRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
     }

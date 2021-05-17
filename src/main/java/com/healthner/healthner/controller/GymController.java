@@ -43,6 +43,7 @@ public class GymController {
     private final ProductService productService;
     private final TrainerService trainerService;
 
+
     @GetMapping("/new")
     @Auth(role = Role.USER)
     public String register(Model model) {
@@ -202,7 +203,7 @@ public class GymController {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         Long thisGymId = thisgym.getId();
         Gym gym = gymService.findById(thisGymId);
-        gymService.putProduct(request, gym);
+        gymService.putProduct(request,gym);
         return "redirect:/gym/mypage";
     }
 

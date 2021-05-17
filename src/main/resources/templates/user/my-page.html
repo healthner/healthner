@@ -2,77 +2,94 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
-    <section id="section" class="section-with-bg">
-        <div class="user-my-page-wrap">
-            <div class="user-my-page-section">
-                <div class="user-my-page-sidebar">
-                    <div class="user-my-page-sidebar-content">
-                        <a href="#" class="btn btn-warning side-button">위로</a>
-                        <a href="/user/update" class="btn btn-warning side-button">정보 수정</a>
-                        <a href="../gym/new" class="btn btn-warning side-button">시설 등록</a>
-                        <a href="../trainer/new" class="btn btn-warning side-button">트레이너 등록</a>
-                        <a href="../user/purchase" class="btn btn-warning side-button">예약하기</a>
-                    </div>
+<section id="section" class="section-with-bg">
+    <div class="user-my-page-wrap">
+        <div class="user-my-page-section">
+            <div class="user-my-page-sidebar">
+                <div class="user-my-page-sidebar-content">
+                    <a href="#" class="btn btn-warning side-button">위로</a>
+                    <a href="/user/update" class="btn btn-warning side-button">정보 수정</a>
+                    <a href="../gym/new" class="btn btn-warning side-button">시설 등록</a>
+                    <a href="../trainer/new" class="btn btn-warning side-button">트레이너 등록</a>
+                    <a href="../user/purchase" class="btn btn-warning side-button">예약하기</a>
                 </div>
+            </div>
 
-                <div class="user-my-page-content">
-                    <div class="user-user-info">
-                        <h4>유저 정보</h4>
-                        <div th:text="|이름: ${user.name}|"></div>
-                    </div>
-                    <div class="user-reservation-info">
-                        <h4><a name="reservation-info">예약 정보</a></h4>
-                        <table class="user-my-page-table">
-                            <tr>
-                                <th>예약ID</th>
-                                <th>예약 날짜</th>
-                                <th>시작시간</th>
-                                <th>종료시간</th>
-                                <th>수정</th>
-                                <th>삭제</th>
-                            </tr>
-                            <tr th:each="reservation : ${reservations}">
-                                <td th:text="${reservation.id}"></td>
-                                <td th:text="${reservation.date}"></td>
-                                <td th:text="${reservation.startTime}"></td>
-                                <td th:text="${reservation.endTime}"></td>
-                                <td>
-                                    <a th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
-                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
-                                    </a>
-                                <td>
-                                    <a th:href="@{/reservation/{reservId}/delete(reservId=${reservation.id})}"
-                                       class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">삭제</div>
-                                    </a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+            <div class="user-my-page-content">
+                <div class="user-user-info">
+                    <h4>유저 정보</h4>
+                    <div th:text="|이름: ${user.name}|"></div>
+                </div>
+                <div class="user-reservation-info">
+                    <h4><a name="reservation-info">예약 정보</a></h4>
+                    <table class="user-my-page-table">
+                        <tr>
+                            <th>예약ID</th>
+                            <th>예약 날짜</th>
+                            <th>시작시간</th>
+                            <th>종료시간</th>
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                        <tr th:each="reservation : ${reservations}">
+                            <td th:text="${reservation.id}"></td>
+                            <td th:text="${reservation.date}"></td>
+                            <td th:text="${reservation.startTime}"></td>
+                            <td th:text="${reservation.endTime}"></td>
+                            <td>
+                                <a th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
+                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                </a>
+                            <td>
+                                <a th:href="@{/reservation/{reservId}/delete(reservId=${reservation.id})}"
+                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">삭제</div>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="user-purchase-info">
+                    <h4><a name="purchase-info">구매 내역</a></h4>
 
+                    <table class="user-my-page-table">
+                        <tr>
+                            <th>pt이용권인지 어떤 상품인지</th>
+                            <th>상품이름</th>
+                            <th>gym 이름</th>
+                            <th>가격</th>
+                            <th>사용 가능 기간</th>
+                        </tr>
+                        <tr th:each="normal : ${Normal}">
+                            <td th:text="${normal.productType}"></td>
+                            <td th:text="${normal.productName}"></td>
+                            <td th:text="${normal.gymName}"></td>
+                            <td th:text="${normal.price}"></td>
+                            <td th:text="${normal.period}"></td>
+                        </tr>
+                    </table>
+                    <br>
                     <div class="user-purchase-info">
                         <h4><a name="purchase-info">이용중인 상품</a></h4>
                         <table class="user-my-page-table">
                             <tr>
-                                <th>pt이용권/회원권</th>
-                                <th>상품 이름</th>
+                                <th>pt이용권인지 어떤 상품인지</th>
+                                <th>상품이름</th>
                                 <th>gym 이름</th>
                                 <th>트레이너 이름</th>
                                 <th>가격</th>
-                                <th>사용 가능 기간</th>
-                                <th>총 회차</th>
+                                <th>총 몇회차 상품인지</th>
                             </tr>
-                            <tr th:each="purchase : ${purchaseList}">
-                                <td th:text="${purchase.productType}"></td>
-                                <td th:text="${purchase.productName}"></td>
-                                <td th:text="${purchase.gymName}"></td>
-                                <td th:text="${purchase.trainerName}"></td>
-                                <td th:text="${purchase.price}"></td>
-                                <td th:text="${purchase.period}"></td>
-                                <td th:text="${purchase.count}"></td>
+                            <tr th:each="pt : ${PT}">
+                                <td th:text="${pt.productType}"></td>
+                                <td th:text="${pt.productName}"></td>
+                                <td th:text="${pt.gymName}"></td>
+                                <td th:text="${pt.trainerName}"></td>
+                                <td th:text="${pt.price}"></td>
+                                <td th:text="${pt.count}"></td>
                             </tr>
                         </table>
                     </div>
@@ -92,11 +109,38 @@
                             </tr>
                         </table>
                     </div>
+                    <div class="user-purchase-info">
+                        <h4><a name="purchase-info">유효기간이 만료된 상품</a></h4>
+
+                        <table class="user-my-page-table">
+                            <tr>
+                                <th>pt이용권인지 어떤 상품인지</th>
+                                <th>상품이름</th>
+                                <th>gym 이름</th>
+                                <th>가격</th>
+                                <th>잔여 횟수/유효기간</th>
+                            </tr>
+                            <tr th:each="endPt : ${endPt}">
+                                <td th:text="${endPt.productType}"></td>
+                                <td th:text="${endPt.productName}"></td>
+                                <td th:text="${endPt.gymName}"></td>
+                                <td th:text="${endPt.price}"></td>
+                                <td th:text="${endPt.count}">회</td>
+                            </tr>
+                            <tr th:each="endNormal : ${endNormal}">
+                                <td th:text="${endNormal.productType}"></td>
+                                <td th:text="${endNormal.productName}"></td>
+                                <td th:text="${endNormal.gymName}"></td>
+                                <td th:text="${endNormal.price}"></td>
+                                <td th:text="${endNormal.period}"></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>

@@ -7,7 +7,8 @@ values (now(), now(), 'admin@email.com', '1234', '관리자', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
        (now(), now(), 'dev.hyeonic@gmail.com', '1234', 'hyeonic', '010-0000-0000'),
-       (now(), now(), 'jmtkdsh@nate.com', '1234', '이선하', '010-0000-0000');
+       (now(), now(), 'jmtkdsh@nate.com', '1234', '이선하', '010-0000-0000'),
+       (now(), now(), 'lisasje@nate.com', '1234', '신정은', '010-0000-0000');
 
 insert into gym (created_date, last_modified_date, name, address, content, business_number, ceo_id)
 values (now(), now(), '홍길동짐', '부천시 중동로 165번길 22', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
@@ -23,20 +24,19 @@ values (now(), now(), 2, 1, '자격증 보유'),
        (now(), now(), 3, 1, '자격증 보유'),
        (now(), now(), 8, 1, '자격증 보유');
 
-insert into product (created_date, last_modified_date, content, count, delete_status, name, period, price, type, gym_id, trainer_id)
+insert into product (created_date, last_modified_date, content, count, delete_status, name, period, price, type, gym_id,
+                     trainer_id)
 values (now(), now(), 'hyeonic의 pt상품 1 입니다', 6, false, 'hyeonic의 pt상품 1', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 2 입니다', 6, false, 'hyeonic의 pt상품 2', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 3 입니다', 6, false, 'hyeonic의 pt상품 3', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 4 입니다', 6, true, 'hyeonic의 pt상품 4', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 5 입니다', 6, true, 'hyeonic의 pt상품 5', null, 60000, 'PT', 1, 3),
-       (now(), now(), 'pt상품1 입니다', 6, false, 'pt상품1', null, 60000, 'PT', 1, 1),
-       (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', 3, 100000, 'NORMAL', 2, null);
+       (now(), now(), '4달회원권 입니다', null, false, '4달회원권', 4, 110000, 'NORMAL', 1, null),
+       (now(), now(), '3달회원권 입니다', null, false, '3달회원권', 3, 100000, 'NORMAL', 1, null);
 
 
 insert into purchase (created_date, last_modified_date, count, period, price, gym_id, product_id, trainer_id, user_id)
-values (now(), now(), 1, now(), 60000, 1, 1, 1, 1),
-       (now(), now(), 1, now(), 60000, 2, 1, 1, 2),
-       (now(), now(), 2, now(), 60000, 3, 1, 1, 3),
+values (now(), now(), 2, now(), 60000, 3, 1, 1, 3),
        (now(), now(), 3, now(), 60000, 4, 1, 1, 4),
        (now(), now(), 6, now(), 60000, 1, 1, 1, 9),
        (now(), now(), 10, now(), 100000, 2, 2, 2, 9),
