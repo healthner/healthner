@@ -23,16 +23,16 @@ public class ReservationService {
     private final PurchaseRepository purchaseRepository;
 
     //예약 생성 전 검증
-    public Boolean isEmpty(Long purchaseId){
-         Boolean isExist = reservationRepository.findByPurchaseId(purchaseId)
-                 .isEmpty();
-         return isExist;
+    public Boolean isEmpty(Long purchaseId) {
+        Boolean isExist = reservationRepository.findByPurchaseId(purchaseId)
+                .isEmpty();
+        return isExist;
     }
 
     //예약 생성
     @Transactional
     public Long put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
-        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
+        Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
         User user = purchase.getUser();
         Trainer trainer = purchase.getTrainer();
         Reservation reservation = reservRequest.toEntity(user, trainer, purchase);
@@ -46,7 +46,7 @@ public class ReservationService {
     public ReservationDto.ReservResponse findById(Long id) {
         Reservation find = reservationRepository.findById(id).orElseThrow(
                 () -> new ReservationNotFoundException());
-        ReservationDto.ReservResponse initial =  new ReservationDto.ReservResponse(find);
+        ReservationDto.ReservResponse initial = new ReservationDto.ReservResponse(find);
         return initial;
     }
 
@@ -66,7 +66,7 @@ public class ReservationService {
     //예약 삭제
     @Transactional
     public Long delete(Long id) {
-        Long userId = reservationRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("옳바르지 않은 예약입니다."))
+        Long userId = reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 예약입니다."))
                 .getUser()
                 .getId();
         reservationRepository.deleteById(id);

@@ -19,7 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Purchase extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "purchase_id")
     private Long id;
 
@@ -57,7 +58,7 @@ public class Purchase extends BaseEntity {
     }
 
     public static Purchase createPurchase(Integer price, Integer count, LocalDateTime period,
-                                         User user, Gym gym, Trainer trainer, Product product) {
+                                          User user, Gym gym, Trainer trainer, Product product) {
         return new Purchase(price, count, period, user, gym, trainer, product);
     }
 }

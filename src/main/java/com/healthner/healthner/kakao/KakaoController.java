@@ -50,7 +50,7 @@ public class KakaoController {
     @RequestMapping("logout")
     public String logout(Model model, HttpSession httpSession) {
 
-        UserDto.Response response =  new UserDto.Response(null, "로그인을 해주세요", null, null);
+        UserDto.Response response = new UserDto.Response(null, "로그인을 해주세요", null, null);
         model.addAttribute("user", response);
 
         httpSession.invalidate();

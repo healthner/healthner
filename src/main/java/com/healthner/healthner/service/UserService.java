@@ -18,7 +18,7 @@ public class UserService {
 
     // 유저 회원가입
     @Transactional
-    public Long join(User user){
+    public Long join(User user) {
         userRepository.save(user);
         return user.getId();
     }
@@ -31,10 +31,10 @@ public class UserService {
 
         findUser.updateUser(updateUser);
         return findUser.getId();
-    } 
+    }
 
     // 유저 조회
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 

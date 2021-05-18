@@ -7,12 +7,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface PurchaseRepository extends JpaRepository<Purchase,Long> {
+public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
 
     List<Purchase> findByUserId(Long id);
 
     @Query(value = "select user.id from Purchase where gym.id = :thisGymId and user.id = :userId")
-    Long findByGymIdAndUserId(@Param("userId")Long userId, @Param("thisGymId") Long id);
+    Long findByGymIdAndUserId(@Param("userId") Long userId, @Param("thisGymId") Long id);
 
     List<Purchase> findByGymId(Long id);
 

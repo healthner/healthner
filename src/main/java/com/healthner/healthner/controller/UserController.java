@@ -29,12 +29,12 @@ public class UserController {
     //유저의 구매 내역 리스트
     @Auth(role = Role.USER)
     @GetMapping("/purchase")
-    public String findMyPurchaseList(HttpSession httpSession, Model model){
+    public String findMyPurchaseList(HttpSession httpSession, Model model) {
         UserDto.Response response = (UserDto.Response) httpSession.getAttribute("userInfo");
 
-        if(response == null){
+        if (response == null) {
             return "loginerror";
-        }else {
+        } else {
             Long userId = response.getId();
             model.addAttribute("purchaseList", purchaseService.findByUserId(userId));
         }

@@ -54,7 +54,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // admin일 경우
         String role = auth.role().toString();
-        if(role != null) {
+        if (role != null) {
             if ("ADMIN".equals(role)) {
                 if (userInfo.getRole() != Role.ADMIN) {
                     response.sendRedirect("/loginerror");

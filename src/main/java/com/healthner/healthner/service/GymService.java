@@ -66,18 +66,17 @@ public class GymService {
         gymRepository.deleteById(gymId);
     }
 
-    public GymDto.Form findByCeoId(Long ceoId){
+    public GymDto.Form findByCeoId(Long ceoId) {
         Gym gym = gymRepository.findByCeoId(ceoId).orElseThrow(() -> new IllegalArgumentException("등록되지 않은 기관입니다."));
         return new GymDto.Form(gym);
     }
 
     @Transactional
-    public void putProduct(ProductDto.Request request, Gym gym){
+    public void putProduct(ProductDto.Request request, Gym gym) {
         request.setProductType(ProductType.NORMAL);
-        Product normal = request.toEntity(gym,null);
+        Product normal = request.toEntity(gym, null);
         productRepository.save(normal);
     }
-
 
 
 }

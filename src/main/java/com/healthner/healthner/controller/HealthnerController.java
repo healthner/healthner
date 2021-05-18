@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HealthnerController {
 
     @GetMapping(value = "/loginerror")
-    public String kakaoError(){
+    public String kakaoError() {
         return "loginerror";
     }
 

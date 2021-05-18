@@ -1,0 +1,44 @@
+/* gym detail */
+.gym-detail-wrap {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 3% auto;
+    padding: 1rem;
+    background-color: #fefefe;
+    border-radius: .25rem;
+}
+
+.gym-detail-info {
+    display: flex;
+    margin: 1rem 0;
+}
+
+.gym-detail-content > div {
+    padding: 1rem;
+    border-bottom: 1px solid #FDF5E6;
+}
+
+.gym-detail-info > div {
+    width: 50%;
+}
+
+.gym-detail-info > p {
+    margin: 1rem 0;
+}
+
+#gym-detail-map {
+    width: 50%;
+    padding-bottom: 50%;
+}
+
+.gym-detail-table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+}
+
+.gym-detail-table th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+}

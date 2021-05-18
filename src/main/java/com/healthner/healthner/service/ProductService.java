@@ -104,14 +104,14 @@ public class ProductService {
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
     }
 
-    public List<ProductDto.ResponseNormal> findByGymId(Long id){
+    public List<ProductDto.ResponseNormal> findByGymId(Long id) {
         return productRepository.findByGymId(id)
                 .stream()
                 .map(product -> new ProductDto.ResponseNormal(product))
                 .collect(Collectors.toList());
     }
 
-    public List<ProductDto.Response>findByGymIdAndType(Long gymId, ProductType type){
+    public List<ProductDto.Response> findByGymIdAndType(Long gymId, ProductType type) {
         List<Product> ptProducts = productRepository.findByGymIdAndType(gymId, type);
         List<ProductDto.Response> list = ptProducts.stream()
                 .map(product -> new ProductDto.Response(product))

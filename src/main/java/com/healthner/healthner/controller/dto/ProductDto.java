@@ -45,6 +45,7 @@ public class ProductDto {
         private Integer price;
         private Integer count;
         private Integer period;
+        private Boolean deleteStatus;
         private ProductType productType;
 
         public Response(Product product) {
@@ -56,6 +57,7 @@ public class ProductDto {
             this.price = product.getPrice();
             this.count = product.getCount();
             this.period = product.getPeriod();
+            this.deleteStatus = product.getDeleteStatus();
             this.productType = product.getType();
         }
 
