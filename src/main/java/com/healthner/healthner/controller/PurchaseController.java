@@ -39,30 +39,25 @@ public class PurchaseController {
                     new Message("이미 구매한 상품입니다", "/home"));
             return "common/message";
         }
-        try {
-            PurchaseDto.Request request = new PurchaseDto.Request();
-            //NORMAL상품일 경우
-            if (purchaseService.findType(productId) == ProductType.NORMAL) {
-                request.setPeriod(LocalDateTime.now().plusMonths(productService.getProduct(productId).getPeriod()));
-            }
-            //PT 상품일 경우
-            else if (purchaseService.findType(productId) == ProductType.PT) {
-                request.setCount(productService.getProduct(productId).getCount());
-            }
-            //구매 진행
-            purchaseService.save(request.toEntity(userService.findById(user.getId()), productService.getProduct(productId).getGym(),
-                    productService.getProduct(productId).getTrainer(), productService.getProduct(productId)));
-            //출석객체 생성 후 결석으로 세팅
-            checkListService.put(userService.findById(user.getId()), productService.getProduct(productId).getGym());
-            Thread.sleep(2000);
-            model.addAttribute("data",
-                    new Message("구매가 완료되었습니다.", "/user/my-page"));
 
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("data",
-                    new Message("옳바르지 않은 상품입니다.", "/home"));
-            return "common/message";
+        PurchaseDto.Request request = new PurchaseDto.Request();
+        //NORMAL상품일 경우
+        if (purchaseService.findType(productId) == ProductType.NORMAL) {
+            request.setPeriod(LocalDateTime.now().plusMonths(productService.getProduct(productId).getPeriod()));
         }
+        //PT 상품일 경우
+        else if (purchaseService.findType(productId) == ProductType.PT) {
+            request.setCount(productService.getProduct(productId).getCount());
+        }
+        //구매 진행
+        purchaseService.save(request.toEntity(userService.findById(user.getId()), productService.getProduct(productId).getGym(),
+                productService.getProduct(productId).getTrainer(), productService.getProduct(productId)));
+        //출석객체 생성 후 결석으로 세팅
+        checkListService.put(userService.findById(user.getId()), productService.getProduct(productId).getGym());
+        Thread.sleep(2000);
+        model.addAttribute("data",
+                new Message("구매가 완료되었습니다.", "/user/my-page"));
+
         return "common/message";
     }
 }

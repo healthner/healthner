@@ -22,11 +22,10 @@ public class CheckListService {
 
     //출석 객체 생성
     @Transactional
-    public Long put(User user, Gym gym) {
+    public void put(User user, Gym gym) {
         CheckListDto.Request request = new CheckListDto.Request();
         request.setStatus(CheckListStatus.ABSENT);
         CheckList checkList = request.toEntity(user, gym);
         checkListRepository.save(checkList);
-        return checkList.getId();
     }
 }
