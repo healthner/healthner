@@ -9,8 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import static com.healthner.healthner.domain.CheckListStatus.ATTENDANCE;
-
 public class CheckListDto {
     @Data
     @AllArgsConstructor(staticName = "of")
@@ -23,7 +21,7 @@ public class CheckListDto {
         private String email;
 
         public CheckList toEntity(User user, Gym gym) {
-            return CheckList.createCheckList(ATTENDANCE, user, gym);
+            return CheckList.createCheckList(this.getStatus(), user, gym);
         }
     }
 

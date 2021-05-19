@@ -89,33 +89,48 @@ public class ProductService {
         return productRepository.existsByTrainerId(trainerId);
     }
 
-    private Product getProduct(Long productId) {
+    public Product getProduct(Long productId) {
         return productRepository.findById(productId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 product id 입니다."));
     }
 
-    private Gym getGym(Long gymId) {
+    public Gym getGym(Long gymId) {
         return gymRepository.findById(gymId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 gym id 입니다."));
     }
 
-    private Trainer getTrainer(Long id) {
+    public Trainer getTrainer(Long id) {
         return trainerRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 trainer id 입니다."));
     }
 
-    public List<ProductDto.ResponseNormal> findByGymId(Long id) {
-        return productRepository.findByGymId(id)
+    public List<ProductDto.ResponseNormal> findByGymId(Long gymId) {
+        List<Product> normalProducts = productRepository.findByGymIdAndType(gymId, ProductType.NORMAL);
+        List<ProductDto.ResponseNormal> list = normalProducts
                 .stream()
                 .map(product -> new ProductDto.ResponseNormal(product))
                 .collect(Collectors.toList());
+        return list;
     }
 
-    public List<ProductDto.Response> findByGymIdAndType(Long gymId, ProductType type) {
+    public List<ProductDto.ResponseNormal> findByGymIdAndTypeNormal(Long gymId, ProductType type) {
+        List<Product> normalProducts = productRepository.findByGymIdAndType(gymId, type);
+        List<ProductDto.ResponseNormal> list = normalProducts
+                .stream()
+                .filter((product) -> product.getDeleteStatus() == false)
+                .map(product -> new ProductDto.ResponseNormal(product))
+                .collect(Collectors.toList());
+        return list;
+    }
+
+    public List<ProductDto.Response> findByGymIdAndTypePT(Long gymId, ProductType type) {
         List<Product> ptProducts = productRepository.findByGymIdAndType(gymId, type);
-        List<ProductDto.Response> list = ptProducts.stream()
+        List<ProductDto.Response> list = ptProducts
+                .stream()
+                .filter((product) -> product.getDeleteStatus() == false)
                 .map(product -> new ProductDto.Response(product))
                 .collect(Collectors.toList());
+
         return list;
     }
 

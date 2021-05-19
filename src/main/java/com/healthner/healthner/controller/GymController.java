@@ -43,6 +43,7 @@ public class GymController {
     private final ProductService productService;
     private final TrainerService trainerService;
 
+
     @GetMapping("/new")
     @Auth(role = Role.USER)
     public String register(Model model) {
@@ -85,26 +86,16 @@ public class GymController {
     }
 
     @GetMapping("/detail/{gymId}")
+    @Auth(role = Role.USER)
     public String detail(@PathVariable("gymId") Long gymId, Model model) {
         Gym gym;
         try {
             gym = gymService.findById(gymId);
             GymDto.Response response = new GymDto.Response(gym);
+
             model.addAttribute("gym", response);
-
-            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
-                    .stream()
-                    .filter((product) -> product.getDeleteStatus() == false)
-                    .filter((product) -> product.getProductType() == ProductType.NORMAL)
-                    .collect(Collectors.toList());
-            model.addAttribute("normalProducts", normalProducts);
-
-            List<ProductDto.Response> ptProducts = productService.findByGymIdAndType(gymId, ProductType.PT)
-                    .stream()
-                    .filter((product) -> product.getDeleteStatus() == false)
-                    .collect(Collectors.toList());
-            model.addAttribute("ptProducts", ptProducts);
-
+            model.addAttribute("normalProducts", productService.findByGymIdAndTypeNormal(gymId, ProductType.NORMAL));
+            model.addAttribute("ptProducts", productService.findByGymIdAndTypePT(gymId, ProductType.PT));
             model.addAttribute("trainers", trainerService.findByGymId(gymId));
 
         } catch (IllegalArgumentException e) {
@@ -159,19 +150,16 @@ public class GymController {
         Long thisGymId = thisgym.getId();
         //해당 기관의 gym객체
         Gym gym = gymService.findById(thisGymId);
-        if (thisgym != null) {
-            // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
-            Long userId = userService.findByEmail(request.getEmail()).getId();
-            Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
-            if (checkUser == userId) { // 유저의 구매내역에 해당 gym이 있으면
-                User user = userService.findById(userId);//출석 체크할 유저
-                Long checkid = checkListService.put(user, gym);
-            } else {
-                return "해당 기관의 회원이 아닙니다";
 
-            }
+        // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
+        Long userId = userService.findByEmail(request.getEmail()).getId();
+        Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
+
+        if (checkUser == userId) { // 유저의 구매내역에 해당 gym이 있으면
+            User user = userService.findById(userId);//출석 체크할 유저
+            checkListService.put(user, gym);
         } else {
-            return "등록되지 않은 기관입니다.";
+            return "해당 기관의 회원이 아닙니다";
         }
         //인원 현황
         Long total = checkListService.countByGymId(thisGymId);
@@ -184,21 +172,15 @@ public class GymController {
     @Auth(role = Role.USER)
     public String getProduct(HttpSession httpSession, Model model) {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
-        Long thisGymId = thisgym.getId();
-        Gym gym = gymService.findById(thisGymId);
+        model.addAttribute("product", new ProductDto.Request());
 
-        if (gym == null) {
-            return "등록되지 않은 기관입니다.";
-        } else {
-            model.addAttribute("product", new ProductDto.Request());
-        }
         return "/gym/product-form";
     }
 
     @PostMapping("/product/new")
     @Auth(role = Role.USER)
     public String PostProduct(@ModelAttribute("product") ProductDto.Request request,
-                              HttpSession httpSession, Model model) {
+                              HttpSession httpSession) {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         Long thisGymId = thisgym.getId();
         Gym gym = gymService.findById(thisGymId);
@@ -210,14 +192,8 @@ public class GymController {
     @Auth(role = Role.USER)
     public String FindUpdateProduct(HttpSession httpSession, @PathVariable Long productId, Model model) {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
-        Long thisGymId = thisgym.getId();
-        Gym gym = gymService.findById(thisGymId);
+        model.addAttribute("product", productService.findByIdToNormal(productId));
 
-        if (gym == null) {
-            return "등록되지 않은 기관입니다.";
-        } else {
-            model.addAttribute("product", productService.findByIdToNormal(productId));
-        }
         return "/gym/product-form";
     }
 
@@ -225,15 +201,9 @@ public class GymController {
     @Auth(role = Role.USER)
     public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model) {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
-        Long thisGymId = thisgym.getId();
-        Gym gym = gymService.findById(thisGymId);
+        request.setProductType(ProductType.NORMAL);
+        model.addAttribute("product", productService.updateNormal(productId, request));
 
-        if (gym == null) {
-            return "등록되지 않은 기관입니다.";
-        } else {
-            request.setProductType(ProductType.NORMAL);
-            model.addAttribute("product", productService.updateNormal(productId, request));
-        }
         return "redirect:/gym/mypage";
     }
 
@@ -243,5 +213,4 @@ public class GymController {
         productService.delete(productId);
         return "redirect:/gym/mypage";
     }
-
 }

@@ -36,7 +36,9 @@ public class UserController {
             return "loginerror";
         } else {
             Long userId = response.getId();
-            model.addAttribute("purchaseList", purchaseService.findByUserId(userId));
+            model.addAttribute("PT", purchaseService.findByUserIdAndPT(userId));
+            model.addAttribute("Normal", purchaseService.findByUserIdAndNormal(userId));
+
         }
         return "purchase/purchase";
     }
@@ -50,7 +52,10 @@ public class UserController {
         model.addAttribute("reservations", reservations);
 
         Long userId = userInfo.getId();
-        model.addAttribute("purchaseList", purchaseService.findByUserId(userId));
+        model.addAttribute("PT", purchaseService.findByUserIdAndPT(userId));
+        model.addAttribute("Normal", purchaseService.findByUserIdAndNormal(userId));
+        model.addAttribute("endPt", purchaseService.endPt(userId));
+        model.addAttribute("endNormal", purchaseService.endNormal(userId));
         model.addAttribute("remainList", remainService.findByUserId(userId));
 
         return "user/my-page";

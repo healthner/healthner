@@ -2,6 +2,7 @@ package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.domain.CheckList;
+import com.healthner.healthner.domain.CheckListStatus;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.CheckListRepository;
@@ -20,11 +21,12 @@ public class CheckListService {
         return checkListRepository.countByGymId(thisGymId);
     }
 
-    //출석 인정
+    //출석 객체 생성
     @Transactional
-    public Long put(User user, Gym gym) {
-        CheckList checkList = new CheckListDto.Request().toEntity(user, gym);
+    public void put(User user, Gym gym) {
+        CheckListDto.Request request = new CheckListDto.Request();
+        request.setStatus(CheckListStatus.ABSENT);
+        CheckList checkList = request.toEntity(user, gym);
         checkListRepository.save(checkList);
-        return checkList.getId();
     }
 }

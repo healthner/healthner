@@ -27,7 +27,7 @@ public class PurchaseDto {
         private Long productId;
 
         public Purchase toEntity(User user, Gym gym, Trainer trainer, Product product) {
-            return Purchase.createPurchase(this.getPrice(), this.getCount(), this.getPeriod(),
+            return Purchase.createPurchase(product.getPrice(), this.getCount(), this.getPeriod(),
                     user, gym, trainer, product);
         }
     }
@@ -35,11 +35,10 @@ public class PurchaseDto {
     @Data
     @AllArgsConstructor(staticName = "of")
     @NoArgsConstructor
-    public static class Response {
+    public static class ResponsePT {
         private Long id;
         private Integer price;
         private Integer count;
-        private LocalDateTime period;
         private Long userId;
         private Long gymId;
         private String gymName;
@@ -47,15 +46,39 @@ public class PurchaseDto {
         private String productName;
         private String productType;
 
-        public Response(Purchase purchase) {
+        public ResponsePT(Purchase purchase) {
             this.id = purchase.getId();
             this.price = purchase.getPrice();
             this.count = purchase.getCount();
-            this.period = purchase.getPeriod();
             this.userId = purchase.getUser().getId();
             this.gymId = purchase.getGym().getId();
             this.gymName = purchase.getGym().getName();
             this.trainerName = purchase.getTrainer().getUser().getName();
+            this.productName = purchase.getProduct().getName();
+            this.productType = purchase.getProduct().getType().toString();
+        }
+    }
+
+    @Data
+    @AllArgsConstructor(staticName = "of")
+    @NoArgsConstructor
+    public static class ResponseNormal {
+        private Long id;
+        private Integer price;
+        private LocalDateTime period;
+        private Long userId;
+        private Long gymId;
+        private String gymName;
+        private String productName;
+        private String productType;
+
+        public ResponseNormal(Purchase purchase) {
+            this.id = purchase.getId();
+            this.price = purchase.getPrice();
+            this.period = purchase.getPeriod();
+            this.userId = purchase.getUser().getId();
+            this.gymId = purchase.getGym().getId();
+            this.gymName = purchase.getGym().getName();
             this.productName = purchase.getProduct().getName();
             this.productType = purchase.getProduct().getType().toString();
         }

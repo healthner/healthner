@@ -2,45 +2,83 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
-    <section id="section" class="section-with-bg">
-        <section id="buy-tickets">
-            <div class="container">
+<section id="section" class="section-with-bg">
+    <section id="buy-tickets">
+        <div class="container">
 
-                <div class="section-header">
-                    <br>
-                    <h2>구매 내역</h2>
-                </div>
+            <div class="section-header">
+                <br>
+                <h2>구매 내역</h2>
+            </div>
 
-                <div class="row">
-                    <div class="col-lg-4" th:each="purchase : ${purchaseList}">
-                        <div class="card mb-5 mb-lg-0">
-                            <div class="card-body">
-                                <h5 class="card-title text-muted text-uppercase text-center">pt이용권인지 어떤 상품인지 : <span th:text="${purchase.productType}"></span></h5>
-                                <h6 class="card-price text-center">상품이름: <span th:text="${purchase.productName}"></span></h6>
-                                <hr>
-                                <ul class="fa-ul">
-                                    <li><span class="fa-li"><i class="fa fa-check"></i></span>gym 이름: <span th:text="${purchase.gymName}"></span></li>
-                                    <li><span class="fa-li"><i class="fa fa-check"></i></span>트레이너 이름: <span th:text="${purchase.trainerName}"></span></li>
-                                    <li><span class="fa-li"><i class="fa fa-check"></i></span>가격: <span th:text="${purchase.price}"></span>원</li>
-                                    <li><span class="fa-li"><i class="fa fa-check"></i></span>사용 가능 기간: <span th:text="${purchase.period}"></span> 까지</li>
-                                    <li><span class="fa-li"><i class="fa fa-check"></i></span>총 몇회차 상품인지: <span th:text="${purchase.count}"></span> 회</li>
-                                </ul>
-                                <hr>
-                                <div class="text-center">
-                                    <a th:href="@{/reservation/{purchaseId}/new(purchaseId=${purchase.id})}">
-                                    <button type="button" class="btn" data-toggle="modal" data-target="#buy-ticket-modal" data-ticket-type="standard-access">예약하러 가기</button>
-                                    </a>
-                                </div>
+            <div class="row">
+                <div class="col-lg-4" th:each="purchase : ${PT}">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">pt이용권인지 어떤 상품인지 : <span
+                                    th:text="${purchase.productType}"></span></h5>
+                            <h6 class="card-price text-center">상품이름: <span th:text="${purchase.productName}"></span>
+                            </h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>gym 이름: <span
+                                        th:text="${purchase.gymName}"></span></li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>트레이너 이름: <span
+                                        th:text="${purchase.trainerName}"></span></li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>가격: <span
+                                        th:text="${purchase.price}"></span>원
+                                </li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>총 몇회차 상품인지: <span
+                                        th:text="${purchase.count}"></span> 회
+                                </li>
+                            </ul>
+                            <hr>
+                            <div class="text-center">
+                                <a th:href="@{/reservation/{purchaseId}/new(purchaseId=${purchase.id})}">
+                                    <button type="button" class="btn" data-toggle="modal"
+                                            data-target="#buy-ticket-modal" data-ticket-type="standard-access">예약하러 가기
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="col-lg-4" th:each="normal : ${Normal}">
+                    <div class="card mb-5 mb-lg-0">
+                        <div class="card-body">
+                            <h5 class="card-title text-muted text-uppercase text-center">pt이용권인지 어떤 상품인지 : <span
+                                    th:text="${normal.productType}"></span></h5>
+                            <h6 class="card-price text-center">상품이름: <span th:text="${normal.productName}"></span></h6>
+                            <hr>
+                            <ul class="fa-ul">
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>gym 이름: <span
+                                        th:text="${normal.gymName}"></span></li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>가격: <span
+                                        th:text="${normal.price}"></span>원
+                                </li>
+                                <li><span class="fa-li"><i class="fa fa-check"></i></span>사용 가능 기간: <span
+                                        th:text="${normal.period}"></span> 까지
+                                </li>
+                            </ul>
+                            <hr>
+                            <div class="text-center">
+                                <a th:href="@{/reservation/{purchaseId}/new(purchaseId=${normal.id})}">
+                                    <button type="button" class="btn" data-toggle="modal"
+                                            data-target="#buy-ticket-modal" data-ticket-type="standard-access">예약하러 가기
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+
+        </div>
     </section>
+</section>
 
 <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
