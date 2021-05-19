@@ -38,8 +38,8 @@ public class ProductDto {
     @NoArgsConstructor
     public static class Response {
         private Long id;
-        private Long gymId;
-        private Long trainerId;
+        private GymDto.Response gym;
+        private TrainerDto.Response trainer;
         private String name;
         private String content;
         private Integer price;
@@ -50,8 +50,10 @@ public class ProductDto {
 
         public Response(Product product) {
             this.id = product.getId();
-            this.gymId = product.getGym().getId();
-            this.trainerId = product.getTrainer().getId();
+            this.gym = new GymDto.Response(product.getGym());
+            if (product.getTrainer() != null) {
+                this.trainer = new TrainerDto.Response(product.getTrainer());
+            }
             this.name = product.getName();
             this.content = product.getContent();
             this.price = product.getPrice();
@@ -63,8 +65,8 @@ public class ProductDto {
 
         public ProductDto.Request toRequest() {
             return new ProductDto.Request(
-                    this.gymId,
-                    this.trainerId,
+                    this.gym.getId(),
+                    this.trainer.getId(),
                     this.name,
                     this.content,
                     this.price,

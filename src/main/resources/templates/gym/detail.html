@@ -31,6 +31,7 @@
                         <th>가격</th>
                         <th>기간</th>
                         <th>type</th>
+                        <th></th>
                     </tr>
                     <tr th:each="normalProduct : ${normalProducts}">
                         <td th:text="${normalProduct.name}"></td>
@@ -56,6 +57,7 @@
                         <th>가격</th>
                         <th>횟수</th>
                         <th>type</th>
+                        <th></th>
                     </tr>
                     <tr th:each="ptProduct : ${ptProducts}">
                         <td th:text="${ptProduct.name}"></td>
@@ -64,7 +66,7 @@
                         <td th:text="${ptProduct.count}"></td>
                         <td th:text="${ptProduct.productType}"></td>
                         <td>
-                            <a th:href="@{/purchase/{productId}(productId=${ptProduct.id})}"
+                            <a th:href="@{/purchase/trainer/product(id=${ptProduct.id})}"
                                class="btn btn-warning">구매하기
                             </a>
                         </td>
@@ -129,8 +131,6 @@
             }
         });
     }
-
-
 
 </script>
 </html>

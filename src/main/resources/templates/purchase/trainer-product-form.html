@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+<header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+<section id="section" class="section-with-bg">
+
+    <div class="trainer-product-form-wrap">
+        <div class="section-header">
+            <h2>PT 상품 구매</h2>
+        </div>
+
+        <div class="trainer-product-form-info">
+            <div>상품 이름</div>
+            <div>
+                <span th:text="${product.name}"></span>
+            </div>
+            <div>상품 가격</div>
+            <div>
+                <span th:text="${product.price}"></span>
+            </div>
+            <div>상품 횟수</div>
+            <div>
+                <span th:text="${product.count}"></span>
+            </div>
+            <div>기관</div>
+            <div>
+                <span th:text="${product.gym.name}"></span>
+            </div>
+            <div>트레이너</div>
+            <div>
+                <span th:text="${product.trainer.name}"></span>
+            </div>
+        </div>
+
+        <div class="trainer-product-form-order">
+            <form method="post">
+                <input type="hidden" name="id" th:value="${product.id}">
+                <div>
+                    해당 상품을 구매하시겠습니까?
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg btn-block">구매하기</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>

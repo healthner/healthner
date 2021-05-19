@@ -10,23 +10,71 @@ import com.healthner.healthner.service.CheckListService;
 import com.healthner.healthner.service.ProductService;
 import com.healthner.healthner.service.PurchaseService;
 import com.healthner.healthner.service.UserService;
+import com.healthner.healthner.controller.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/purchase")
+@RequiredArgsConstructor
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
     private final ProductService productService;
+
+    @GetMapping("trainer/product")
+    public String getTrainerProduct(@RequestParam("id") Long productId, Model model) {
+
+        ProductDto.Response product;
+
+        try {
+            product = productService.findById(productId);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("data", new Message(e.getMessage(), "/user/my-page"));
+            return "common/message";
+        }
+
+        model.addAttribute("product", product);
+        return "purchase/trainer-product-form";
+    }
+
+    @Auth
+    @PostMapping("trainer/product")
+    public String postTrainerProduct(@RequestParam("id") Long productId,
+                                     Model model, HttpSession session) throws InterruptedException {
+        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
+        ProductDto.Response product = productService.findById(productId);
+
+        PurchaseDto.Request requestDto = new PurchaseDto.Request();
+        requestDto.setUserId(userInfo.getId());
+        requestDto.setProductId(product.getId());
+        requestDto.setTrainerId(product.getTrainer().getId());
+        requestDto.setGymId(product.getGym().getId());
+        requestDto.setCount(product.getCount());
+        requestDto.setPrice(product.getPrice());
+
+        try {
+            purchaseService.save(requestDto);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("data", new Message(e.getMessage(), "/user/my-page"));
+            return "common/message";
+        }
+
+        Thread.sleep(2000);
+
+        model.addAttribute("data", new Message("구매가 완료되었습니다.", "/user/my-page"));
+        return "common/message";
+    }
+}
     private final UserService userService;
     private final CheckListService checkListService;
 

@@ -7,8 +7,7 @@ values (now(), now(), 'admin@email.com', '1234', '관리자', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '010-0000-0000'),
        (now(), now(), 'dev.hyeonic@gmail.com', '1234', 'hyeonic', '010-0000-0000'),
-       (now(), now(), 'jmtkdsh@nate.com', '1234', '이선하', '010-0000-0000'),
-       (now(), now(), 'lisasje@nate.com', '1234', '신정은', '010-0000-0000');
+       (now(), now(), 'jmtkdsh@nate.com', '1234', '이선하', '010-0000-0000');
 
 insert into gym (created_date, last_modified_date, name, address, content, business_number, ceo_id)
 values (now(), now(), '홍길동짐', '부천시 중동로 165번길 22', '넓은 평수, 다수의 기구 보유', '010-0000-0000', 1),
@@ -31,6 +30,9 @@ values (now(), now(), 'hyeonic의 pt상품 1 입니다', 6, false, 'hyeonic의 p
        (now(), now(), 'hyeonic의 pt상품 3 입니다', 6, false, 'hyeonic의 pt상품 3', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 4 입니다', 6, true, 'hyeonic의 pt상품 4', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 5 입니다', 6, true, 'hyeonic의 pt상품 5', null, 60000, 'PT', 1, 3),
+       (now(), now(), '홍길동짐의 회원권 1 입니다', null, false, '홍길동짐의 회원권 1', 3, 100000, 'NORMAL', 1, null),
+       (now(), now(), '홍길동짐의 회원권 2 입니다', null, false, '홍길동짐의 회원권 2', 6, 180000, 'NORMAL', 1, null),
+       (now(), now(), 'pt상품2 입니다', 10, false, 'pt상품2', 3, 100000, 'NORMAL', 2, null),
        (now(), now(), '4달회원권 입니다', null, false, '4달회원권', 4, 110000, 'NORMAL', 1, null),
        (now(), now(), '3달회원권 입니다', null, false, '3달회원권', 3, 100000, 'NORMAL', 1, null);
 
@@ -43,7 +45,8 @@ values (now(), now(), 2, now(), 60000, 3, 1, 1, 3),
        (now(), now(), 1, null, 60000, 1, 1, 1, 1),
        (now(), now(), 1, null, 60000, 2, 1, 1, 2),
        (now(), now(), null, now(), 60000, 3, 1, 1, 3),
-       (now(), now(), null, now(), 60000, 4, 1, 1, 4);
+       (now(), now(), null, now(), 60000, 4, 1, 1, 4),
+       (now(), now(), 6, null, 60000, 1, 5, 1, 8);
 
 insert into remain (created_date, last_modified_date, remain_count, remain_period, product_id, user_id)
 values (now(), now(), 6, null, 1, 9);

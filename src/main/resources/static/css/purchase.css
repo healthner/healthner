@@ -1,0 +1,32 @@
+/* trainer-product-form */
+.trainer-product-form-wrap {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    margin: 3% auto;
+    padding: 1rem;
+    background-color: #fefefe;
+    border-radius: .25rem;
+}
+
+.trainer-product-form-info {
+    margin: 1rem 0;
+}
+
+.trainer-product-form-info > div:nth-child(odd) {
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    font-weight: bold;
+    border-bottom: 1px solid #FDF5E6;
+}
+
+.trainer-product-form-info > span {
+    margin: 1rem 0;
+}
+
+.trainer-product-form-order > form > div {
+    margin: 1rem 0;
+    text-align: center;
+    width: 100%;
+    font-weight: bold;
+}
