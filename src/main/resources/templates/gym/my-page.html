@@ -4,27 +4,28 @@
 <body>
 <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 <section id="section" class="section-with-bg">
-    <div class="trainer-my-page-wrap">
-        <div class="trainer-my-page-section">
-            <div class="trainer-my-page-sidebar">
-                <div class="trainer-my-page-sidebar-content">
+    <div class="gym-my-page-wrap">
+        <div class="gym-my-page-section">
+            <div class="gym-my-page-sidebar">
+                <div class="gym-my-page-sidebar-content">
+                    <a href="#" class="btn btn-warning side-button">위로</a>
                     <a href="/gym/product/update" class="btn btn-warning side-button">정보 수정</a>
                     <a href="/gym/check" class="btn btn-warning side-button">인원현황</a>
                     <a href="/gym/product/new" class="btn btn-warning side-button">상품 등록</a>
                     <a href="#" class="btn btn-warning side-button">등록된 상품</a>
                 </div>
             </div>
-            <div class="trainer-my-page-content">
-                <div class="trainer-user-info">
+            <div class="gym-my-page-content">
+                <div class="gym-user-info">
                     <h4>기관 정보</h4>
                     <div th:text="|이름: ${gym.name}|"></div>
                     <div th:text="|주소: ${gym.address}|"></div>
                     <div th:text="|소개: ${gym.content}|"></div>
                     <div th:text="|사업자 등록 번호: ${gym.businessNumber}|"></div>
                 </div>
-                <div class="trainer-product-info">
+                <div class="gym-product-info">
                     <h4><a name="product-info">등록된 상품 정보</a></h4>
-                    <table class="trainer-my-page-table">
+                    <table class="gym-my-page-table">
                         <tr>
                             <th>상품명</th>
                             <th>설명</th>
@@ -41,21 +42,21 @@
                             <td>
                                 <a th:href="@{/gym/product/update/{productId}(productId=${product.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
                                 </a>
                             </td>
                             <td>
                                 <a th:href="@{/gym/product/delete/{productId}(productId=${product.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">상태변경</div>
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">상태변경</div>
                                 </a>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="trainer-product-info">
+                <div class="gym-product-info">
                     <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
-                    <table class="trainer-my-page-table">
+                    <table class="gym-my-page-table">
                         <tr>
                             <th>상품명</th>
                             <th>설명</th>
