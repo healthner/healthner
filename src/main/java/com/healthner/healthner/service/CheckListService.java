@@ -2,6 +2,7 @@ package com.healthner.healthner.service;
 
 import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.domain.CheckList;
+import com.healthner.healthner.domain.CheckListStatus;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.CheckListRepository;

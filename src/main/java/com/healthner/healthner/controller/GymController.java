@@ -92,20 +92,10 @@ public class GymController {
         try {
             gym = gymService.findById(gymId);
             GymDto.Response response = new GymDto.Response(gym);
-            model.addAttribute("gym", response);
 
-            List<ProductDto.ResponseNormal> normalProducts = productService.findByGymId(gym.getId())
-                    .stream()
-                    .filter((product) -> product.getDeleteStatus() == false)
-                    .filter((product) -> product.getProductType() == ProductType.NORMAL)
-                    .collect(Collectors.toList());
-            List<ProductDto.Response> ptProducts = productService.findByGymIdAndType(gymId, ProductType.PT)
-                    .stream()
-                    .filter((product) -> product.getDeleteStatus() == false)
-                    .collect(Collectors.toList());
             model.addAttribute("gym", response);
-            model.addAttribute("normalProducts", normalProducts);
-            model.addAttribute("PtProducts", ptProducts);
+            model.addAttribute("normalProducts", productService.findByGymIdAndTypeNormal(gymId, ProductType.NORMAL));
+            model.addAttribute("ptProducts", productService.findByGymIdAndTypePT(gymId, ProductType.PT));
             model.addAttribute("trainers", trainerService.findByGymId(gymId));
 
         } catch (IllegalArgumentException e) {
