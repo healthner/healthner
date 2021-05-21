@@ -135,7 +135,7 @@ public class GymController {
         }
         Long gymId = gym.getId();
         //인원 현황
-        Long total = checkListService.countByGymId(gymId);
+        Long total = checkListService.total(gymId);
         model.addAttribute("total", total);
 
         return "check";
@@ -149,19 +149,22 @@ public class GymController {
         Long thisGymId = thisgym.getId();
         //해당 기관의 gym객체
         Gym gym = gymService.findById(thisGymId);
+        if(thisgym != null){
+            // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
+            Long userId = userService.findByEmail(request.getPhoneNumber()).getId();
+            Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
+            if(checkUser == userId){ // 유저의 구매내역에 해당 gym이 있으면
+                User user = userService.findById(userId);//출석 체크할 유저
+                Long checkid = checkListService.put(user,gym);
+            }else{
+                return "해당 기관의 회원이 아닙니다";
 
-        // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
-        Long userId = userService.findByEmail(request.getEmail()).getId();
-        Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
-
-        if (checkUser == userId) { // 유저의 구매내역에 해당 gym이 있으면
-            User user = userService.findById(userId);//출석 체크할 유저
-            checkListService.put(user, gym);
-        } else {
-            return "해당 기관의 회원이 아닙니다";
+            }
+        }else {
+            return "등록되지 않은 기관입니다.";
         }
         //인원 현황
-        Long total = checkListService.countByGymId(thisGymId);
+        Long total = checkListService.total(thisGymId);
         model.addAttribute("total", total);
 
         return "redirect:/gym/my-page";
@@ -198,7 +201,7 @@ public class GymController {
 
     @PostMapping("/product/update/{productId}")
     @Auth(role = Role.USER)
-    public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model) {
+    public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model){
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         request.setProductType(ProductType.NORMAL);
         model.addAttribute("product", productService.updateNormal(productId, request));
@@ -212,4 +215,5 @@ public class GymController {
         productService.delete(productId);
         return "redirect:/gym/my-page";
     }
+
 }

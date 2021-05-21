@@ -45,4 +45,8 @@ public class CheckList extends BaseEntity {
     public static CheckList createCheckList(CheckListStatus status, User user, Gym gym) {
         return new CheckList(status, user, gym);
     }
+
+    public void attend(CheckListStatus status) {
+        this.status = status;
+    }
 }
