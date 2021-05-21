@@ -86,7 +86,6 @@ public class GymController {
     }
 
     @GetMapping("/detail/{gymId}")
-    @Auth(role = Role.USER)
     public String detail(@PathVariable("gymId") Long gymId, Model model) {
         Gym gym;
         try {
