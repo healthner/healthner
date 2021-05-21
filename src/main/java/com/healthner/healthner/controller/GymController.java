@@ -57,7 +57,7 @@ public class GymController {
         UserDto.Response user = (UserDto.Response) session.getAttribute("userInfo");
         Long ceoId = user.getId();
         gymService.register(gymDto, ceoId);
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 
     @GetMapping("/update")
@@ -77,7 +77,7 @@ public class GymController {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         Long gymId = thisgym.getId();
         gymService.update(gymId, gymDto);
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 
     @GetMapping("search")
@@ -105,7 +105,7 @@ public class GymController {
         return "gym/detail";
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/my-page")
     @Auth(role = Role.USER)
     public String getGym(HttpSession httpSession, Model model) {
         GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
@@ -164,7 +164,7 @@ public class GymController {
         Long total = checkListService.countByGymId(thisGymId);
         model.addAttribute("total", total);
 
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 
     @GetMapping("/product/new")
@@ -184,7 +184,7 @@ public class GymController {
         Long thisGymId = thisgym.getId();
         Gym gym = gymService.findById(thisGymId);
         gymService.putProduct(request, gym);
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 
     @GetMapping("/product/update/{productId}")
@@ -203,13 +203,13 @@ public class GymController {
         request.setProductType(ProductType.NORMAL);
         model.addAttribute("product", productService.updateNormal(productId, request));
 
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 
     @GetMapping("/product/delete/{productId}")
     @Auth(role = Role.USER)
     public String delete(@PathVariable("productId") Long productId) {
         productService.delete(productId);
-        return "redirect:/gym/mypage";
+        return "redirect:/gym/my-page";
     }
 }
