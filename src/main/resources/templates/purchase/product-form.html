@@ -22,7 +22,11 @@
             </div>
             <div>상품 횟수</div>
             <div>
-                <span th:text="${product.count}"></span>
+                <span th:text="${product.count != null ? product.count : '-'}"></span>
+            </div>
+            <div>기간</div>
+            <div>
+                <span th:text="${product.period != null ? product.period + '개월' : '-'}"></span>
             </div>
             <div>기관</div>
             <div>
@@ -30,7 +34,7 @@
             </div>
             <div>트레이너</div>
             <div>
-                <span th:text="${product.trainer.name}"></span>
+                <span th:text="${product.trainer != null ? product.trainer.name : '-'}"></span>
             </div>
         </div>
 

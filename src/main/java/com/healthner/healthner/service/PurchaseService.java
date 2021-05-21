@@ -86,20 +86,6 @@ public class PurchaseService {
         purchaseRepository.save(purchase);
     }
 
-    @Transactional
-    public Long save(PurchaseDto.Request requestDto) {
-        Product product = getProduct(requestDto.getProductId());
-        User user = getUser(requestDto.getUserId());
-        Gym gym = getGym(product.getGym().getId());
-
-        Trainer trainer = null;
-        if (product.getTrainer() != null) {
-            trainer = getTrainer(product.getTrainer().getId());
-        }
-
-        return purchaseRepository.save(requestDto.toEntity(user, gym, trainer, product)).getId();
-    }
-
     private Product getProduct(Long id) {
         return productRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("gym의 id가 존재하지 않습니다."));

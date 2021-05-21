@@ -33,9 +33,8 @@ public class PurchaseController {
     private final UserService userService;
     private final CheckListService checkListService;
 
-    @GetMapping("trainer/product")
-    public String getTrainerProduct(@RequestParam("id") Long productId, Model model) {
-
+    @GetMapping("/{productId}")
+    public String getTrainerProduct(@PathVariable("productId") Long productId, Model model) {
         ProductDto.Response product;
 
         try {
@@ -46,38 +45,10 @@ public class PurchaseController {
         }
 
         model.addAttribute("product", product);
-        return "purchase/trainer-product-form";
+        return "/purchase/product-form";
     }
 
-    @Auth
-    @PostMapping("trainer/product")
-    public String postTrainerProduct(@RequestParam("id") Long productId,
-                                     Model model, HttpSession session) throws InterruptedException {
-        UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
-        ProductDto.Response product = productService.findById(productId);
-
-        PurchaseDto.Request requestDto = new PurchaseDto.Request();
-        requestDto.setUserId(userInfo.getId());
-        requestDto.setProductId(product.getId());
-        requestDto.setTrainerId(product.getTrainer().getId());
-        requestDto.setGymId(product.getGym().getId());
-        requestDto.setCount(product.getCount());
-        requestDto.setPrice(product.getPrice());
-
-        try {
-            purchaseService.save(requestDto);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("data", new Message(e.getMessage(), "/user/my-page"));
-            return "common/message";
-        }
-
-        Thread.sleep(2000);
-
-        model.addAttribute("data", new Message("구매가 완료되었습니다.", "/user/my-page"));
-        return "common/message";
-    }
-
-    @GetMapping("/{productId}")
+    @PostMapping("/{productId}")
     @Auth(role = Role.USER)
     public String purchase(@PathVariable("productId") Long productId, Model model, HttpSession httpSession) throws InterruptedException {
         UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
@@ -96,9 +67,17 @@ public class PurchaseController {
         else if (purchaseService.findType(productId) == ProductType.PT) {
             request.setCount(productService.getProduct(productId).getCount());
         }
+
         //구매 진행
-        purchaseService.save(request.toEntity(userService.findById(user.getId()), productService.getProduct(productId).getGym(),
-                productService.getProduct(productId).getTrainer(), productService.getProduct(productId)));
+        purchaseService.save(
+                request.toEntity(
+                        userService.findById(user.getId()),
+                        productService.getProduct(productId).getGym(),
+                        productService.getProduct(productId).getTrainer(),
+                        productService.getProduct(productId)
+                )
+        );
+
         //출석객체 생성 후 결석으로 세팅
         checkListService.put(userService.findById(user.getId()), productService.getProduct(productId).getGym());
         Thread.sleep(2000);
