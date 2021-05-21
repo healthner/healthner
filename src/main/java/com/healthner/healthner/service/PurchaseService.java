@@ -9,7 +9,6 @@ import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.ProductRepository;
 import com.healthner.healthner.domain.ProductType;
 import com.healthner.healthner.domain.Purchase;
-import com.healthner.healthner.repository.ProductRepository;
 import com.healthner.healthner.repository.PurchaseRepository;
 import com.healthner.healthner.repository.TrainerRepository;
 import com.healthner.healthner.repository.UserRepository;
@@ -59,6 +58,34 @@ public class PurchaseService {
         return purchaseRepository.findByGymIdAndUserId(userId, thisGymId);
     }
 
+    //상품의 타입 확인
+    public ProductType findType(Long productId) {
+        return productRepository.findWhatType(productId);
+    }
+
+    //유효기간이 만료된 PT상품
+    public List<PurchaseDto.ResponsePT> endPt(Long userId) {
+        return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
+                .stream()
+                .map(purchase -> new PurchaseDto.ResponsePT(purchase))
+                .filter(purchase -> purchase.getCount() == 0)
+                .collect(Collectors.toList());
+    }
+
+    //유효기간이 만료된 Normal상품
+    public List<PurchaseDto.ResponseNormal> endNormal(Long userId) {
+        return purchaseRepository.findByUserIdAndProductType(userId, ProductType.NORMAL)
+                .stream()
+                .map(purchase -> new PurchaseDto.ResponseNormal(purchase))
+                .filter(purchase -> purchase.getPeriod().isBefore(LocalDateTime.now()))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void save(Purchase purchase) {
+        purchaseRepository.save(purchase);
+    }
+
     @Transactional
     public Long save(PurchaseDto.Request requestDto) {
         Product product = getProduct(requestDto.getProductId());
@@ -91,33 +118,5 @@ public class PurchaseService {
     private User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("user의 id가 존재하지 않습니다."));
-    }
-
-    //상품의 타입 확인
-    public ProductType findType(Long productId) {
-        return productRepository.findWhatType(productId);
-    }
-
-    //유효기간이 만료된 PT상품
-    public List<PurchaseDto.ResponsePT> endPt(Long userId) {
-        return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
-                .stream()
-                .map(purchase -> new PurchaseDto.ResponsePT(purchase))
-                .filter(purchase -> purchase.getCount() == 0)
-                .collect(Collectors.toList());
-    }
-
-    //유효기간이 만료된 Normal상품
-    public List<PurchaseDto.ResponseNormal> endNormal(Long userId) {
-        return purchaseRepository.findByUserIdAndProductType(userId, ProductType.NORMAL)
-                .stream()
-                .map(purchase -> new PurchaseDto.ResponseNormal(purchase))
-                .filter(purchase -> purchase.getPeriod().isBefore(LocalDateTime.now()))
-                .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public void save(Purchase purchase) {
-        purchaseRepository.save(purchase);
     }
 }

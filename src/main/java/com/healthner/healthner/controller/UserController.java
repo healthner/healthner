@@ -54,8 +54,8 @@ public class UserController {
         Long userId = userInfo.getId();
         model.addAttribute("PT", purchaseService.findByUserIdAndPT(userId));
         model.addAttribute("Normal", purchaseService.findByUserIdAndNormal(userId));
-        model.addAttribute("endPt", purchaseService.endPt(userId));
-        model.addAttribute("endNormal", purchaseService.endNormal(userId));
+        model.addAttribute("endPts", purchaseService.endPt(userId));
+        model.addAttribute("endNormals", purchaseService.endNormal(userId));
         model.addAttribute("remainList", remainService.findByUserId(userId));
 
         return "user/my-page";

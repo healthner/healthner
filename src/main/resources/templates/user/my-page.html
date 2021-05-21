@@ -52,6 +52,7 @@
                         </tr>
                     </table>
                 </div>
+
                 <div class="user-purchase-info">
                     <h4><a name="purchase-info">구매 내역</a></h4>
 
@@ -120,14 +121,14 @@
                                 <th>가격</th>
                                 <th>잔여 횟수/유효기간</th>
                             </tr>
-                            <tr th:each="endPt : ${endPt}">
+                            <tr th:each="endPt : ${endPts}">
                                 <td th:text="${endPt.productType}"></td>
                                 <td th:text="${endPt.productName}"></td>
                                 <td th:text="${endPt.gymName}"></td>
                                 <td th:text="${endPt.price}"></td>
                                 <td th:text="${endPt.count}">회</td>
                             </tr>
-                            <tr th:each="endNormal : ${endNormal}">
+                            <tr th:each="endNormal : ${endNormals}">
                                 <td th:text="${endNormal.productType}"></td>
                                 <td th:text="${endNormal.productName}"></td>
                                 <td th:text="${endNormal.gymName}"></td>

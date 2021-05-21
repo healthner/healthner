@@ -30,6 +30,8 @@ public class PurchaseController {
 
     private final PurchaseService purchaseService;
     private final ProductService productService;
+    private final UserService userService;
+    private final CheckListService checkListService;
 
     @GetMapping("trainer/product")
     public String getTrainerProduct(@RequestParam("id") Long productId, Model model) {
@@ -74,9 +76,6 @@ public class PurchaseController {
         model.addAttribute("data", new Message("구매가 완료되었습니다.", "/user/my-page"));
         return "common/message";
     }
-}
-    private final UserService userService;
-    private final CheckListService checkListService;
 
     @GetMapping("/{productId}")
     @Auth(role = Role.USER)
