@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class RemainService {
     private final RemainRepository remainRepository;
 
-    public List<RemainDto.Response> findByUserId(Long userId){
+    public List<RemainDto.Response> findByUserId(Long userId) {
         return remainRepository.findByUserId(userId)
                 .stream()
                 .map(remain -> new RemainDto.Response(remain))
@@ -33,7 +33,7 @@ public class RemainService {
         }
     }
 
-    public Remain findById(Long remainId){
+    public Remain findById(Long remainId) {
         return remainRepository.findById(remainId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 remain id 입니다." + remainId)
         );

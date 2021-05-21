@@ -29,4 +29,8 @@ public class CheckListService {
         CheckList checkList = request.toEntity(user, gym);
         checkListRepository.save(checkList);
     }
+
+    public Boolean existsByUserId(Long userId) {
+        return checkListRepository.existsByUserId(userId);
+    }
 }

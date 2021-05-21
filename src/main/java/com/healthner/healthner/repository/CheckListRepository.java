@@ -9,4 +9,6 @@ public interface CheckListRepository extends JpaRepository<CheckList, Long> {
 
     @Query(value = "select count(gym.id) from CheckList where gym.id = :gymId")
     Long countByGymId(@Param("gymId") Long id);
+
+    Boolean existsByUserId(Long userId);
 }

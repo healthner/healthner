@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
@@ -78,11 +77,13 @@ public class PurchaseController {
                 )
         );
 
-        //출석객체 생성 후 결석으로 세팅
-        checkListService.put(userService.findById(user.getId()), productService.getProduct(productId).getGym());
+        if (!checkListService.existsByUserId(user.getId())) {
+            //출석객체 생성 후 결석으로 세팅
+            checkListService.put(userService.findById(user.getId()), productService.getProduct(productId).getGym());
+        }
+
         Thread.sleep(2000);
-        model.addAttribute("data",
-                new Message("구매가 완료되었습니다.", "/user/my-page"));
+        model.addAttribute("data", new Message("구매가 완료되었습니다.", "/user/my-page"));
 
         return "common/message";
     }
