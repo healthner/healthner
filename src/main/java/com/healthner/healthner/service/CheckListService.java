@@ -23,7 +23,7 @@ public class CheckListService {
 
     //현재 이용자 수
     public Long users(Long gymId) {
-        return checkListRepository.countByGymInAndStatus_In(gymId);
+        return checkListRepository.countByGymIdAndStatus(gymId, CheckListStatus.IN);
     }
 
     //출석 객체 생성

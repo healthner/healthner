@@ -155,7 +155,7 @@ public class GymController {
             Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
             if(checkUser == userId){ // 유저의 구매내역에 해당 gym이 있으면
                 User user = userService.findById(userId);//출석 체크할 유저
-                Long checkid = checkListService.put(user,gym);
+                checkListService.put(user,gym);
             }else{
                 return "해당 기관의 회원이 아닙니다";
 
