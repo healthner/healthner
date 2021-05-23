@@ -76,7 +76,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             UserDto.Response responseDto = (UserDto.Response) session.getAttribute("userInfo");
 
             if (responseDto == null) {
-                responseDto = new UserDto.Response(null, null, null, null);
+                responseDto = new UserDto.Response(null, null, null, null, null);
                 modelAndView.addObject("user", responseDto);
             } else {
                 modelAndView.addObject("user", responseDto);

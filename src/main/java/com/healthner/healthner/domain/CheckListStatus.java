@@ -2,6 +2,6 @@ package com.healthner.healthner.domain;
 
 public enum CheckListStatus {
 
-    ATTENDANCE, // 출석
-    ABSENT // 결석
+    IN, // 입장
+    OUT // 퇴장
 }

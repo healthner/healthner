@@ -56,8 +56,11 @@ public class User extends BaseEntity {
         this.password = updateUser.getPassword();
         this.name = updateUser.getName();
         this.userImageUrl = updateUser.getUserImageUrl();
-        this.phoneNumber = updateUser.getPhoneNumber();
         this.provider = updateUser.getProvider();
         this.role = updateUser.role;
+    }
+
+    public void inputPhone(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

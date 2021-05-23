@@ -43,6 +43,12 @@ public class KakaoController {
 
         model.addAttribute("user", response);
 
+        if(response.getPhoneNumber() == null ) {
+            System.out.println(response.getPhoneNumber());
+            return "redirect:/user/number";
+        }
+
+
         return "redirect:home";
     }
 
@@ -50,7 +56,7 @@ public class KakaoController {
     @RequestMapping("logout")
     public String logout(Model model, HttpSession httpSession) {
 
-        UserDto.Response response = new UserDto.Response(null, "로그인을 해주세요", null, null);
+        UserDto.Response response =  new UserDto.Response(null, "로그인을 해주세요", null, null, null);
         model.addAttribute("user", response);
 
         httpSession.invalidate();

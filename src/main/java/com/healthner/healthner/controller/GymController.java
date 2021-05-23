@@ -7,7 +7,6 @@ import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.controller.model.Message;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.ProductType;
-import com.healthner.healthner.domain.User;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.CheckListService;
@@ -126,45 +125,39 @@ public class GymController {
     @GetMapping(value = "/check")
     @Auth(role = Role.USER)
     public String getCheck(HttpSession httpSession, Model model) {
-        UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
-        GymDto.Form gym = gymService.findByCeoId(user.getId());
-        if (gym == null) {
-            return "등록되지 않은 기관입니다.";
-        } else {
-            model.addAttribute("checkListDto", new CheckListDto.Request());
-        }
-        Long gymId = gym.getId();
-        //인원 현황
-        Long total = checkListService.countByGymId(gymId);
+        UserDto.Response ceo = (UserDto.Response) httpSession.getAttribute("userInfo");
+        GymDto.Form gym = gymService.findByCeoId(ceo.getId());
+        Long total = checkListService.total(gym.getId());
+        Long users = checkListService.users(gym.getId());
+        
         model.addAttribute("total", total);
+        model.addAttribute("users", users);
 
         return "check";
     }
 
     @Auth(role = Role.USER)
     @PostMapping("/check")
-    public String postCheck(HttpSession httpSession, CheckListDto.Request request, Model model) {
-        //로그인된 사람이 gym의 ceo가 맞는지
-        GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
-        Long thisGymId = thisgym.getId();
-        //해당 기관의 gym객체
-        Gym gym = gymService.findById(thisGymId);
+    public String postCheck(HttpSession httpSession, CheckListDto.Request check, Model model) {
+        UserDto.Response ceo = (UserDto.Response) httpSession.getAttribute("userInfo");
+        GymDto.Form gym = gymService.findByCeoId(ceo.getId());
 
-        // 출석체크 할 유저에 구매내역 리스트에 해당 gym이 있는지 확인
-        Long userId = userService.findByEmail(request.getEmail()).getId();
-        Long checkUser = purchaseService.findByGymIdAndUserId(userId, thisGymId);
-
-        if (checkUser == userId) { // 유저의 구매내역에 해당 gym이 있으면
-            User user = userService.findById(userId);//출석 체크할 유저
-            checkListService.put(user, gym);
-        } else {
-            return "해당 기관의 회원이 아닙니다";
+        //입장 or 퇴장
+        if (true/*조건문 회의 후 결정*/) {
+            checkListService.checkIn(check.getPhoneNumber(), gym.getId());
         }
-        //인원 현황
-        Long total = checkListService.countByGymId(thisGymId);
-        model.addAttribute("total", total);
+        else {
+            checkListService.checkOut(check.getPhoneNumber(), gym.getId());
+        }
 
-        return "redirect:/gym/my-page";
+        //인원 현황
+        Long total = checkListService.total(gym.getId());
+        Long users = checkListService.users(gym.getId());
+
+        model.addAttribute("total", total);
+        model.addAttribute("users", users);
+
+        return "redirect:/gym/check";
     }
 
     @GetMapping("/product/new")
@@ -198,7 +191,7 @@ public class GymController {
 
     @PostMapping("/product/update/{productId}")
     @Auth(role = Role.USER)
-    public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model) {
+    public String UpdateProduct(HttpSession httpSession, @PathVariable Long productId, @ModelAttribute("product") ProductDto.Request request, Model model){
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         request.setProductType(ProductType.NORMAL);
         model.addAttribute("product", productService.updateNormal(productId, request));
@@ -212,4 +205,5 @@ public class GymController {
         productService.delete(productId);
         return "redirect:/gym/my-page";
     }
+
 }

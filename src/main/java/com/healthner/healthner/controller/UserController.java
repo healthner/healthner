@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -59,5 +61,22 @@ public class UserController {
         model.addAttribute("remainList", remainService.findByUserId(userId));
 
         return "user/my-page";
+    }
+
+    @Auth(role = Role.USER)
+    @GetMapping("/number")
+    public String inputNumber(Model model) {
+        String phoneNumber = new String();
+        model.addAttribute("phoneNumber", phoneNumber);
+        return "/number-form";
+    }
+
+    @Auth(role = Role.USER)
+    @PostMapping("/number")
+    public String inputNumber(HttpSession httpSession, @ModelAttribute("phoneNumber") String phone) {
+        UserDto.Response response = (UserDto.Response) httpSession.getAttribute("userInfo");
+        userService.InputPhone(response.getId(), phone);
+        return "redirect:/home";
+
     }
 }

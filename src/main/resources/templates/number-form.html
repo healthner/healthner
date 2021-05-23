@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: header"></head>
+<body>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+<section id="section" class="section-with-bg">
+    <div>
+        <div>
+            <h2>전화번호 입력 페이지</h2>
+        </div>
+        <div>
+            <form method="post">
+                <table>
+                    <tr>
+                        <td>전화번호</td>
+                        <td>
+                            <input type="text" th:name="phoneNumber" th:filed="${phoneNumber}">
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit">등록</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>

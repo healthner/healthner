@@ -48,4 +48,10 @@ public class UserService {
         User user = userRepository.findByEmail(email).orElse(null);
         return user != null ? new UserDto.Response(user) : null;
     }
+
+    @Transactional
+    public void InputPhone(Long id, String phone) {
+        User findUser = findById(id);
+        findUser.inputPhone(phone);
+    }
 }
