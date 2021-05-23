@@ -37,22 +37,22 @@ public class CheckListService {
 
     // 회원 상태 확인
     public boolean check(String phone, Long gymId) {
-        CheckList userState = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow();
-        return userState.getStatus() == CheckListStatus.IN;
+        CheckList userStatus = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("현재 회원 상태를 확인할 수 없습니다."));
+        return userStatus.getStatus() == CheckListStatus.IN;
     }
 
     //출석
     @Transactional
     public void checkIn(String phone, Long gymId) {
-        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow();
-        checkList.attend(CheckListStatus.IN);
+        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("체크인이 잘못되었습니다."));
+        checkList.chageStatus(CheckListStatus.IN);
     }
 
     //결석
     @Transactional
     public void checkOut(String phone, Long gymId) {
-        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow();
-        checkList.attend(CheckListStatus.OUT);
+        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("체크아웃이 잘못되었습니다."));
+        checkList.chageStatus(CheckListStatus.OUT);
     }
 
     public Boolean existsByUserId(Long userId) {

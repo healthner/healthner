@@ -46,7 +46,7 @@ public class CheckList extends BaseEntity {
         return new CheckList(status, user, gym);
     }
 
-    public void attend(CheckListStatus status) {
+    public void chageStatus(CheckListStatus status) {
         this.status = status;
     }
 }
