@@ -12,4 +12,5 @@ public interface GymRepository extends JpaRepository<Gym, Long> {
 
     Optional<Gym> findByCeoId(Long ceoId);
 
+    Boolean existsByCeoId(Long ceoId);
 }

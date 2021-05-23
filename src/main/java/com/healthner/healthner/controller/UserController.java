@@ -11,10 +11,7 @@ import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -66,16 +63,14 @@ public class UserController {
     @Auth(role = Role.USER)
     @GetMapping("/number")
     public String inputNumber(Model model) {
-        String phoneNumber = new String();
-        model.addAttribute("phoneNumber", phoneNumber);
-        return "/number-form";
+        return "/user/number-form";
     }
 
     @Auth(role = Role.USER)
     @PostMapping("/number")
-    public String inputNumber(HttpSession httpSession, @ModelAttribute("phoneNumber") String phone) {
+    public String inputNumber(HttpSession httpSession, @RequestParam("phoneNumber") String phoneNumber) {
         UserDto.Response response = (UserDto.Response) httpSession.getAttribute("userInfo");
-        userService.InputPhone(response.getId(), phone);
+        userService.inputPhone(response.getId(), phoneNumber);
         return "redirect:/home";
 
     }

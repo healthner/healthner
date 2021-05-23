@@ -25,9 +25,7 @@ public class UserService {
 
     @Transactional
     public Long update(Long id, User updateUser) {
-        User findUser = userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 user id 입니다. id=" + id)
-        );
+        User findUser = getUser(id);
 
         findUser.updateUser(updateUser);
         return findUser.getId();
@@ -39,9 +37,7 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 user id 입니다. id=" + id)
-        );
+        return getUser(id);
     }
 
     public UserDto.Response findByEmail(String email) {
@@ -50,8 +46,14 @@ public class UserService {
     }
 
     @Transactional
-    public void InputPhone(Long id, String phone) {
-        User findUser = findById(id);
+    public void inputPhone(Long id, String phone) {
+        User findUser = getUser(id);
         findUser.inputPhone(phone);
+    }
+
+    private User getUser(Long id) {
+        return userRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 user id 입니다. id=" + id)
+        );
     }
 }

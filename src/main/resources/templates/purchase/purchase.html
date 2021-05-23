@@ -17,10 +17,9 @@
                 <div class="col-lg-4" th:each="purchase : ${PT}">
                     <div class="card mb-5 mb-lg-0">
                         <div class="card-body">
-                            <h5 class="card-title text-muted text-uppercase text-center">pt이용권인지 어떤 상품인지 : <span
-                                    th:text="${purchase.productType}"></span></h5>
-                            <h6 class="card-price text-center">상품이름: <span th:text="${purchase.productName}"></span>
-                            </h6>
+                            <h3 class="text-muted text-uppercase text-center"><span
+                                    th:text="${purchase.productType}"></span></h3>
+                            <h4 class="card-title text-center" th:text="'상품이름:' + ${purchase.productName}"></h4>
                             <hr>
                             <ul class="fa-ul">
                                 <li><span class="fa-li"><i class="fa fa-check"></i></span>gym 이름: <span

@@ -78,5 +78,7 @@ public class GymService {
         productRepository.save(normal);
     }
 
-
+    public Boolean existsByCeoId(Long ceoId) {
+        return gymRepository.existsByCeoId(ceoId);
+    }
 }

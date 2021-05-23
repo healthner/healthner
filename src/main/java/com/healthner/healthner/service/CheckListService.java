@@ -7,12 +7,14 @@ import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.CheckListRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class CheckListService {
     private final CheckListRepository checkListRepository;
 
@@ -30,29 +32,23 @@ public class CheckListService {
     @Transactional
     public void put(User user, Gym gym) {
         CheckListDto.Request request = new CheckListDto.Request();
-        request.setStatus(CheckListStatus.OUT);
         CheckList checkList = request.toEntity(user, gym);
         checkListRepository.save(checkList);
     }
 
-    // 회원 상태 확인
-    public boolean check(String phone, Long gymId) {
-        CheckList userStatus = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("현재 회원 상태를 확인할 수 없습니다."));
-        return userStatus.getStatus() == CheckListStatus.IN;
+    // 현재 기관의 user 정보 유무 check
+    public Boolean existsByGymIdAndUserPhoneNumber(Long gymId, String phoneNumber) {
+        return checkListRepository.existsByGymIdAndUserPhoneNumber(gymId, phoneNumber);
     }
 
-    //출석
+    // 출석 상태 변경
     @Transactional
-    public void checkIn(String phone, Long gymId) {
-        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("체크인이 잘못되었습니다."));
-        checkList.chageStatus(CheckListStatus.IN);
-    }
-
-    //결석
-    @Transactional
-    public void checkOut(String phone, Long gymId) {
-        CheckList checkList = checkListRepository.findByUserPhoneNumberAndGymId(phone, gymId).orElseThrow(() -> new IllegalArgumentException("체크아웃이 잘못되었습니다."));
-        checkList.chageStatus(CheckListStatus.OUT);
+    public void changeCheckStatus(Long gymId, String phoneNumber) {
+        CheckList checkList = checkListRepository.findByGymIdAndUserPhoneNumber(gymId, phoneNumber).orElseThrow(() ->
+                new IllegalArgumentException("체크인이 잘못되었습니다."));
+        log.info(checkList.getStatus().toString());
+        checkList.changeStatus();
+        log.info(checkList.getStatus().toString());
     }
 
     public Boolean existsByUserId(Long userId) {
