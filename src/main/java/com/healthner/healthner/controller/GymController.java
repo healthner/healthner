@@ -129,8 +129,7 @@ public class GymController {
         GymDto.Form gym = gymService.findByCeoId(ceo.getId());
         Long total = checkListService.total(gym.getId());
         Long users = checkListService.users(gym.getId());
-
-        model.addAttribute("check", new CheckListDto.Request());
+        
         model.addAttribute("total", total);
         model.addAttribute("users", users);
 
