@@ -40,7 +40,7 @@ public class ReservationDto {
 
         //예약을 dto로 받고 이를  reservation 객체로 생성해줌
         public Reservation toEntity(User user, Trainer trainer, Purchase purchase) {
-            return Reservation.createReservation(this.getDate(), this.getStartTime(), this.getEndTime(),
+            return Reservation.createReservation(this.getDate(), this.getStartTime(), this.getStartTime().plusHours(1),
                     user, trainer, purchase);
         }
     }
@@ -54,14 +54,15 @@ public class ReservationDto {
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
 
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
         private LocalDateTime startTime;
 
-        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
         private LocalDateTime endTime;
         private Long userId;
         private Long trainerId;
         private Long purchaseId;
+        private Boolean status ;
 
         //예약목록에서 dto와 비교하여 client에게 제공
         public ReservResponse(Reservation reservation) {
@@ -73,6 +74,7 @@ public class ReservationDto {
             this.userId = reservation.getUser().getId();
             this.trainerId = reservation.getTrainer().getId();
             this.purchaseId = reservation.getPurchase().getId();
+            this.status = reservation.getStatus();
         }
     }
 

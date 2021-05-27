@@ -20,6 +20,7 @@ public class RemainService {
         return remainRepository.findByUserId(userId)
                 .stream()
                 .map(remain -> new RemainDto.Response(remain))
+                .filter(remain -> remain.getRemainCount() > 0)
                 .collect(Collectors.toList());
     }
 
@@ -33,9 +34,25 @@ public class RemainService {
         }
     }
 
+    @Transactional
+    public void plusCount(Long remainId) {
+        Remain remain = remainRepository.findById(remainId).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 remain입니다."));
+        remain.plusRemainCount();
+    }
+
     public Remain findById(Long remainId) {
         return remainRepository.findById(remainId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 remain id 입니다." + remainId)
         );
+    }
+
+    public Long findByPurchaseId(Long purchaseId) {
+        return remainRepository.findByPurchaseId(purchaseId);
+    }
+
+    @Transactional
+    public void save(Remain remain) {
+        remainRepository.save(remain);
     }
 }

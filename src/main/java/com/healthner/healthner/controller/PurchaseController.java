@@ -1,16 +1,19 @@
 package com.healthner.healthner.controller;
 
+import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.controller.dto.PurchaseDto;
+import com.healthner.healthner.controller.dto.RemainDto;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.controller.model.Message;
 import com.healthner.healthner.domain.ProductType;
+import com.healthner.healthner.domain.Purchase;
 import com.healthner.healthner.interceptor.Auth;
 import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.CheckListService;
 import com.healthner.healthner.service.ProductService;
 import com.healthner.healthner.service.PurchaseService;
+import com.healthner.healthner.service.RemainService;
 import com.healthner.healthner.service.UserService;
-import com.healthner.healthner.controller.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +34,7 @@ public class PurchaseController {
     private final ProductService productService;
     private final UserService userService;
     private final CheckListService checkListService;
+    private final RemainService remainService;
 
     @GetMapping("/{productId}")
     public String getTrainerProduct(@PathVariable("productId") Long productId, Model model) {
@@ -58,6 +62,8 @@ public class PurchaseController {
         }
 
         PurchaseDto.Request request = new PurchaseDto.Request();
+        RemainDto.Request remainRequest = new RemainDto.Request();
+        remainRequest.setRemainCount((productService.getProduct(productId).getCount()));
         //NORMAL상품일 경우
         if (purchaseService.findType(productId) == ProductType.NORMAL) {
             request.setPeriod(LocalDateTime.now().plusMonths(productService.getProduct(productId).getPeriod()));
@@ -68,7 +74,7 @@ public class PurchaseController {
         }
 
         //구매 진행
-        purchaseService.save(
+        Purchase purchase = purchaseService.save(
                 request.toEntity(
                         userService.findById(user.getId()),
                         productService.getProduct(productId).getGym(),
@@ -76,6 +82,11 @@ public class PurchaseController {
                         productService.getProduct(productId)
                 )
         );
+
+        //PT remain 세팅
+        if(purchaseService.findType(productId) == ProductType.PT){
+            remainService.save(remainRequest.toEntity(userService.findById(user.getId()), purchase));
+        }
 
         if (!checkListService.existsByUserId(user.getId())) {
             //출석객체 생성 후 결석으로 세팅
