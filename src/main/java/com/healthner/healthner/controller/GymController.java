@@ -12,18 +12,12 @@ import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.service.CheckListService;
 import com.healthner.healthner.service.GymService;
 import com.healthner.healthner.service.ProductService;
-import com.healthner.healthner.service.PurchaseService;
 import com.healthner.healthner.service.TrainerService;
-import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -36,8 +30,6 @@ import java.util.stream.Collectors;
 public class GymController {
 
     private final GymService gymService;
-    private final UserService userService;
-    private final PurchaseService purchaseService;
     private final CheckListService checkListService;
     private final ProductService productService;
     private final TrainerService trainerService;
@@ -107,7 +99,14 @@ public class GymController {
     @GetMapping("/my-page")
     @Auth(role = Role.USER)
     public String getGym(HttpSession httpSession, Model model) {
-        GymDto.Form gym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
+        UserDto.Response user = (UserDto.Response) httpSession.getAttribute("userInfo");
+
+        if (!gymService.existsByCeoId(user.getId())) {
+            model.addAttribute("data", new Message("기관이 등록되어 있지 않습니다.", "/home"));
+            return "common/message";
+        }
+
+        GymDto.Form gym = gymService.findByCeoId((user).getId());
         List<ProductDto.ResponseNormal> products = productService.findByGymId(gym.getId())
                 .stream().filter((product) -> product.getDeleteStatus() == false)
                 .collect(Collectors.toList());
@@ -122,7 +121,7 @@ public class GymController {
     }
 
     //출석체크
-    @GetMapping(value = "/check")
+    @GetMapping("/check")
     @Auth(role = Role.USER)
     public String getCheck(HttpSession httpSession, Model model) {
         UserDto.Response ceo = (UserDto.Response) httpSession.getAttribute("userInfo");
@@ -133,29 +132,22 @@ public class GymController {
         model.addAttribute("total", total);
         model.addAttribute("users", users);
 
-        return "check";
+        return "gym/check";
     }
 
     @Auth(role = Role.USER)
     @PostMapping("/check")
-    public String postCheck(HttpSession httpSession, CheckListDto.Request check, Model model) {
+    public String postCheck(@RequestParam("phoneNumber") String phoneNumber,
+                            HttpSession httpSession, Model model) {
         UserDto.Response ceo = (UserDto.Response) httpSession.getAttribute("userInfo");
         GymDto.Form gym = gymService.findByCeoId(ceo.getId());
 
-        //입장 or 퇴장
-        if (true/*조건문 회의 후 결정*/) {
-            checkListService.checkIn(check.getPhoneNumber(), gym.getId());
+        if (checkListService.existsByGymIdAndUserPhoneNumber(gym.getId(), phoneNumber)) {
+            checkListService.changeCheckStatus(gym.getId(), phoneNumber);
+        } else {
+            model.addAttribute("data", new Message("기관에 등록되지 않은 user 입니다.", "/gym/check"));
+            return "common/message";
         }
-        else {
-            checkListService.checkOut(check.getPhoneNumber(), gym.getId());
-        }
-
-        //인원 현황
-        Long total = checkListService.total(gym.getId());
-        Long users = checkListService.users(gym.getId());
-
-        model.addAttribute("total", total);
-        model.addAttribute("users", users);
 
         return "redirect:/gym/check";
     }

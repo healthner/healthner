@@ -5,6 +5,7 @@ import com.healthner.healthner.kakao.dto.KakaoProfile;
 import com.healthner.healthner.controller.dto.UserDto;
 import com.healthner.healthner.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +15,10 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class KakaoController {
 
     private final KakaoService kakaoService;
-
     private final UserService userService;
 
     //카카오 로그인
@@ -43,11 +44,9 @@ public class KakaoController {
 
         model.addAttribute("user", response);
 
-        if(response.getPhoneNumber() == null ) {
-            System.out.println(response.getPhoneNumber());
-            return "redirect:/user/number";
+        if(response.getPhoneNumber() == null) {
+            return "redirect:user/number";
         }
-
 
         return "redirect:home";
     }

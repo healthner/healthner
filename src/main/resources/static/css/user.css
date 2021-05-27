@@ -141,3 +141,18 @@
     border-bottom: 1px solid #444444;
     padding: 10px;
 }
+
+/* number-form */
+.number-form-wrap {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 3% auto;
+    padding: 1rem;
+    background-color: #fefefe;
+    border-radius: .25rem;
+}
+
+.number-form-wrap > form > div {
+    margin: 1rem 0;
+}

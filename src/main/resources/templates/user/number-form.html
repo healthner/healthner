@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: header"></head>
+<body>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+<section id="section" class="section-with-bg">
+    <div class="number-form-wrap">
+        <div class="section-header">
+            <h2>회원가입 되었습니다. 전화번호를 입력해주세요!</h2>
+        </div>
+        <form method="post">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">전화번호 입력</span>
+                </div>
+                <input type="text" class="form-control" placeholder="ex) 01000000000" name="phoneNumber">
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg btn-block">등록</button>
+        </form>
+    </div>
+</section>
+
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>

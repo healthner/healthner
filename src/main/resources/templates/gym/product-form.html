@@ -31,9 +31,9 @@
 
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text">상품 가격</span>
+                    <span class="input-group-text">상품 내용</span>
                 </div>
-                <input type="text" class="form-control" placeholder="상품의 가격을 입력하세요." name="price"  th:value="*{price}" th:filed="*{price}">
+                <textarea type="text" class="form-control" placeholder="상품의 내용을 입력하세요." name="content"  th:text="*{content}" th:filed="*{content}"></textarea>
             </div>
             <br>
 
