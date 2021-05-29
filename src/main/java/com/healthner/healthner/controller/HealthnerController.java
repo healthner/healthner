@@ -10,4 +10,9 @@ public class HealthnerController {
     public String kakaoError() {
         return "loginerror";
     }
+
+    @GetMapping(value = "/about")
+    public String about() {
+        return "about";
+    }
 }
