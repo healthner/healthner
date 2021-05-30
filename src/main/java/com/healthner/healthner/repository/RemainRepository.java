@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RemainRepository extends JpaRepository<Remain, Long> {
 
     List<Remain> findByUserId(Long id);
 
-    @Query("select id from Remain WHERE purchase.id = :purchaseId")
-    Long findByPurchaseId(@Param("purchaseId") Long purchaseId);
+    @Query("select r from Remain r where r.purchase.id = :purchaseId")
+    Optional<Remain> findByPurchaseId(@Param("purchaseId") Long purchaseId);
 
 }

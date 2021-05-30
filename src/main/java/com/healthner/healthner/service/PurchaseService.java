@@ -37,7 +37,7 @@ public class PurchaseService {
         return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
                 .stream()
                 .map(purchase -> new PurchaseDto.ResponsePT(purchase))
-                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId())).getRemainCount() != 0)
+                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId()).getId()).getRemainCount() != 0)
                 .collect(Collectors.toList());
     }
 
@@ -75,7 +75,7 @@ public class PurchaseService {
         return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
                 .stream()
                 .map(purchase -> new PurchaseDto.ResponsePT(purchase))
-                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId())).getRemainCount() == 0)
+                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId()).getId()).getRemainCount() == 0)
                 .collect(Collectors.toList());
     }
 

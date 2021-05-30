@@ -47,8 +47,9 @@ public class RemainService {
         );
     }
 
-    public Long findByPurchaseId(Long purchaseId) {
-        return remainRepository.findByPurchaseId(purchaseId);
+    public Remain findByPurchaseId(Long purchaseId) {
+        return remainRepository.findByPurchaseId(purchaseId).orElseThrow(() ->
+                new IllegalArgumentException("잔여 내역이 존재하지 않습니다."));
     }
 
     @Transactional

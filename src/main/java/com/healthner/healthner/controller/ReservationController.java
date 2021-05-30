@@ -37,7 +37,7 @@ public class ReservationController {
     @PostMapping("{purchaseId}/new")
     public String postReservation(@ModelAttribute ReservationDto.ReservRequest reservRequest, @PathVariable("purchaseId") Long purchaseId, Model model) {
         if (reservationService.put(reservRequest, purchaseId)) {
-            remainService.minusCount(remainService.findByPurchaseId(purchaseId));
+            remainService.minusCount(remainService.findByPurchaseId(purchaseId).getId());
         } else {
             model.addAttribute("data", new Message("예약이 불가능한 시간입니다.", "/user/my-page"));
             return "common/message";
@@ -65,7 +65,7 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("/{reserveId}/delete")
     public String delete(@PathVariable("reserveId") Long reserveId) {
-        remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)));
+        remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
         reservationService.delete(reserveId);
         return "redirect:/user/my-page";
     }
