@@ -151,37 +151,28 @@
 
 /* check */
 .check-wrap {
-    width: 70%;
+    width: 50%;
     margin: 3% auto;
-    padding: 1rem;
+    padding: 1rem 4%;
     background-color: #fefefe;
     border-radius: .25rem;
 }
 
-.check-section {
-    display: flex;
-    flex-direction: row;
-}
-
-.check-content {
-    width: 30%;
+.check-table {
+    width: 60%;
+    margin: 1rem auto;
 }
 
 .check-form {
-    width: 70%;
     text-align: center;
-}
-
-.check-form > form > table {
-    width: 100%;
-    margin: 1rem 0;
 }
 
 .check-form > form > table td {
     border: 1px solid #CCCCCC;
-    padding: 3rem 1rem;
-    font-size: 1.2rem;
+    font-size: 2rem;
     font-weight: bold;
+    width: 33.333333%;
+    padding: 2rem 2rem;
 }
 
 .check-form > form > table td:hover {

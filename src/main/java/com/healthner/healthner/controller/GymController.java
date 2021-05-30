@@ -1,6 +1,5 @@
 package com.healthner.healthner.controller;
 
-import com.healthner.healthner.controller.dto.CheckListDto;
 import com.healthner.healthner.controller.dto.GymDto;
 import com.healthner.healthner.controller.dto.ProductDto;
 import com.healthner.healthner.controller.dto.UserDto;
@@ -128,7 +127,7 @@ public class GymController {
         GymDto.Form gym = gymService.findByCeoId(ceo.getId());
         Long total = checkListService.total(gym.getId());
         Long users = checkListService.users(gym.getId());
-        
+
         model.addAttribute("total", total);
         model.addAttribute("users", users);
 
@@ -138,12 +137,13 @@ public class GymController {
     @Auth(role = Role.USER)
     @PostMapping("/check")
     public String postCheck(@RequestParam("phoneNumber") String phoneNumber,
+                            @RequestParam("cmd") String cmd,
                             HttpSession httpSession, Model model) {
         UserDto.Response ceo = (UserDto.Response) httpSession.getAttribute("userInfo");
         GymDto.Form gym = gymService.findByCeoId(ceo.getId());
 
         if (checkListService.existsByGymIdAndUserPhoneNumber(gym.getId(), phoneNumber)) {
-            checkListService.changeCheckStatus(gym.getId(), phoneNumber);
+            checkListService.changeCheckStatus(gym.getId(), phoneNumber, cmd);
         } else {
             model.addAttribute("data", new Message("기관에 등록되지 않은 user 입니다.", "/gym/check"));
             return "common/message";
