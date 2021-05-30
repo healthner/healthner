@@ -3,6 +3,7 @@ package com.healthner.healthner.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ public class Purchase extends BaseEntity {
 
     private Integer count;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
     private LocalDateTime period;
 
     @ManyToOne(fetch = FetchType.LAZY)

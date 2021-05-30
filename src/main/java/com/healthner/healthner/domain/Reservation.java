@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,8 +30,10 @@ public class Reservation extends BaseEntity {
 
     private LocalDate date;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
     private LocalDateTime startTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
     private LocalDateTime endTime;
 
     @ManyToOne(fetch = FetchType.LAZY)

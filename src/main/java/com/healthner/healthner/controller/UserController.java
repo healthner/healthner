@@ -36,8 +36,6 @@ public class UserController {
         } else {
             Long userId = response.getId();
             model.addAttribute("PT", purchaseService.findByUserIdAndPT(userId));
-            model.addAttribute("Normal", purchaseService.findByUserIdAndNormal(userId));
-
         }
         return "purchase/purchase";
     }

@@ -51,26 +51,26 @@ public class ReservationDto {
     public static class ReservResponse {
         private String title;
         private Long id;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
-
-        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
         private LocalDateTime startTime;
-
-        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
+        private String startTimeString;
         private LocalDateTime endTime;
+        private String endTimeString;
+
         private Long userId;
         private Long trainerId;
         private Long purchaseId;
-        private Boolean status ;
+        private Boolean status;
 
         //예약목록에서 dto와 비교하여 client에게 제공
         public ReservResponse(Reservation reservation) {
-            this.title = reservation.getStartTime().toString();
+            this.title = "\"" + reservation.getTrainer().getUser().getName() + "\" 트레이너님 수업";
             this.id = reservation.getId();
             this.date = reservation.getDate();
             this.startTime = reservation.getStartTime();
+            this.startTimeString = reservation.getStartTime().toString().replace("T", "  ");
             this.endTime = reservation.getEndTime();
+            this.endTimeString = reservation.getEndTime().toString().replace("T", "  ");
             this.userId = reservation.getUser().getId();
             this.trainerId = reservation.getTrainer().getId();
             this.purchaseId = reservation.getPurchase().getId();
