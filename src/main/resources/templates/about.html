@@ -5,7 +5,39 @@
     <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg">
+        <div class="section-header">
+            <br>
+            <h2>'헬트너' 이용</h2>
+        </div>
 
+        <div class="about1">
+            <div class="about2 about3">
+                <div class="img-fluid">
+                    <img class="about-img" src="/static/img/about/kakao.jpg">
+                    <div>
+                        <p class="about-p">소셜 로그인</p>
+                    </div>
+                </div>
+                <div class="img-fluid">
+                    <img class="about-img" src="/static/img/about/person.jpg">
+                    <div>
+                        <p class="about-p">인원 현황</p>
+                    </div>
+                </div>
+                <div class="img-fluid">
+                    <img class="about-img" src="/static/img/about/online.jpg">
+                    <div>
+                        <p class="about-p">온라인 예약</p>
+                    </div>
+                </div>
+                <div class="img-fluid">
+                    <img class="about-img" src="/static/img/about/map.png">
+                    <div>
+                        <p class="about-p">헬스장 찾기</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
