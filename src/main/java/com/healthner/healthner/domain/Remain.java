@@ -29,25 +29,29 @@ public class Remain extends BaseEntity {
     private LocalDateTime remainPeriod;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "purchase_id")
+    private Purchase purchase;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Remain(Integer remainCount, LocalDateTime remainPeriod, Product product, User user) {
+    private Remain(Integer remainCount, LocalDateTime remainPeriod, Purchase purchase, User user) {
         this.remainCount = remainCount;
         this.remainPeriod = remainPeriod;
-        this.product = product;
+        this.purchase = purchase;
         this.user = user;
     }
 
-    public static Remain createRemain(Integer remainCount, LocalDateTime remainPeriod, Product product, User user) {
-        return new Remain(remainCount, remainPeriod, product, user);
+    public static Remain createRemain(Integer remainCount, LocalDateTime remainPeriod, Purchase purchase, User user) {
+        return new Remain(remainCount, remainPeriod, purchase, user);
     }
 
     public void minusRemainCount() {
         this.remainCount--;
+    }
+
+    public void plusRemainCount() {
+        this.remainCount++;
     }
 }

@@ -45,6 +45,8 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 
+    private Boolean status ;
+
     private Reservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
                         User user, Trainer trainer, Purchase purchase) {
         this.date = date;
@@ -53,6 +55,7 @@ public class Reservation extends BaseEntity {
         this.user = user;
         this.trainer = trainer;
         this.purchase = purchase;
+        this.status = true;
     }
 
     public static Reservation createReservation(LocalDate date, LocalDateTime startTime, LocalDateTime endTime,
@@ -67,5 +70,9 @@ public class Reservation extends BaseEntity {
         this.trainer = trainer;
         this.purchase = purchase;
         this.user = user;
+    }
+
+    public void changeStatus (){
+        this.status = false;
     }
 }

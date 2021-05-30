@@ -30,13 +30,14 @@ public class PurchaseService {
     private final GymRepository gymRepository;
     private final TrainerRepository trainerRepository;
     private final ProductRepository productRepository;
+    private final RemainService remainService;
 
     //구매내역 리스트PT
     public List<PurchaseDto.ResponsePT> findByUserIdAndPT(Long userId) {
         return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
                 .stream()
                 .map(purchase -> new PurchaseDto.ResponsePT(purchase))
-                .filter(purchase -> purchase.getCount() != 0)
+                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId()).getId()).getRemainCount() != 0)
                 .collect(Collectors.toList());
     }
 
@@ -58,6 +59,12 @@ public class PurchaseService {
         return purchaseRepository.findByGymIdAndUserId(userId, thisGymId);
     }
 
+    public Long findById(Long purchaseId) {
+        return purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 내역입니다."))
+                .getProduct()
+                .getId();
+    }
+
     //상품의 타입 확인
     public ProductType findType(Long productId) {
         return productRepository.findWhatType(productId);
@@ -68,7 +75,7 @@ public class PurchaseService {
         return purchaseRepository.findByUserIdAndProductType(userId, ProductType.PT)
                 .stream()
                 .map(purchase -> new PurchaseDto.ResponsePT(purchase))
-                .filter(purchase -> purchase.getCount() == 0)
+                .filter(purchase -> remainService.findById(remainService.findByPurchaseId(purchase.getId()).getId()).getRemainCount() == 0)
                 .collect(Collectors.toList());
     }
 
@@ -82,8 +89,8 @@ public class PurchaseService {
     }
 
     @Transactional
-    public void save(Purchase purchase) {
-        purchaseRepository.save(purchase);
+    public Purchase save(Purchase purchase) {
+        return purchaseRepository.save(purchase);
     }
 
     private Product getProduct(Long id) {

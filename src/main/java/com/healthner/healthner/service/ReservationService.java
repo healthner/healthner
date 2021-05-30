@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,23 +24,26 @@ public class ReservationService {
     private final PurchaseRepository purchaseRepository;
 
     //예약 생성 전 검증
-    public Boolean isEmpty(Long purchaseId) {
-        Boolean isExist = reservationRepository.findByPurchaseId(purchaseId)
-                .isEmpty();
-        return isExist;
+    private Boolean isExist(Long purchaseId, ReservationDto.ReservRequest reservRequest) {
+        Long trainerId = purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 상품입니다")).getTrainer().getId();
+
+        return reservationRepository.existsByStartTimeAndTrainerId(reservRequest.getStartTime(), trainerId);
     }
 
     //예약 생성
     @Transactional
-    public Long put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
+    public Boolean put(ReservationDto.ReservRequest reservRequest, Long purchaseId) {
+        if (isExist(purchaseId, reservRequest)) {
+            return false;
+        }
+        ;
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
         User user = purchase.getUser();
         Trainer trainer = purchase.getTrainer();
         Reservation reservation = reservRequest.toEntity(user, trainer, purchase);
         reservationRepository.save(reservation);
-        Long userId = reservation.getUser().getId();
 
-        return userId;
+        return true;
     }
 
     //예약 수정하기위해 해당예약 초기값 가져오기
@@ -77,6 +81,7 @@ public class ReservationService {
     //user-mypage에 리스트로 뿌려지는 용도
     @Transactional
     public List<ReservationDto.ReservResponse> findByUserId(Long userId) {
+        changeStatus();
         return reservationRepository.findByUserId(userId)
                 .stream()
                 .map(reservation -> new ReservationDto.ReservResponse(reservation))
@@ -96,5 +101,22 @@ public class ReservationService {
                 .stream()
                 .map(reservation -> new ReservationDto.ReservResponse(reservation))
                 .collect(Collectors.toList());
+    }
+
+    //지난 시간의 예약의 상태를 false로 세팅
+    private void changeStatus() {
+        reservationRepository.findAll()
+                .stream()
+                .forEach(reservation -> {
+                            if (reservation.getEndTime().isBefore(LocalDateTime.now())) {
+                                reservation.changeStatus();
+                            }
+                        }
+                );
+    }
+
+    public Long findPurchaseId(Long id) {
+        return reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 예약입니다."))
+                .getPurchase().getId();
     }
 }

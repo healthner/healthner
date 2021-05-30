@@ -36,7 +36,8 @@ values (now(), now(), 4, 1, '홍길동짐 트레이너 5년차'),
        (now(), now(), 19, 7, '자격증 보유'),
        (now(), now(), 20, 7, '나는 김부식 역사 공부 중');
 
-insert into product (created_date, last_modified_date, content, count, delete_status, name, period, price, type, gym_id, trainer_id)
+insert into product (created_date, last_modified_date, content, count, delete_status, name, period, price, type, gym_id,
+                     trainer_id)
 values (now(), now(), 'hyeonic의 pt상품 1 입니다', 6, false, 'hyeonic의 pt상품 1', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 2 입니다', 6, false, 'hyeonic의 pt상품 2', null, 60000, 'PT', 1, 3),
        (now(), now(), 'hyeonic의 pt상품 3 입니다', 6, false, 'hyeonic의 pt상품 3', null, 60000, 'PT', 1, 3),
@@ -67,17 +68,17 @@ values (now(), now(), null, now(), 10000, 7, 10, null, 5),
        (now(), now(), 10, null, 1000000, 7, 15, 1, 8),
        (now(), now(), 10, null, 1000000, 7, 15, 1, 9);
 
-insert into remain (created_date, last_modified_date, remain_count, remain_period, product_id, user_id)
-values (now(), now(), null, now(), 10, 5),
-       (now(), now(), null, now(), 10, 6),
-       (now(), now(), null, now(), 10, 7),
-       (now(), now(), null, now(), 10, 8),
-       (now(), now(), null, now(), 10, 9),
-       (now(), now(), 10, null, 15, 5),
-       (now(), now(), 10, null, 15, 6),
-       (now(), now(), 10, null, 15, 7),
-       (now(), now(), 10, null, 15, 8),
-       (now(), now(), 10, null, 15, 9);
+insert into remain (created_date, last_modified_date, remain_count, remain_period, purchase_id, user_id)
+values (now(), now(), null, now(), 1, 5),
+       (now(), now(), null, now(), 2, 6),
+       (now(), now(), null, now(), 3, 7),
+       (now(), now(), null, now(), 4, 8),
+       (now(), now(), null, now(), 5, 9),
+       (now(), now(), 10, null, 6, 5),
+       (now(), now(), 10, null, 7, 6),
+       (now(), now(), 10, null, 8, 7),
+       (now(), now(), 10, null, 9, 8),
+       (now(), now(), 10, null, 10, 9);
 
 insert into reservation (created_date, last_modified_date, Date, end_time, start_time, purchase_id, trainer_id, user_id)
 values (now(), now(), '2021-04-13', '2021-04-13T10:15:30', '2021-04-13T11:15:30', 1, 1, 1),
