@@ -31,8 +31,8 @@
                     </div>
                     <div class="trainer-reservation-info">
                         <h4><a name="reservation-info">예약 정보</a></h4>
-                        <table class="trainer-my-page-table">
-                            <tr>
+                        <table class="table">
+                            <thead class="table-warning">
                                 <th>예약</th>
                                 <th>날짜</th>
                                 <th>시작 시간</th>
@@ -40,7 +40,7 @@
                                 <th>수강생</th>
                                 <th>트레이너</th>
                                 <th>구매 상품</th>
-                            </tr>
+                            </thead>
                             <tr th:each="reservation : ${reservations}">
                                 <td th:text="${reservation.title}"></td>
                                 <td th:text="${reservation.date}"></td>
@@ -54,8 +54,8 @@
                     </div>
                     <div class="trainer-product-info">
                         <h4><a name="product-info">등록된 상품 정보</a></h4>
-                        <table class="trainer-my-page-table">
-                            <tr>
+                        <table class="table">
+                            <thead class="table-warning">
                                 <th>상품명</th>
                                 <th>설명</th>
                                 <th>가격</th>
@@ -64,7 +64,7 @@
                                 <th>type</th>
                                 <th></th>
                                 <th></th>
-                            </tr>
+                            </thead>
                             <tr th:each="product : ${products}">
                                 <td th:text="${product.name}"></td>
                                 <td th:text="${product.content}"></td>
@@ -83,8 +83,8 @@
                     </div>
                     <div class="trainer-product-info">
                         <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
-                        <table class="trainer-my-page-table">
-                            <tr>
+                        <table class="table">
+                            <thead class="table-warning">
                                 <th>상품명</th>
                                 <th>설명</th>
                                 <th>가격</th>
@@ -93,7 +93,7 @@
                                 <th>type</th>
                                 <th></th>
                                 <th></th>
-                            </tr>
+                            </thead>
                             <tr th:each="product : ${deleteProducts}">
                                 <td th:text="${product.name}"></td>
                                 <td th:text="${product.content}"></td>
