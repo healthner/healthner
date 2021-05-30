@@ -1,0 +1,6 @@
+FROM centos8:nginx
+RUN
+COPY
+EXPOSE
+VOLUME
+ENV
