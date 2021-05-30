@@ -51,14 +51,9 @@ public class ReservationDto {
     public static class ReservResponse {
         private String title;
         private Long id;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate date;
-
-        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
         private LocalDateTime startTime;
         private String startTimeString;
-
-        @DateTimeFormat(pattern = "yyyy-MM-dd:HH")
         private LocalDateTime endTime;
         private String endTimeString;
 
