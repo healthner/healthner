@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,8 @@ public class PurchaseDto {
     public static class Request {
         private Integer price;
         private Integer count;
+
+        @DateTimeFormat(pattern = "yyyy-MM-dd:HH:mm")
         private LocalDateTime period;
         private Long userId;
         private Long gymId;
@@ -66,6 +69,7 @@ public class PurchaseDto {
         private Long id;
         private Integer price;
         private LocalDateTime period;
+        private String periodToString;
         private Long userId;
         private Long gymId;
         private String gymName;
@@ -76,6 +80,7 @@ public class PurchaseDto {
             this.id = purchase.getId();
             this.price = purchase.getPrice();
             this.period = purchase.getPeriod();
+            this.periodToString = purchase.getPeriod().toString().replace("T","   ").substring(0,18);
             this.userId = purchase.getUser().getId();
             this.gymId = purchase.getGym().getId();
             this.gymName = purchase.getGym().getName();

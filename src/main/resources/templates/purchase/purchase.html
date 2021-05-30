@@ -10,7 +10,7 @@
 
             <div class="section-header">
                 <br>
-                <h2>구매 내역</h2>
+                <h2>예약 하기</h2>
             </div>
 
             <div class="row">
@@ -40,30 +40,6 @@
                                             data-target="#buy-ticket-modal" data-ticket-type="standard-access">예약하러 가기
                                     </button>
                                 </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4" th:each="normal : ${Normal}">
-                    <div class="card mb-5 mb-lg-0">
-                        <div class="card-body">
-                            <h5 class="card-title text-muted text-uppercase text-center">pt이용권인지 어떤 상품인지 : <span
-                                    th:text="${normal.productType}"></span></h5>
-                            <h6 class="card-price text-center">상품이름: <span th:text="${normal.productName}"></span></h6>
-                            <hr>
-                            <ul class="fa-ul">
-                                <li><span class="fa-li"><i class="fa fa-check"></i></span>gym 이름: <span
-                                        th:text="${normal.gymName}"></span></li>
-                                <li><span class="fa-li"><i class="fa fa-check"></i></span>가격: <span
-                                        th:text="${normal.price}"></span>원
-                                </li>
-                                <li><span class="fa-li"><i class="fa fa-check"></i></span>사용 가능 기간: <span
-                                        th:text="${normal.period}"></span> 까지
-                                </li>
-                            </ul>
-                            <hr>
-                            <div class="text-center">
                             </div>
                         </div>
                     </div>

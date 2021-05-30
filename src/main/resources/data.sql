@@ -6,7 +6,7 @@ values (now(), now(), 'admin@email.com', '1234', '관리자', '00000000000'),
        (now(), now(), 'user1@email.com', '1234', '헬트너', '11111111111'),
        (now(), now(), 'user2@email.com', '1234', '최기현', '11111111112'),
        (now(), now(), 'user3@email.com', '1234', '이선하', '11111111113'),
-       (now(), now(), 'user4@email.com', '1234', '신정은', '11111111114'),
+       (now(), now(), 'lisasje@nate.com', '1234', '신정은', '11111111114'),
        (now(), now(), 'user5@email.com', '1234', '신정은', '11111111115'),
        (now(), now(), 'gh1719@daum.net', '1234', '조건희', '22222222221'),
        (now(), now(), 'gym2@email.com', '1234', '혁거세', '22222222222'),
@@ -68,17 +68,12 @@ values (now(), now(), null, now(), 10000, 7, 10, null, 5),
        (now(), now(), 10, null, 1000000, 7, 15, 1, 8),
        (now(), now(), 10, null, 1000000, 7, 15, 1, 9);
 
-insert into remain (created_date, last_modified_date, remain_count, remain_period, purchase_id, user_id)
-values (now(), now(), null, now(), 1, 5),
-       (now(), now(), null, now(), 2, 6),
-       (now(), now(), null, now(), 3, 7),
-       (now(), now(), null, now(), 4, 8),
-       (now(), now(), null, now(), 5, 9),
-       (now(), now(), 10, null, 6, 5),
-       (now(), now(), 10, null, 7, 6),
-       (now(), now(), 10, null, 8, 7),
-       (now(), now(), 10, null, 9, 8),
-       (now(), now(), 10, null, 10, 9);
+insert into remain (created_date, last_modified_date, remain_count, purchase_id, user_id)
+values (now(), now(), 10, 6, 5),
+       (now(), now(), 10, 7, 6),
+       (now(), now(), 10, 8, 7),
+       (now(), now(), 10, 9, 8),
+       (now(), now(), 10, 10, 9);
 
 insert into reservation (created_date, last_modified_date, Date, end_time, start_time, purchase_id, trainer_id, user_id)
 values (now(), now(), '2021-04-13', '2021-04-13T10:15:30', '2021-04-13T11:15:30', 1, 1, 1),

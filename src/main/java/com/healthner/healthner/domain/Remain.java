@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -26,8 +25,6 @@ public class Remain extends BaseEntity {
 
     private Integer remainCount;
 
-    private LocalDateTime remainPeriod;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
@@ -36,15 +33,14 @@ public class Remain extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private Remain(Integer remainCount, LocalDateTime remainPeriod, Purchase purchase, User user) {
+    private Remain(Integer remainCount,Purchase purchase, User user) {
         this.remainCount = remainCount;
-        this.remainPeriod = remainPeriod;
         this.purchase = purchase;
         this.user = user;
     }
 
-    public static Remain createRemain(Integer remainCount, LocalDateTime remainPeriod, Purchase purchase, User user) {
-        return new Remain(remainCount, remainPeriod, purchase, user);
+    public static Remain createRemain(Integer remainCount, Purchase purchase, User user) {
+        return new Remain(remainCount, purchase, user);
     }
 
     public void minusRemainCount() {
