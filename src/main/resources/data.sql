@@ -86,6 +86,7 @@ values (now(), now(), '2021-04-13', '2021-04-13T10:15:30', '2021-04-13T11:15:30'
 
 insert into check_list (created_date, last_modified_date, status, gym_id, user_id)
 values (now(), now(), 'OUT', 1, 4),
+       (now(), now(), 'OUT', 2, 4),
        (now(), now(), 'OUT', 7, 6),
        (now(), now(), 'OUT', 7, 7),
        (now(), now(), 'OUT', 7, 8),

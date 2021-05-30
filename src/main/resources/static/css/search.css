@@ -57,3 +57,10 @@
     cursor: default;
     color:#777;
 }
+
+.info-title {
+    width: 12rem;
+    text-align: center;
+    background-color: #FFC846;
+    font-weight: bold;
+}

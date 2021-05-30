@@ -6,7 +6,9 @@
 
     <section id="section" class="section-with-bg">
         <div class="intro">
-            <img class="home-main-img" src="/static/img/health1.jpg">
+            <div class="home-main-img-wrap">
+                <img class="home-main-img" src="/static/img/health1.jpg">
+            </div>
             <div class="intro-container wow fadeIn">
                 <br><img class="intro-img" src="/static/img/healthner.png">
                 <p class="home-p mb-4 pb-0">전국에 모든 헬스장이 내 손안에 있다.</p>
@@ -14,7 +16,24 @@
             </div>
         </div>
 
+        <div class="home-section" th:if="${user.id != null}">
+
+            <div class="section-header">
+                <h2>등록된 기관의 이용자 수를 확인하세요!</h2>
+            </div>
+
+            <div class="card" th:each="check : ${checkList}">
+                <div class="card-header" th:text="${check.gym.name}"></div>
+                <div class="card-body" th:text="${check.userCount} + '명이 이용중 입니다!'"></div>
+            </div>
+        </div>
+
         <div class="home-search">
+
+            <div class="section-header">
+                <h2>트레이닝 센터 찾기</h2>
+            </div>
+
             <form onsubmit="searchGyms(); return false">
                 <div class="input-group input-group-lg">
                     <label for="keyword"></label>

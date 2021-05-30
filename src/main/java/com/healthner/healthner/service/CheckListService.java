@@ -11,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -53,5 +56,17 @@ public class CheckListService {
 
     public Boolean existsByUserId(Long userId) {
         return checkListRepository.existsByUserId(userId);
+    }
+
+    public List<CheckListDto.Response> findByUserId(Long userId) {
+        return checkListRepository.findByUserId(userId)
+                .stream()
+                .map(checkList -> {
+                    Long gymId = checkList.getGym().getId();
+                    Long userCount = checkListRepository.countByGymIdAndStatus(gymId, CheckListStatus.IN);
+                    Long userTotal = checkListRepository.countByGymId(gymId);
+                    return new CheckListDto.Response(checkList, userCount, userTotal);
+                })
+                .collect(Collectors.toList());
     }
 }

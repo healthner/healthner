@@ -33,12 +33,23 @@ public class CheckListDto {
     @NoArgsConstructor
     public static class Response {
         private CheckListStatus status;
-        private Long userId;
-        private Long gymId;
+        private UserDto.Response user;
+        private GymDto.Response gym;
+        private Long userCount;
+        private Long userTotal;
 
         public Response(CheckList checkList) {
-            this.userId = checkList.getUser().getId();
-            this.gymId = checkList.getGym().getId();
+            this.status = checkList.getStatus();
+            this.user = new UserDto.Response(checkList.getUser());
+            this.gym = new GymDto.Response(checkList.getGym());
+        }
+
+        public Response(CheckList checkList, Long userCount, Long userTotal) {
+            this.status = checkList.getStatus();
+            this.user = new UserDto.Response(checkList.getUser());
+            this.gym = new GymDto.Response(checkList.getGym());
+            this.userCount = userCount;
+            this.userTotal = userTotal;
         }
     }
 }
