@@ -25,12 +25,12 @@
 
 /* trainer-my-page */
 .trainer-my-page-wrap {
-    width: 70%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     margin: 3% auto;
     padding: 1rem;
-    background-color: #fefefe;
+    background-color: #FDF5E6;
     border-radius: .25rem;
 }
 

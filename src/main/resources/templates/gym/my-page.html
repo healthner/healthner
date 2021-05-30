@@ -25,8 +25,8 @@
                 </div>
                 <div class="gym-product-info">
                     <h4><a name="product-info">등록된 상품 정보</a></h4>
-                    <table class="gym-my-page-table">
-                        <tr>
+                    <table class="table">
+                        <thead class="table-warning">
                             <th>상품명</th>
                             <th>설명</th>
                             <th>가격</th>
@@ -34,7 +34,7 @@
                             <th>type</th>
                             <th></th>
                             <th></th>
-                        </tr>
+                        </thead>
                         <tr th:each="product : ${products}">
                             <td th:text="${product.name}"></td>
                             <td th:text="${product.content}"></td>
@@ -58,8 +58,8 @@
                 </div>
                 <div class="gym-product-info">
                     <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
-                    <table class="gym-my-page-table">
-                        <tr>
+                    <table class="table">
+                        <thead class="table-warning">
                             <th>상품명</th>
                             <th>설명</th>
                             <th>가격</th>
@@ -67,7 +67,7 @@
                             <th>type</th>
                             <th></th>
                             <th></th>
-                        </tr>
+                        </thead>
                         <tr th:each="deletedProduct : ${deletedProducts}">
                             <td th:text="${deletedProduct.name}"></td>
                             <td th:text="${deletedProduct.content}"></td>
