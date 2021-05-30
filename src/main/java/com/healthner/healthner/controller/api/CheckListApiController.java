@@ -18,4 +18,9 @@ public class CheckListApiController {
     public Long getCheckList(@PathVariable("gymId") Long gymId) {
         return checkListService.users(gymId);
     }
+
+    @GetMapping("check-list/gyms/{gymId}/total")
+    public Long getGymTotal(@PathVariable("gymId") Long gymId) {
+        return checkListService.total(gymId);
+    }
 }

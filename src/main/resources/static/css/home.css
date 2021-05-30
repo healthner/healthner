@@ -5,8 +5,22 @@
     opacity: 0.5;
 }
 
+.home-section {
+    width: 60%;
+    margin: 3rem auto;
+}
+
+.card {
+    margin: 3rem auto;
+    border-radius: .25rem;
+}
+
 .home-search {
     width: 60%;
+    margin: 3rem auto;
+}
+
+.home-search > div {
     margin: 3rem auto;
 }
 

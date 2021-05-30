@@ -18,17 +18,6 @@ public class GymDto {
     }
 
     @Getter
-    @AllArgsConstructor
-    public static class Info {
-        private int id;
-        private String name;
-        private String address;
-        private String content;
-        private String businessNumber;
-        private User ceo;
-    }
-
-    @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor

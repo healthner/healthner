@@ -166,7 +166,7 @@
         let content =
             '<div class="info-title">' +
             '   <p>' + gym.name + '</p>' +
-            '   <p> 이용자 수 : ' + count + '</p>' +
+            '   <p> 회원 수: ' + count + '</p>' +
             '</div>';
 
         infoWindow.setContent(content);
@@ -174,7 +174,7 @@
     }
 
     const getCount = async (gym) => {
-        const response = await fetch('http://localhost:8080/api/check-list/gyms/' + gym.id);
+        const response = await fetch('http://localhost:8080/api/check-list/gyms/' + gym.id + '/total');
         if (response.status === 200) {
             return response.json();
         }
