@@ -1,4 +1,9 @@
 spring:
+  profiles:
+    active: dev
+---
+
+spring:
   console:
     enabled: true
 
@@ -10,6 +15,7 @@ spring:
 
   jpa:
     hibernate:
+#      database-platform: org.hibernate.dialect.MySQLDialect
       ddl-auto: update
     properties:
       hibernate:
@@ -22,6 +28,43 @@ spring:
 
   mvc:
     static-path-pattern: "/static/**"
+  config:
+    activate:
+      on-profile: dev
+
+logging.level:
+  org.hibernate.SQL: debug
+
+---
+
+spring:
+  console:
+    enabled: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      #      database-platform: org.hibernate.dialect.MySQLDialect
+      ddl-auto: update
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+
+  thymeleaf:
+    check-template-location: true
+    cache: false
+
+  mvc:
+    static-path-pattern: "/static/**"
+  config:
+    activate:
+      on-profile: prod
 
 logging.level:
   org.hibernate.SQL: debug
