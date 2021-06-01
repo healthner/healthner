@@ -1,6 +1,6 @@
 FROM centos
-ENV JARFILE healthner-*.jar
-ENV TARGET_DIR /build/libs
+ENV JARFILE = healthner-*.jar
+ENV TARGET_DIR = /build/libs
 RUN yum -y update && \
     yum -y install java-11
 COPY ${TARGET_DIR}/${JARFILE} /home/
