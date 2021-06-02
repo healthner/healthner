@@ -15,7 +15,7 @@ values (now(), now(), 'admin@email.com', '1234', '관리자', '00000000000'),
        (now(), now(), 'gym5@email.com', '1234', '계백', '22222222225'),
        (now(), now(), 'gym6@email.com', '1234', '원효대사', '22222222226'),
        (now(), now(), 'gym7@email.com', '1234', '서희', '22222222227'),
-       (now(), now(), 'trainer1@email.com', '1234', '트레이너 최기현', '33333333331'),
+       (now(), now(), 'trainer1@email.com', '1234', '최기현', '33333333331'),
        (now(), now(), 'trainer2@email.com', '1234', '대조영', '33333333332'),
        (now(), now(), 'trainer3@email.com', '1234', '강감찬', '33333333333'),
        (now(), now(), 'trainer4@email.com', '1234', '김부식', '33333333334');

@@ -33,13 +33,20 @@
                             <a class="dropdown-item" href="/logout"><p>로그아웃</p></a>
                         </div>
                     </div>
-
                     <ul th:if="${id == null}" class="nav-menu">
-                        <li class="login-btn"><a href="https://kauth.kakao.com/oauth/authorize?client_id=f59edafa1084c3f6d25a24aa88f9e0b7&redirect_uri=http://localhost:8080/login&response_type=code">로그인하러가기</a></li>
+                        <li class="login-btn"><a href="javascript:redirect()">로그인하러가기</a></li>
                     </ul>
                 </div>
             </div>
         </div>
+        <script>
+            function redirect(){
+                var url = window.location.href.split('/');
+                var link = "https://kauth.kakao.com/oauth/authorize?client_id=f59edafa1084c3f6d25a24aa88f9e0b7&redirect_uri=" +
+                            url[0] + "//" + url[2] + "/login&response_type=code";
+                window.location.href = link;
+            }
+        </script>
     </header><!-- #header -->
 
     <a href="#" class="back-to-top"><i class="fa fa-angle-up"></i></a>
