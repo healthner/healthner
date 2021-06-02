@@ -27,5 +27,27 @@ pipeline {
             }
             
         }
+
+        stage('Deploy'){
+            steps {
+                sshPublisher(
+                     continueOnError: false, failOnError: true,
+                         publishers: [
+                            sshPublisherDesc(
+                                configName: "healthner",
+                                verbose: true,
+                                transfers: [
+                                    sshTransfer(
+                                        sourceFiles: "/build/libs/healthner-0.0.1-SNAPSHOT.jar",
+                                        removePrefix: "/build/libs",
+                                        remoteDirectory: "/myweb",
+                                        execCommand: "ls -al ."
+                                    )
+                                ]
+                            )
+                    ]
+                )
+            }
+        }
     }
 }
