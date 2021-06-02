@@ -1,8 +1,7 @@
 FROM centos
-ENV JARFILE = healthner-*.jar
-ENV TARGET_DIR = /build/libs
 RUN yum -y update && \
     yum -y install java-11
-COPY ${TARGET_DIR}/${JARFILE} /home/
+COPY /build/libs/healthner*.jar /home/
 EXPOSE 8080/tcp
-CMD java -jar /home/${JARFILE}
+WORKDIR /home
+ENTRYPOINT java -jar healthner*.jar
