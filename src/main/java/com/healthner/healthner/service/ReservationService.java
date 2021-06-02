@@ -47,10 +47,10 @@ public class ReservationService {
     }
 
     //예약 수정하기위해 해당예약 초기값 가져오기
-    public ReservationDto.ReservResponse findById(Long id) {
+    public ReservationDto.ResponseToTrainer findById(Long id) {
         Reservation find = reservationRepository.findById(id).orElseThrow(
                 () -> new ReservationNotFoundException());
-        ReservationDto.ReservResponse initial = new ReservationDto.ReservResponse(find);
+        ReservationDto.ResponseToTrainer initial = new ReservationDto.ResponseToTrainer(find);
         return initial;
     }
 
@@ -80,26 +80,26 @@ public class ReservationService {
 
     //user-mypage에 리스트로 뿌려지는 용도
     @Transactional
-    public List<ReservationDto.ReservResponse> findByUserId(Long userId) {
+    public List<ReservationDto.ResponseToUser> findByUserId(Long userId) {
         changeStatus();
         return reservationRepository.findByUserId(userId)
                 .stream()
-                .map(reservation -> new ReservationDto.ReservResponse(reservation))
+                .map(reservation -> new ReservationDto.ResponseToUser(reservation))
                 .collect(Collectors.toList());
     }
 
-    //calendar에 뿌려지는 용도
-    public List<ReservationDto.ReservToCal> findAll() {
-        return reservationRepository.findAll()
-                .stream()
-                .map(reservation -> new ReservationDto.ReservToCal(reservation))
-                .collect(Collectors.toList());
-    }
+//    //calendar에 뿌려지는 용도
+//    public List<ReservationDto.ReservToCal> findAll() {
+//        return reservationRepository.findAll()
+//                .stream()
+//                .map(reservation -> new ReservationDto.ReservToCal(reservation))
+//                .collect(Collectors.toList());
+//    }
 
-    public List<ReservationDto.ReservResponse> findByTrainerId(Long trainerId) {
+    public List<ReservationDto.ResponseToTrainer> findByTrainerId(Long trainerId) {
         return reservationRepository.findByTrainerId(trainerId)
                 .stream()
-                .map(reservation -> new ReservationDto.ReservResponse(reservation))
+                .map(reservation -> new ReservationDto.ResponseToTrainer(reservation))
                 .collect(Collectors.toList());
     }
 

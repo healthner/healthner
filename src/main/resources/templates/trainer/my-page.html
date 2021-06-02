@@ -31,8 +31,13 @@
                     </div>
                     <div class="trainer-reservation-info">
                         <h4><a name="reservation-info">예약 정보</a></h4>
-                        <table class="table">
-                            <thead class="table-warning">
+
+                        <div id='loading'>loading...</div>
+
+                        <div id='calendar'></div>
+
+                        <table class="trainer-my-page-table">
+                            <tr>
                                 <th>예약</th>
                                 <th>날짜</th>
                                 <th>시작 시간</th>
@@ -40,7 +45,7 @@
                                 <th>수강생</th>
                                 <th>트레이너</th>
                                 <th>구매 상품</th>
-                            </thead>
+                            </tr>
                             <tr th:each="reservation : ${reservations}">
                                 <td th:text="${reservation.title}"></td>
                                 <td th:text="${reservation.date}"></td>
@@ -118,3 +123,74 @@
     <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      displayEventTime: false,
+      dayMaxEventRows: true,
+      initialDate: '2021-06-01',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title'
+      },
+
+      timeGrid: {
+      dayMaxEventRows: 3
+      },
+
+      events: function(info, successCallback, failureCallback) {
+        fetch('http://localhost:8080/api/reservation/trainer/calendar')
+        .then(response => response.json())
+        .then(response => successCallback(response));
+      },
+
+      loading: function(bool) {
+        document.getElementById('loading').style.display =
+          bool ? 'block' : 'none';
+      }
+
+    });
+    calendar.getEvents();
+    calendar.render();
+  });
+
+
+</script>
+<style>
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+    }
+
+    #script-warning {
+        display: none;
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        padding: 0 10px;
+        line-height: 40px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 12px;
+        color: red;
+    }
+
+    #loading {
+        display: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    #calendar {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 0 10px;
+    }
+
+</style>

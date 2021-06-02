@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -68,13 +65,5 @@ public class ReservationController {
         remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
         reservationService.delete(reserveId);
         return "redirect:/user/my-page";
-    }
-
-    //calendar에 나타낼 모든 예약
-    @Auth(role = Role.USER)
-    @GetMapping("/all")
-    @ResponseBody
-    public List<ReservationDto.ReservToCal> findAll() {
-        return reservationService.findAll();
     }
 }
