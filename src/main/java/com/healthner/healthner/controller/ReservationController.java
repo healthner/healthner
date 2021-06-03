@@ -46,7 +46,12 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("{reserveId}/update")
     public String findModifyReservation(@PathVariable("reserveId") Long reserveId, Model model) {
-        model.addAttribute("reservationDto", reservationService.findById(reserveId));
+        ReservationDto.ResponseToUser initial =  reservationService.findById(reserveId);
+        if(initial == null){
+            model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
+            return "common/message";
+        }
+        model.addAttribute("reservationDto", initial);
         return "reservation/create-form";
     }
 
@@ -61,9 +66,15 @@ public class ReservationController {
     //예약 삭제
     @Auth(role = Role.USER)
     @GetMapping("/{reserveId}/delete")
-    public String delete(@PathVariable("reserveId") Long reserveId) {
-        remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
-        reservationService.delete(reserveId);
+    public String delete(@PathVariable("reserveId") Long reserveId, Model model) {
+        if(reservationService.checkStatus(reserveId)){
+            remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
+            reservationService.delete(reserveId);
+        }else {
+            model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
+            return "common/message";
+        }
+
         return "redirect:/user/my-page";
     }
 }

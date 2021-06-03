@@ -47,10 +47,13 @@ public class ReservationService {
     }
 
     //예약 수정하기위해 해당예약 초기값 가져오기
-    public ReservationDto.ResponseToTrainer findById(Long id) {
+    public ReservationDto.ResponseToUser findById(Long id) {
         Reservation find = reservationRepository.findById(id).orElseThrow(
                 () -> new ReservationNotFoundException());
-        ReservationDto.ResponseToTrainer initial = new ReservationDto.ResponseToTrainer(find);
+        if(!find.getStatus()){
+            return null;
+        }
+        ReservationDto.ResponseToUser initial = new ReservationDto.ResponseToUser(find);
         return initial;
     }
 
@@ -69,13 +72,17 @@ public class ReservationService {
 
     //예약 삭제
     @Transactional
-    public Long delete(Long id) {
+    public void delete(Long id) {
         Long userId = reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 예약입니다."))
                 .getUser()
                 .getId();
         reservationRepository.deleteById(id);
+    }
 
-        return userId;
+    public Boolean checkStatus(Long id){
+        Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 예약입니다."));
+        if(reservation.getStatus()) return true;
+        else return false;
     }
 
     //user-mypage에 리스트로 뿌려지는 용도
@@ -87,14 +94,6 @@ public class ReservationService {
                 .map(reservation -> new ReservationDto.ResponseToUser(reservation))
                 .collect(Collectors.toList());
     }
-
-//    //calendar에 뿌려지는 용도
-//    public List<ReservationDto.ReservToCal> findAll() {
-//        return reservationRepository.findAll()
-//                .stream()
-//                .map(reservation -> new ReservationDto.ReservToCal(reservation))
-//                .collect(Collectors.toList());
-//    }
 
     public List<ReservationDto.ResponseToTrainer> findByTrainerId(Long trainerId) {
         return reservationRepository.findByTrainerId(trainerId)
