@@ -1,0 +1,25 @@
+version: '3'
+volumes:
+  mysql_data:
+
+services:
+  db:
+    container_name: db
+    image: mysql
+    volumes:
+      - mysql_data:/var/lib/mysql/data
+    environment:
+      - MYSL_ROOT_PASSWORD=toor
+      - MYSQL_DATABASE=healthner
+      - MYSQL_USER=healthner
+      - MYSQL_PASSWORD=admin123
+  web:
+    container_name: healthner
+    image: gh1719/skhu_capstone2
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    links:
+      - "db:testdb"
+
