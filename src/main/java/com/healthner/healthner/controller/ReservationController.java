@@ -46,8 +46,8 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("{reserveId}/update")
     public String findModifyReservation(@PathVariable("reserveId") Long reserveId, Model model) {
-        ReservationDto.ResponseToUser initial =  reservationService.findById(reserveId);
-        if(initial == null){
+        ReservationDto.ResponseToUser initial = reservationService.findById(reserveId);
+        if (initial == null) {
             model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
             return "common/message";
         }
@@ -67,10 +67,10 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("/{reserveId}/delete")
     public String delete(@PathVariable("reserveId") Long reserveId, Model model) {
-        if(reservationService.checkStatus(reserveId)){
+        if (reservationService.checkStatus(reserveId)) {
             remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
             reservationService.delete(reserveId);
-        }else {
+        } else {
             model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
             return "common/message";
         }

@@ -50,7 +50,7 @@ public class ReservationService {
     public ReservationDto.ResponseToUser findById(Long id) {
         Reservation find = reservationRepository.findById(id).orElseThrow(
                 () -> new ReservationNotFoundException());
-        if(!find.getStatus()){
+        if (!find.getStatus()) {
             return null;
         }
         ReservationDto.ResponseToUser initial = new ReservationDto.ResponseToUser(find);
@@ -79,9 +79,9 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    public Boolean checkStatus(Long id){
+    public Boolean checkStatus(Long id) {
         Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 예약입니다."));
-        if(reservation.getStatus()) return true;
+        if (reservation.getStatus()) return true;
         else return false;
     }
 
