@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    environment {
+            registry = "gh1719/skhu_capstone2"
+            registryCredential = 'docker-hub'
+        }
+
     tools {
             gradle 'Gradle 6.8.3'
     }
@@ -28,6 +33,34 @@ pipeline {
             
         }
 
+        stage('Create Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry
+                }
+
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script{
+                    docker.withRegistry("", registryCredential) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
+        }
+
+        stage('Remove Unused docker image') {
+              steps{
+                sh "docker rmi $registry:$BUILD_NUMBER"
+                sh "docker rmi $registry:latest"
+
+              }
+        }
+
         stage('Deploy'){
             steps {
                 sshPublisher(
@@ -38,10 +71,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "/build/libs/healthner-0.0.1-SNAPSHOT.jar",
-                                        removePrefix: "/build/libs",
-                                        remoteDirectory: "/myweb",
-                                        execCommand: "ls -al ."
+                                        sourceFiles: "build/libs/healthner-0.0.1-SNAPSHOT.jar",
+                                        removePrefix: "build/libs",
+                                        remoteDirectory: "/web",
+                                        execCommand: "ls -al ./web"
                                     )
                                 ]
                             )
