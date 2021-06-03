@@ -20,6 +20,10 @@
 
             <div class="check-form">
                 <form method="post">
+                    <div class="input-group input-group-lg mb-3">
+                        <input id="phoneNumber" type="text" class="form-control" placeholder="번호를 입력해주세요!"
+                               name="phoneNumber">
+                    </div>
                     <table class="check-table">
                         <tr>
                             <td onclick="clickNumber(7)">7</td>
@@ -42,11 +46,10 @@
                             <td></td>
                         </tr>
                     </table>
-                    <div class="input-group input-group-lg mb-3">
-                        <input id="phoneNumber" type="text" class="form-control" placeholder="번호를 입력해주세요!" name="phoneNumber">
+                    <div class="row">
+                        <button type="submit" name="cmd" value="in" class="btn btn-dark btn-lg col m-3">IN</button>
+                        <button type="submit" name="cmd" value="out" class="btn btn-dark btn-lg col m-3">OUT</button>
                     </div>
-                        <button type="submit" name="cmd" value="in" class="btn btn-dark btn-lg">IN</button>
-                        <button type="submit" name="cmd" value="out" class="btn btn-dark btn-lg">OUT</button>
                 </form>
             </div>
         </div>
