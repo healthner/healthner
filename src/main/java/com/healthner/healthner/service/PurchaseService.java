@@ -3,12 +3,12 @@ package com.healthner.healthner.service;
 import com.healthner.healthner.controller.dto.PurchaseDto;
 import com.healthner.healthner.domain.Gym;
 import com.healthner.healthner.domain.Product;
+import com.healthner.healthner.domain.ProductType;
+import com.healthner.healthner.domain.Purchase;
 import com.healthner.healthner.domain.Trainer;
 import com.healthner.healthner.domain.User;
 import com.healthner.healthner.repository.GymRepository;
 import com.healthner.healthner.repository.ProductRepository;
-import com.healthner.healthner.domain.ProductType;
-import com.healthner.healthner.domain.Purchase;
 import com.healthner.healthner.repository.PurchaseRepository;
 import com.healthner.healthner.repository.TrainerRepository;
 import com.healthner.healthner.repository.UserRepository;
@@ -111,5 +111,11 @@ public class PurchaseService {
     private User getUser(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("user의 id가 존재하지 않습니다."));
+    }
+
+    public Long findTrainer(Long purchaseId){
+       return purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 내역입니다."))
+                .getTrainer()
+                .getId();
     }
 }

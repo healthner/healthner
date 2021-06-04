@@ -58,8 +58,11 @@ public class ReservationController {
     //수정 진행, 저장
     @Auth(role = Role.USER)
     @PostMapping("/{reserveId}/update")
-    public String modify(@PathVariable("reserveId") Long reservId, @ModelAttribute ReservationDto.ReservRequest request) {
-        Long userId = reservationService.update(reservId, request);
+    public String modify(@PathVariable("reserveId") Long reserveId, @ModelAttribute ReservationDto.ReservRequest request, Model model) {
+        if(!reservationService.update(reserveId, request)){
+            model.addAttribute("data", new Message("지난 날짜 입니다.", "/user/my-page"));
+            return "common/message";
+        }
         return "redirect:/user/my-page";
     }
 

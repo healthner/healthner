@@ -3,24 +3,70 @@
 <head th:replace="fragments/header.html :: header"></head>
 <body>
 <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
-    <section id="section">
+<section id="section">
+    <div class="reservation-wrapper">
+        <div id='loading'>loading...</div>
+
+        <div id='calendar' style="width: 100%;"></div>
+    </div>
+
+    <div class="reserve-form">
         <form role="form" th:object="${reservationDto}" method="post">
-            <div class="mb-3" style="max-width: 50%; margin: 5rem auto;">
+            <div class="mb-3" style="max-width: 60%;">
                 <div>
                     <label th:for="date" class="form-label">날짜</label>
                     <input type="date" th:field="*{date}" class="form-control" placeholder="date을 입력하세요.">
                 </div>
                 <div>
                     <label th:for="startTime" class="form-label">시작시간</label>
-                    <input type="datetime-local" th:field="*{startTime}" class="form-control" placeholder="startTime를 입력하세요.">
+                    <input type="datetime-local" th:field="*{startTime}" class="form-control"
+                           placeholder="startTime를 입력하세요.">
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button type="submit" class="btn btn-primary" style="margin: 1rem 0; width: 100%">예약</button>
                 </div>
             </div>
         </form>
-    </section>
+    </div>
+</section>
 
-    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      displayEventTime: false,
+      dayMaxEventRows: true,
+      initialDate: '2021-06-01',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title'
+      },
+
+      timeGrid: {
+      dayMaxEventRows: 3
+      },
+
+      events: function(info, successCallback, failureCallback) {
+        let urls = location.href.split("/");
+        let purchaseId = urls[4];
+        fetch('http://localhost:8080/api/reservation/' + purchaseId)
+        .then(response => response.json())
+        .then(response => successCallback(response));
+      },
+
+      loading: function(bool) {
+        document.getElementById('loading').style.display =
+          bool ? 'block' : 'none';
+      }
+
+    });
+    calendar.getEvents();
+    calendar.render();
+  });
+
+</script>

@@ -36,7 +36,9 @@ public class ReservationService {
         if (isExist(purchaseId, reservRequest)) {
             return false;
         }
-        ;
+        if(reservRequest.getStartTime().isBefore(LocalDateTime.now())){
+            return false;
+        }
         Purchase purchase = purchaseRepository.findById(purchaseId).orElseThrow(() -> new IllegalArgumentException("옳바르지 않은 구매 상품입니다"));
         User user = purchase.getUser();
         Trainer trainer = purchase.getTrainer();
@@ -59,15 +61,17 @@ public class ReservationService {
 
     //예약 수정
     @Transactional
-    public Long update(Long id, ReservationDto.ReservRequest request) {
+    public Boolean update(Long id, ReservationDto.ReservRequest request) {
         Reservation find = reservationRepository.findById(id).orElseThrow(() -> new ReservationNotFoundException()); //예약id로 조회됨
+        if(request.getStartTime().isBefore(LocalDateTime.now())){
+            return false;
+        }
         User user = find.getUser();
         Trainer trainer = find.getTrainer();
         Purchase purchase = find.getPurchase();
-        Reservation updateReserv = request.toEntity(user, trainer, purchase);
-        find.updateReservation(updateReserv);
-        Long userId = updateReserv.getUser().getId();
-        return userId;
+        Reservation updateReserve = request.toEntity(user, trainer, purchase);
+        find.updateReservation(updateReserve);
+        return true;
     }
 
     //예약 삭제

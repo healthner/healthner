@@ -5,6 +5,20 @@ body {
     font-size: 14px;
 }
 
+/*********create-form*********/
+.reservation-wrapper{
+    width: 47%;
+    display: inline-grid;
+    margin-left: 10%;
+}
+
+.reserve-form{
+    display: inline-grid;
+    margin-top: 0em;
+    width: 42%;
+}
+/***********************/
+
 #script-warning {
     display: none;
     background: #eee;
