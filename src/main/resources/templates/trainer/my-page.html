@@ -2,105 +2,109 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
-    <section id="section" class="section-with-bg">
-        <div class="trainer-my-page-wrap">
-            <div class="trainer-my-page-section">
-                <div class="trainer-my-page-sidebar">
-                    <div class="trainer-my-page-sidebar-content">
-                        <a href="#" class="btn btn-warning side-button">위로</a>
-                        <a href="/trainer/update" class="btn btn-warning side-button">정보 수정</a>
-                        <a href="#reservation-info" class="btn btn-warning side-button">예약 정보</a>
-                        <a href="#product-info" class="btn btn-warning side-button">상품 정보</a>
-                        <a href="product/new" class="btn btn-warning side-button">상품 등록</a>
-                    </div>
+<section id="section" class="section-with-bg">
+    <div class="trainer-my-page-wrap">
+        <div class="trainer-my-page-section">
+            <div class="trainer-my-page-sidebar">
+                <div class="trainer-my-page-sidebar-content">
+                    <a href="#" class="btn btn-warning side-button">위로</a>
+                    <a href="/trainer/update" class="btn btn-warning side-button">정보 수정</a>
+                    <a href="#reservation-info" class="btn btn-warning side-button">예약 정보</a>
+                    <a href="#product-info" class="btn btn-warning side-button">상품 정보</a>
+                    <a href="product/new" class="btn btn-warning side-button">상품 등록</a>
                 </div>
-                <div class="trainer-my-page-content">
-                    <div class="trainer-user-info">
-                        <h4>트레이너 유저 정보</h4>
-                        <div th:text="|이름: ${user.name}|"></div>
-                        <div th:text="|경력: ${trainer.career}|"></div>
-                    </div>
-                    <div class="trainer-gym-info" th:object="${gym}">
-                        <h4>소속된 기관 정보</h4>
-                        <div th:text="|기관 이름: *{name}|"></div>
-                        <div th:text="|기관 주소: *{address}|"></div>
-                        <div th:text="|기관 소개: *{content}|"></div>
-                        <div th:text="|기관 번호: *{businessNumber}|"></div>
-                    </div>
-                    <div class="trainer-reservation-info">
-                        <h4><a name="reservation-info">예약 정보</a></h4>
+            </div>
+            <div class="trainer-my-page-content">
+                <div class="trainer-user-info">
+                    <h4>트레이너 유저 정보</h4>
+                    <div th:text="|이름: ${user.name}|"></div>
+                    <div th:text="|경력: ${trainer.career}|"></div>
+                </div>
+                <div class="trainer-gym-info" th:object="${gym}">
+                    <h4>소속된 기관 정보</h4>
+                    <div th:text="|기관 이름: *{name}|"></div>
+                    <div th:text="|기관 주소: *{address}|"></div>
+                    <div th:text="|기관 소개: *{content}|"></div>
+                    <div th:text="|기관 번호: *{businessNumber}|"></div>
+                </div>
+                <div class="trainer-reservation-info">
+                    <h4><a name="reservation-info">예약 정보</a></h4>
 
-                        <div id='loading'>loading...</div>
+                    <div id='loading'>loading...</div>
 
-                        <div id='calendar'></div>
+                    <div id='calendar'></div>
 
-                    </div>
-                    <div class="trainer-product-info">
-                        <h4><a name="product-info">등록된 상품 정보</a></h4>
-                        <table class="table">
-                            <thead class="table-warning">
-                                <th>상품명</th>
-                                <th>설명</th>
-                                <th>가격</th>
-                                <th>횟수</th>
-                                <th>기간</th>
-                                <th>type</th>
-                                <th></th>
-                                <th></th>
-                            </thead>
-                            <tr th:each="product : ${products}">
-                                <td th:text="${product.name}"></td>
-                                <td th:text="${product.content}"></td>
-                                <td th:text="${product.price}"></td>
-                                <td th:text="${product.count}"></td>
-                                <td th:text="${product.period}"></td>
-                                <td th:text="${product.productType}"></td>
-                                <td>
-                                    <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}" class="btn btn-warning">수정</a>
-                                </td>
-                                <td>
-                                    <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}" class="btn btn-warning">상태 변경</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="trainer-product-info">
-                        <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
-                        <table class="table">
-                            <thead class="table-warning">
-                                <th>상품명</th>
-                                <th>설명</th>
-                                <th>가격</th>
-                                <th>횟수</th>
-                                <th>기간</th>
-                                <th>type</th>
-                                <th></th>
-                                <th></th>
-                            </thead>
-                            <tr th:each="product : ${deleteProducts}">
-                                <td th:text="${product.name}"></td>
-                                <td th:text="${product.content}"></td>
-                                <td th:text="${product.price}"></td>
-                                <td th:text="${product.count}"></td>
-                                <td th:text="${product.period}"></td>
-                                <td th:text="${product.productType}"></td>
-                                <td>
-                                    <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}" class="btn btn-warning">수정</a>
-                                </td>
-                                <td>
-                                    <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}" class="btn btn-warning">상태 변경</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                </div>
+                <div class="trainer-product-info">
+                    <h4><a name="product-info">등록된 상품 정보</a></h4>
+                    <table class="table">
+                        <thead class="table-warning">
+                        <th>상품명</th>
+                        <th>설명</th>
+                        <th>가격</th>
+                        <th>횟수</th>
+                        <th>기간</th>
+                        <th>type</th>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.content}"></td>
+                            <td th:text="${product.price}"></td>
+                            <td th:text="${product.count}"></td>
+                            <td th:text="${product.period}"></td>
+                            <td th:text="${product.productType}"></td>
+                            <td>
+                                <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}"
+                                   class="btn btn-warning">수정</a>
+                            </td>
+                            <td>
+                                <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}"
+                                   class="btn btn-warning">상태 변경</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="trainer-product-info">
+                    <h4><a name="product-info">등록이 취소된 상품 정보</a></h4>
+                    <table class="table">
+                        <thead class="table-warning">
+                        <th>상품명</th>
+                        <th>설명</th>
+                        <th>가격</th>
+                        <th>횟수</th>
+                        <th>기간</th>
+                        <th>type</th>
+                        <th></th>
+                        <th></th>
+                        </thead>
+                        <tr th:each="product : ${deleteProducts}">
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.content}"></td>
+                            <td th:text="${product.price}"></td>
+                            <td th:text="${product.count}"></td>
+                            <td th:text="${product.period}"></td>
+                            <td th:text="${product.productType}"></td>
+                            <td>
+                                <a th:href="@{/trainer/product/{productId}/update(productId=${product.id})}"
+                                   class="btn btn-warning">수정</a>
+                            </td>
+                            <td>
+                                <a th:href="@{/trainer/product/{productId}/delete(productId=${product.id})}"
+                                   class="btn btn-warning">상태 변경</a>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
 <script>
@@ -136,4 +140,5 @@
     calendar.getEvents();
     calendar.render();
   });
+
 </script>
