@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/fragments/header.html :: header"></head>
+<head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
     <section id="section" class="section-with-bg">
-        <div class=".col-6 .col-md-4" style="margin: 5% 30%">
-            <div class="alert alert-light" role="alert">
-                <h4 class="alert-heading" style="text-align: center">경고</h4>
-                <p>로그인 후 시도해주세요 !!</p>
-                <hr>
-                <button type="button" class="btn btn-outline-warning" style="margin-left: 30%">
-                    <a href="/home" data-direction="reverse">HOME으로 돌아가기</a>
-                </button>
+        <div class="text-center card w-50">
+            <div class="card-body">
+                <div class="section-header">
+                    <br>
+                    <h2>경고</h2>
+                </div>
+                <div class="m-3">
+                    <div>로그인 후 시도해주세요 !!</div>
+                    <br>
+                </div>
+                <div class="m-3">
+                    <a href="/home" class="btn btn-warning" data-direction="reverse">HOME으로 돌아가기</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>

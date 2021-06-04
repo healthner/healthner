@@ -29,7 +29,7 @@ a {
 a:hover,
 a:active,
 a:focus {
-    color: #f8234a;
+    color: #fff;
     outline: none;
     text-decoration: none;
 }
@@ -1237,13 +1237,13 @@ body.mobile-nav-active #mobile-nav-toggle {
     border-radius: 50px;
     padding: 10px 40px;
     transition: all 0.2s;
-    background-color: #f82249;
+    background-color: #FFC846;
     border: 0;
-    color: #fff;
+    color: rgba(6, 12, 34, 0.98);
 }
 
 #buy-tickets .card .btn:hover {
-    background-color: #e0072f;
+    color: #fff;
 }
 
 #buy-tickets #buy-ticket-modal input,
@@ -1648,11 +1648,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .btnGym {
-    color: #fff;
-    background: #f82249;
+    color: #0e1b4d;
+    background: #FFC846;
     padding: 10px 40px;
     border-radius: 50px;
-    border: 2px solid #f82249;
+    border: 2px solid #FFC846;
     transition: all ease-in-out 0.3s;
     font-weight: 500;
     margin: auto;
