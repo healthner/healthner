@@ -70,10 +70,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "deploy",
-                                        removePrefix: "",
-                                        remoteDirectory: "/healthner",
-                                        execCommand: "sh ./healthner/deploy/deploy.sh"
+                                        sourceFiles: "deploy/*",
+                                        removePrefix: "deploy",
+                                        remoteDirectory: "healthner",
+                                        execCommand: "sh ./heathner/deploy.sh"
                                     )
                                 ]
                             )
