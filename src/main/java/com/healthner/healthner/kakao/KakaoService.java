@@ -9,6 +9,7 @@ import com.healthner.healthner.interceptor.Role;
 import com.healthner.healthner.kakao.dto.KakaoProfile;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,8 +29,13 @@ import java.net.URL;
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Builder
 public class KakaoService {
+
+    @Value("${resources.rest_api_key}")
+    private String restApiKey;
+
+    @Value("${resources.redirect_url}")
+    private String redirectUrl;
 
     public RetKakaoAuth oAuthToken(String code) {
 
@@ -43,8 +49,8 @@ public class KakaoService {
         //HttpBody 오브젝트 생성
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "authorization_code");
-        params.add("client_id", "f59edafa1084c3f6d25a24aa88f9e0b7");
-        params.add("redirect_uri", "http://localhost:8080/login");
+        params.add("client_id", restApiKey);
+        params.add("redirect_uri", redirectUrl);
         params.add("code", code);
 
         // HttpHeader와 HttpBody를 하나의 오브젝트에 담는거
