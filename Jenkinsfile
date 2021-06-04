@@ -27,8 +27,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Test'
-                sh 'gradle test'
+
             }
             
         }
@@ -71,10 +70,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "deploy.sh",
+                                        sourceFiles: "deploy",
                                         removePrefix: "",
-                                        remoteDirectory: "/web",
-                                        execCommand: "sh ./web/deploy.sh"
+                                        remoteDirectory: "/healthner",
+                                        execCommand: "sh ./healthner/deploy/deploy.sh"
                                     )
                                 ]
                             )
