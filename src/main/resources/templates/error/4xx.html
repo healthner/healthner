@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/fragments/header.html :: header"></head>
+<body>
+<header th:replace="/fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+
+<section id="section" class="section-with-bg">
+    <div class="text-center card w-50">
+        <div class="card-body">
+            <div class="section-header">
+                <br>
+                <h2>페이지를 찾을 수 없습니다!</h2>
+            </div>
+            <div class="m-3">
+                <div>찾을 수 없는 페이지 입니다.</div>
+                <br>
+                <div>요청하신 페이지의 경로를 다시 한번 확인해주세요!</div>
+            </div>
+            <div class="m-3">
+                <a href="/home" class="btn btn-dark">home</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="/fragments/body-footer.html :: body-footer"></footer>
+</body>
+</html>
