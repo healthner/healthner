@@ -46,12 +46,15 @@ public class CheckListService {
 
     // 출석 상태 변경
     @Transactional
-    public void changeCheckStatus(Long gymId, String phoneNumber) {
-        CheckList checkList = checkListRepository.findByGymIdAndUserPhoneNumber(gymId, phoneNumber).orElseThrow(() ->
-                new IllegalArgumentException("체크인이 잘못되었습니다."));
-        log.info(checkList.getStatus().toString());
-        checkList.changeStatus();
-        log.info(checkList.getStatus().toString());
+    public void changeCheckStatus(Long gymId, String phoneNumber, String cmd) {
+        CheckList checkList = checkListRepository.findByGymIdAndUserPhoneNumber(gymId, phoneNumber)
+                .orElseThrow(() -> new IllegalArgumentException("체크인이 잘못되었습니다."));
+
+        if (cmd.equals("in")) {
+            checkList.statusToIn();
+        } else if (cmd.equals("out")) {
+            checkList.statusToOut();
+        }
     }
 
     public Boolean existsByUserId(Long userId) {
