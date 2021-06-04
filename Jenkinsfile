@@ -74,7 +74,7 @@ pipeline {
                                         sourceFiles: "deploy/*",
                                         removePrefix: "deploy",
                                         remoteDirectory: "healthner",
-                                        execCommand: "sh ./heathner/deploy.sh"
+                                        execCommand: "sh healthner/deploy.sh"
                                     )
                                 ]
                             )
