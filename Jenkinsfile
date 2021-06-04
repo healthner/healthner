@@ -71,10 +71,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "build/libs/healthner-0.0.1-SNAPSHOT.jar",
-                                        removePrefix: "build/libs",
+                                        sourceFiles: "deploy.sh",
+                                        removePrefix: "",
                                         remoteDirectory: "/web",
-                                        execCommand: "ls -al ./web"
+                                        execCommand: "sh ./web/deploy.sh"
                                     )
                                 ]
                             )
