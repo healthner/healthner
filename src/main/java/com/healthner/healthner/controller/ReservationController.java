@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -49,32 +46,38 @@ public class ReservationController {
     @Auth(role = Role.USER)
     @GetMapping("{reserveId}/update")
     public String findModifyReservation(@PathVariable("reserveId") Long reserveId, Model model) {
-        model.addAttribute("reservationDto", reservationService.findById(reserveId));
+        ReservationDto.ResponseToUser initial = reservationService.findById(reserveId);
+        if (initial == null) {
+            model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
+            return "common/message";
+        }
+        model.addAttribute("reservationDto", initial);
         return "reservation/create-form";
     }
 
     //수정 진행, 저장
     @Auth(role = Role.USER)
     @PostMapping("/{reserveId}/update")
-    public String modify(@PathVariable("reserveId") Long reservId, @ModelAttribute ReservationDto.ReservRequest request) {
-        Long userId = reservationService.update(reservId, request);
+    public String modify(@PathVariable("reserveId") Long reserveId, @ModelAttribute ReservationDto.ReservRequest request, Model model) {
+        if(!reservationService.update(reserveId, request)){
+            model.addAttribute("data", new Message("지난 날짜 입니다.", "/user/my-page"));
+            return "common/message";
+        }
         return "redirect:/user/my-page";
     }
 
     //예약 삭제
     @Auth(role = Role.USER)
     @GetMapping("/{reserveId}/delete")
-    public String delete(@PathVariable("reserveId") Long reserveId) {
-        remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
-        reservationService.delete(reserveId);
-        return "redirect:/user/my-page";
-    }
+    public String delete(@PathVariable("reserveId") Long reserveId, Model model) {
+        if (reservationService.checkStatus(reserveId)) {
+            remainService.plusCount(remainService.findByPurchaseId(reservationService.findPurchaseId(reserveId)).getId());
+            reservationService.delete(reserveId);
+        } else {
+            model.addAttribute("data", new Message("이미 지난 예약입니다.", "/user/my-page"));
+            return "common/message";
+        }
 
-    //calendar에 나타낼 모든 예약
-    @Auth(role = Role.USER)
-    @GetMapping("/all")
-    @ResponseBody
-    public List<ReservationDto.ReservToCal> findAll() {
-        return reservationService.findAll();
+        return "redirect:/user/my-page";
     }
 }

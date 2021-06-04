@@ -23,37 +23,11 @@
                 </div>
                 <div class="user-reservation-info">
                     <h4><a name="reservation-info">예약 내역</a></h4>
-                    <table class="table">
-                        <thead class="table-warning">
-                        <th>PT</th>
-                        <th>시작시간</th>
-                        <th>종료시간</th>
-                        <th>수정</th>
-                        <th>삭제</th>
-                        </thead>
-                        <tbody>
-                        <tr th:each="reservation : ${reservations}">
-                            <td th:text="${reservation.title}"></td>
-                            <td th:text="${reservation.startTimeString}"></td>
-                            <td th:text="${reservation.endTimeString}"></td>
-                            <td>
-                                <a th:if="${reservation.status}"
-                                   th:href="@{/reservation/{reservId}/update(reservId=${reservation.id})}"
-                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-warning" style="min-width: 50%;">수정</div>
-                                </a>
-                            <td>
-                                <a th:if="${reservation.status}"
-                                   th:href="@{/reservation/{reservId}/delete(reservId=${reservation.id})}"
-                                   class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-warning" style="min-width: 50%;">삭제</div>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+
+                    <div id='loading'>loading...</div>
+
+                    <div id='calendar'></div>
                 </div>
-                <br>
                 <div class="user-purchase-info">
                     <h4><a name="purchase-info">이용중인 상품</a></h4>
                     <table class="table">
@@ -125,3 +99,48 @@
 <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 </html>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      displayEventTime: false,
+      dayMaxEventRows: true,
+      initialDate: '2021-06-01',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title'
+      },
+      locale: 'ko',
+      timeGrid: {
+      dayMaxEventRows: 3
+      },
+
+      eventClick:function changeEvent(event){
+      if(confirm(event.event.title + "수업" + "\n" + "수정 시 확인 , 삭제 시 취소") == true){
+            document.location.href = "/reservation/" + event.event.id + "/update";
+        }else{
+            document.location.href = "/reservation/" + event.event.id + "/delete";
+            }
+        },
+
+      events: function(info, successCallback, failureCallback) {
+        fetch('http://localhost:8080/api/reservation/user/calendar')
+        .then(response => response.json())
+        .then(response => successCallback(response));
+      },
+
+      loading: function(bool) {
+        document.getElementById('loading').style.display =
+          bool ? 'block' : 'none';
+      }
+
+    });
+    calendar.getEvents();
+    calendar.render();
+  });
+
+
+
+</script>

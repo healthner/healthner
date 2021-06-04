@@ -45,7 +45,7 @@ public class UserController {
     public String myPage(HttpSession session, Model model) {
         UserDto.Response userInfo = (UserDto.Response) session.getAttribute("userInfo");
 
-        List<ReservationDto.ReservResponse> reservations = reservationService.findByUserId(userInfo.getId());
+        List<ReservationDto.ResponseToUser> reservations = reservationService.findByUserId(userInfo.getId());
         model.addAttribute("reservations", reservations);
 
         Long userId = userInfo.getId();
