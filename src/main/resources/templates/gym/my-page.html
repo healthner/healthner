@@ -9,7 +9,7 @@
             <div class="gym-my-page-sidebar">
                 <div class="gym-my-page-sidebar-content">
                     <a href="#" class="btn btn-warning side-button">위로</a>
-                    <a href="/gym/product/update" class="btn btn-warning side-button">정보 수정</a>
+                    <a href="#" class="btn btn-warning side-button">정보 수정</a>
                     <a href="/gym/check" class="btn btn-warning side-button">인원현황</a>
                     <a href="/gym/product/new" class="btn btn-warning side-button">상품 등록</a>
                     <a href="#" class="btn btn-warning side-button">등록된 상품</a>
@@ -77,13 +77,13 @@
                             <td>
                                 <a th:href="@{/gym/product/update/{productId}(productId=${deletedProduct.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">수정</div>
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">수정</div>
                                 </a>
                             </td>
                             <td>
                                 <a th:href="@{/gym/product/delete/{productId}(productId=${deletedProduct.id})}"
                                    class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                    <div class="btn btn-primary" style="min-width: 50%; margin: 1rem auto">상태변경</div>
+                                    <div class="btn btn-warning" style="min-width: 50%; margin: 1rem auto">상태변경</div>
                                 </a>
                             </td>
                         </tr>
