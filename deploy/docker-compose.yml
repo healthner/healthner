@@ -13,6 +13,8 @@ services:
       - MYSQL_DATABASE=healthner
       - MYSQL_USER=healthner
       - MYSQL_PASSWORD=admin123
+    ports:
+      - "3306:3306"
   web:
     container_name: healthner
     image: gh1719/skhu_capstone2
