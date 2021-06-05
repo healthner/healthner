@@ -3,8 +3,7 @@
 <head th:replace="fragments/header.html :: header"></head>
 <body>
 <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
-<<<<<<< HEAD
-<section id="section">
+<section id="section" class="section-with-bg">
     <div class="reservation-wrapper">
         <div id='loading'>loading...</div>
 
@@ -12,9 +11,6 @@
     </div>
 
     <div class="reserve-form">
-=======
-    <section id="section" class="section-with-bg">
->>>>>>> feat: 페이지 버튼 색 수정
         <form role="form" th:object="${reservationDto}" method="post">
             <div class="mb-3" style="max-width: 60%;">
                 <div>
@@ -40,39 +36,39 @@
 </html>
 <script>
 
-  document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
 
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-      displayEventTime: false,
-      dayMaxEventRows: true,
-      initialDate: '2021-06-01',
-      headerToolbar: {
-        left: 'prev,next today',
-        center: 'title'
-      },
-      locale: 'ko',
-      timeGrid: {
-      dayMaxEventRows: 3
-      },
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            displayEventTime: false,
+            dayMaxEventRows: true,
+            initialDate: '2021-06-01',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title'
+            },
+            locale: 'ko',
+            timeGrid: {
+                dayMaxEventRows: 3
+            },
 
-      events: function(info, successCallback, failureCallback) {
-        let urls = location.href.split("/");
-        let purchaseId = urls[4];
-        fetch('http://localhost:8080/api/reservation/' + purchaseId)
-        .then(response => response.json())
-        .then(response => successCallback(response));
-      },
+            events: function (info, successCallback, failureCallback) {
+                let urls = location.href.split("/");
+                let purchaseId = urls[4];
+                fetch('http://localhost:8080/api/reservation/' + purchaseId)
+                    .then(response => response.json())
+                    .then(response => successCallback(response));
+            },
 
-      loading: function(bool) {
-        document.getElementById('loading').style.display =
-          bool ? 'block' : 'none';
-      }
+            loading: function (bool) {
+                document.getElementById('loading').style.display =
+                    bool ? 'block' : 'none';
+            }
 
+        });
+        calendar.getEvents();
+        calendar.render();
     });
-    calendar.getEvents();
-    calendar.render();
-  });
 
 
 </script>
