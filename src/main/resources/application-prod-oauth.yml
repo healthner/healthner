@@ -1,3 +1,3 @@
 resources:
   rest_api_key: "f59edafa1084c3f6d25a24aa88f9e0b7"
-  redirect_url: "http://ec2-15-165-236-148.ap-northeast-2.compute.amazonaws.com/login"
+  redirect_url: "http://www.healthner.shop/login"
