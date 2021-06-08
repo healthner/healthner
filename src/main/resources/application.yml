@@ -55,6 +55,7 @@ spring:
     url: jdbc:mysql://testdb:3306/healthner?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&autoReconnect=true
     username: healthner
     password: admin123
+    sql-script-encoding: UTF-8
     initialization-mode: always
 
   jpa:
