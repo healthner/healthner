@@ -96,7 +96,10 @@
 </body>
 <script>
 
-    onload = function() {
+    let paramAddress = location.search.split('=')[1];
+
+    setMap();
+    function setMap() {
 
         const mapContainer = document.getElementById('gym-detail-map'); // 지도를 표시할 div
         const mapOption = {
@@ -106,8 +109,12 @@
 
         // 지도 생성
         const map = new kakao.maps.Map(mapContainer, mapOption);
-        const address = document.getElementById('gym-address').innerText;
+        let address = document.getElementById('gym-address').innerText;
         const geocoder = new kakao.maps.services.Geocoder();
+
+        if (address.length === 0) {
+            address = decodeURI(paramAddress);
+        }
 
         // 주소로 좌표를 검색
         geocoder.addressSearch(address, function(result, status) {

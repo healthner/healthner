@@ -29,6 +29,8 @@
 
 </body>
 <script>
+    const host = window.location.protocol + '//' + window.location.host;
+
     let markers = [];
 
     let mapContainer = document.getElementById('map'); // 지도를 표시할 div
@@ -76,14 +78,14 @@
 
     // 등록된 gym 을 검색한다.
     function gymSearch(keyword) {
+        let url = host + '/api/gyms/address/' + keyword;
         gyms = [];
-        fetch('http://localhost:8080/api/gyms/address/' + keyword)
+        fetch(url)
             .then(response => response.json())
             .then(response => {
                 for (let key in response.data) {
                     gyms.push(response.data[key]);
                 }
-
                 displayGyms(gyms);
             });
     }
@@ -116,7 +118,7 @@
                     let itemEl = document.createElement('li');
 
                     itemEl.innerHTML =
-                        '<a href="detail/' + gyms[key].id + '">' +
+                        '<a href="detail/' + gyms[key].id + '?address='+ address +'">' +
                         '   <div class="list-item"> ' + gyms[key].name + ' </div>' +
                         '   <div> ' + gyms[key].address + ' </div>' +
                         '</a>';
@@ -174,7 +176,8 @@
     }
 
     const getCount = async (gym) => {
-        const response = await fetch('http://localhost:8080/api/check-list/gyms/' + gym.id + '/total');
+        let url = host + '/api/check-list/gyms/' + gym.id + '/total';
+        const response = await fetch(url);
         if (response.status === 200) {
             return response.json();
         }
