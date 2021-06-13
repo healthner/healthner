@@ -66,9 +66,12 @@
     <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 <script>
+
+    const host = window.location.protocol + '//' + window.location.host;
+
     function searchGyms() {
         let keyword = document.getElementById('keyword').value;
-        location.href = 'http://localhost:8080/gym/search?keyword=' + keyword;
+        location.href = host + '/gym/search?keyword=' + keyword;
     }
 </script>
 </html>
