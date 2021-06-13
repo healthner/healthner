@@ -108,7 +108,7 @@
 </body>
 </html>
 <script>
-
+const host = window.location.protocol + '//' + window.location.host;
   document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
 
@@ -126,7 +126,7 @@
       },
 
       events: function(info, successCallback, failureCallback) {
-        fetch('http://localhost:8080/api/reservation/trainer/calendar')
+        fetch(host + '/api/reservation/trainer/calendar')
         .then(response => response.json())
         .then(response => successCallback(response));
       },
@@ -140,5 +140,6 @@
     calendar.getEvents();
     calendar.render();
   });
+
 
 </script>

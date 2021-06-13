@@ -2,63 +2,64 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: header"></head>
 <body>
-    <header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
+<header th:replace="fragments/body-header.html :: body-header (${user.id}, ${user.name}, ${user.userImageUrl})"></header>
 
-    <section id="section" class="section-with-bg wow fadeInUp">
-        <div class="section-header">
-            <br>
-            <h2>트레이너 등록</h2>
-            <p>등록하고자 하는 기관을 검색하여 선택하고 경력을 기재해 주세요.</p>
+<section id="section" class="section-with-bg wow fadeInUp">
+    <div class="section-header">
+        <br>
+        <h2>트레이너 등록</h2>
+        <p>등록하고자 하는 기관을 검색하여 선택하고 경력을 기재해 주세요.</p>
+    </div>
+
+    <div class="new-trainer-form-wrap">
+
+        <div class="input-group">
+            <label for="keyword"></label>
+            <input type="text" id="keyword" class="form-control" placeholder="지역을 입력해주세요.">
+            <div class="input-group-append">
+                <button class="btn btn-warning" onclick="searchGyms()">검색</button>
+            </div>
         </div>
 
-        <div class="new-trainer-form-wrap">
+        <ul id="new-trainer-gym-list" class="list-group">
+        </ul>
+        <br>
+
+        <form class="new-trainer-form" th:object="${trainerForm}" method="post">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">기관</span>
+                </div>
+                <div id="new-trainer-gym-name" class="form-control"></div>
+            </div>
+            <br>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">주소</span>
+                </div>
+                <div id="new-trainer-gym-address" class="form-control"></div>
+            </div>
+            <input id="new-trainer-gym-id" type="hidden" name="gymId" value="" th:filed="*{gymId}"/>
+            <br>
 
             <div class="input-group">
-                <label for="keyword"></label>
-                <input type="text" id="keyword" class="form-control" placeholder="지역을 입력해주세요.">
-                <div class="input-group-append">
-                    <button class="btn btn-warning" onclick="searchGyms()">검색</button>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">경력</span>
                 </div>
+                <textarea type="text" class="form-control"
+                          placeholder="경력을 적어주세요." name="career" th:filed="*{career}"></textarea>
             </div>
-
-            <ul id="new-trainer-gym-list" class="list-group">
-            </ul>
             <br>
 
-            <form class="new-trainer-form" th:object="${trainerForm}" method="post">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">기관</span>
-                    </div>
-                    <div id="new-trainer-gym-name" class="form-control"></div>
-                </div>
-                <br>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">주소</span>
-                    </div>
-                    <div id="new-trainer-gym-address" class="form-control"></div>
-                </div>
-                <input id="new-trainer-gym-id" type="hidden" name="gymId" value="" th:filed="*{gymId}" />
-                <br>
+            <button type="submit" class="btn btn-warning btn-lg btn-block">트레이너 등록하기</button>
+        </form>
+    </div>
+</section>
 
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">경력</span>
-                    </div>
-                    <textarea type="text" class="form-control"
-                              placeholder="경력을 적어주세요." name="career" th:filed="*{career}"></textarea>
-                </div>
-                <br>
-
-                <button type="submit" class="btn btn-warning btn-lg btn-block">트레이너 등록하기</button>
-            </form>
-        </div>
-    </section>
-
-    <footer th:replace="fragments/body-footer.html :: body-footer"></footer>
+<footer th:replace="fragments/body-footer.html :: body-footer"></footer>
 </body>
 <script>
+    const host = window.location.protocol + '//' + window.location.host;
     function searchGyms() {
         let keyword = document.getElementById('keyword').value;
 
@@ -73,7 +74,7 @@
     // 등록된 gym 을 검색한다.
     function gymSearch(keyword) {
         let gyms = [];
-        fetch('http://localhost:8080/api/gyms/address/' + keyword)
+        fetch(host + '/api/gyms/address/' + keyword)
             .then(response => response.json())
             .then(response => {
                 for (let key in response.data) {
@@ -124,5 +125,6 @@
             el.removeChild(el.lastChild);
         }
     }
+
 </script>
 </html>
