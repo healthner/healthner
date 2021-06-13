@@ -48,7 +48,7 @@ public class PurchaseController {
         }
 
         model.addAttribute("product", product);
-        return "/purchase/product-form";
+        return "purchase/product-form";
     }
 
     @PostMapping("/{productId}")
