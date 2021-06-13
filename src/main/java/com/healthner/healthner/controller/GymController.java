@@ -38,7 +38,7 @@ public class GymController {
     @Auth(role = Role.USER)
     public String register(Model model) {
         model.addAttribute("gym", new GymDto.Request());
-        return "/gym/create-gym";
+        return "gym/create-gym";
     }
 
     @PostMapping("/new")
@@ -58,7 +58,7 @@ public class GymController {
         Gym gymEntity = gymService.findById(thisGymId);
         GymDto.Form gym = new GymDto.Form(gymEntity);
         model.addAttribute("gym", gym);
-        return "/gym/create-gym";
+        return "gym/create-gym";
     }
 
     @PostMapping("/update")
@@ -158,7 +158,7 @@ public class GymController {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         model.addAttribute("product", new ProductDto.Request());
 
-        return "/gym/product-form";
+        return "gym/product-form";
     }
 
     @PostMapping("/product/new")
@@ -178,7 +178,7 @@ public class GymController {
         GymDto.Form thisgym = gymService.findByCeoId(((UserDto.Response) httpSession.getAttribute("userInfo")).getId());
         model.addAttribute("product", productService.findByIdToNormal(productId));
 
-        return "/gym/product-form";
+        return "gym/product-form";
     }
 
     @PostMapping("/product/update/{productId}")
